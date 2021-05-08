@@ -27,6 +27,7 @@ struct stadiumNode{
     }
 
 };
+
 class graph
 {
 public:

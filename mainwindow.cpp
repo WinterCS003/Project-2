@@ -38,14 +38,17 @@ void MainWindow::on_adminPushButtonMain_clicked()
 {
     gotoPage(5);
 }
+
 void MainWindow::on_customerDoneButton_clicked()
 {
     gotoPage(0);
 }
+
 void MainWindow::on_mapPgDoneButton_clicked()
 {
     gotoPage(6);
 }
+
 void MainWindow::on_adminPgDoneButton_clicked()
 {
     ui->textBrowser_2->clear();
@@ -56,6 +59,7 @@ void MainWindow::on_souvenirsDoneButton_clicked()
 {
     gotoPage(6);
 }
+
 void MainWindow::setStadiumTextBrowser(string stadiumTemp)
 {
     gotoPage(2);
@@ -66,15 +70,18 @@ void MainWindow::setStadiumTextBrowser(string stadiumTemp)
     a = QString::fromStdString(info);
     ui->stadiumInfoTextBrowser->setText(a);
 }
+
 void MainWindow::on_stadiumInfoDoneButton_clicked()
 {
     gotoPage(1);
 }
+
 void MainWindow::on_exitMainButton_clicked()
 {
 
 
 }
+
 void MainWindow::on_minnesotaButton_clicked()
 {
     planTeamButtons("Target Field");
@@ -215,7 +222,7 @@ void MainWindow::on_GrassSurface_currentIndexChanged()
 }
 void MainWindow::on_planTripButton_clicked()
 {
-        gotoPage(6);
+    gotoPage(6);
 }
 void MainWindow::plannedTripTable()
 {
