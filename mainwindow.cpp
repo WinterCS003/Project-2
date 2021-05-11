@@ -11,6 +11,20 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    gotoPage(0);
+    readSouvenirs(s, "textFiles/SouvenirList.txt");
+    readSouvenirsPurchases(purchases, "textFiles/SouvenirPurchases.txt");
+
+    ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    for(int i = 0; i < s.getSize(); i++){
+        ui->souvenirListForAdd->insertRow(i);
+        ui->souvenirListForAdd->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
+        ui->souvenirListForAdd->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+
+        ui->modSouvenirTable->insertRow(i);
+        ui->modSouvenirTable->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
+        ui->modSouvenirTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+    }
 
     //Setup Push buttons
     ui->dodgerButton->setFixedSize(80, 55);
@@ -21,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    saveSouvenirs(s, "textFiles/SouvenirList.txt");
+    saveSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
+
     delete ui;
 }
 void MainWindow::gotoPage(int pg)
@@ -77,6 +94,9 @@ void MainWindow::on_stadiumInfoDoneButton_clicked()
 
 void MainWindow::on_exitMainButton_clicked()
 {
+    saveSouvenirs(s, "textFiles/SouvenirList.txt");
+    saveSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
+
     close();
 }
 
@@ -238,6 +258,12 @@ void MainWindow::on_allStadiumsButton_clicked()
 
 void MainWindow::on_pushButton_38_clicked()
 {
+    ui->textBrowser_trackS->clear();
+    ui->textBrowser_trackS->setText(QString::fromStdString(purchases.printReport()));
+
+    QString total = "Total Spent: ";
+    total += QString::fromStdString(purchases.totalPrice());
+    ui->currentTotal->setText(total);
 
     gotoPage(4);
 }
@@ -254,9 +280,6 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_modAddNewButton_clicked()
 {
-    souvenir _s;
-
-    s.addSouvenir(_s);
     ui->modificationTable->insertRow(ui->modificationTable->rowCount());
     ui->modificationTable->scrollToBottom();
 }
@@ -298,6 +321,9 @@ void MainWindow::on_modSDoneButton_clicked()
 }
 void MainWindow::on_modSAddNewButton_clicked()
 {
+    souvenir _s;
+
+    s.addSouvenir(_s);
     ui->modSouvenirTable->insertRow(ui->modSouvenirTable->rowCount());
     ui->modSouvenirTable->scrollToBottom();
 }
@@ -415,21 +441,27 @@ bool MainWindow::isNewStadium(stadium toCheck){
 
 void MainWindow::on_pushButton_5_clicked()
 {
+    // load table of souvenirs - s
+    if(ui->souvenirListForAdd->rowCount() < s.getSize()){
+        for(int i = ui->souvenirListForAdd->rowCount(); i < s.getSize(); i++){
+           ui->souvenirListForAdd->insertRow(i);
+           ui->souvenirListForAdd->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
+           ui->souvenirListForAdd->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+        }
+    }
     gotoPage(10);
-
-
-
 }
 
-void MainWindow::on_CancelButtonTrackSouvenir_clicked()
+void MainWindow::on_back_clicked()
 {
+    ui->msg->clear();
+    ui->textBrowser_trackS->clear();
+    ui->textBrowser_trackS->setText(QString::fromStdString(purchases.printReport()));
+
+    QString total = "Total Spent: ";
+    total += QString::fromStdString(purchases.totalPrice());
+    ui->currentTotal->setText(total);
     gotoPage(4);
-}
-
-void MainWindow::on_AddbuttonTrackSouvenir_clicked()
-{
-
-
 }
 
 void MainWindow::on_showMapButtonMainPage_clicked()
@@ -464,6 +496,7 @@ void MainWindow::on_modSouvenirTable_itemChanged(QTableWidgetItem *item)
 
         s[i].setName(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Name updated."));
+
         return;
     }
 
@@ -486,3 +519,20 @@ void MainWindow::on_modSouvenirTable_itemChanged(QTableWidgetItem *item)
 
     // ignore rest
 }
+
+void MainWindow::on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item)
+{
+    // add to purchases
+    if(item->column() == 0){
+        int index = purchases.getIndex(item->text().toStdString());
+        if(index != -1){
+            purchases[index].addQuantity();
+        } else{
+            index = s.getIndex(item->text().toStdString());
+            purchases.addSouvenir(s[index]);
+            purchases[purchases.getSize()-1].addQuantity();
+        }
+    }
+    ui->msg->setText("Purchased!");
+}
+

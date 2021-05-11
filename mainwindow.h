@@ -175,16 +175,16 @@ private slots:
 
     void on_pushButton_5_clicked();
 
-    void on_CancelButtonTrackSouvenir_clicked();
-
-    void on_AddbuttonTrackSouvenir_clicked();
-
     void on_showMapButtonMainPage_clicked();
 
     void on_DoneButton2_clicked();
 
     // modSouvenirTable
     void on_modSouvenirTable_itemChanged(QTableWidgetItem*);
+
+    void on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item);
+
+    void on_back_clicked();
 
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
@@ -205,6 +205,7 @@ private:
     graph g;
 
     souvenirs s;
+    souvenirs purchases;
 
 
     userInfo client;

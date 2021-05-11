@@ -13,6 +13,7 @@ struct souvenir{
              std::string price){     // IN - price of souvenir
         _name = name;
         _price = price;
+        _quantity = 0;
     }
 
     bool operator==(const souvenir& s){ return _name == s._name && _price == s._price; }
@@ -27,6 +28,10 @@ struct souvenir{
         return _price;
     }
 
+    int getQuantity(){
+        return _quantity;
+    }
+
 
     void setName(std::string name){  // IN -  name of souvenir
         _name = name;
@@ -37,9 +42,18 @@ struct souvenir{
         _price = price;
     }
 
+    void setQuantity(int quantity){
+        _quantity = quantity;
+    }
+
+    void addQuantity(){
+        _quantity++;
+    }
+
 private:
     std::string _name;       //ATT- name of souvenir
     std::string _price;      //ATT- price of souvenir
+    int _quantity = 0; // number of souvenirs bought
 };
 
 
@@ -66,12 +80,15 @@ public:
     int getSize(){ return _size; };
     int getItemCount(souvenir itemName);
     std::string totalPrice();
+    int getIndex(std::string name);
 
 
     void addSouvenir(souvenir);     // IN -  souvenir to add to arr
 
     void removeSouvenir(int index); // IN -  index of souv to rem
     void resize();
+
+    std::string printReport();
 
 private:
     souvenir* _s;   //ATT - souvenir array

@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>9</number>
+     <number>10</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1376,32 +1376,55 @@ p, li { white-space: pre-wrap; }
         <height>251</height>
        </rect>
       </property>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Price</string>
+       </property>
+      </column>
      </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_5">
+     <widget class="QPushButton" name="back">
       <property name="geometry">
        <rect>
-        <x>230</x>
-        <y>360</y>
-        <width>331</width>
-        <height>71</height>
+        <x>350</x>
+        <y>390</y>
+        <width>75</width>
+        <height>23</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QPushButton" name="CancelButtonTrackSouvenir">
-         <property name="text">
-          <string>Cancel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="AddbuttonTrackSouvenir">
-         <property name="text">
-          <string>Save Changes</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="msg">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>420</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>370</y>
+        <width>271</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Double click on the Name of the item to purchase</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="GeneralMap">

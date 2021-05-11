@@ -37,15 +37,13 @@ void souvenirs::addSouvenir(souvenir addMe){
     }
     _s[_size++] = addMe;
 }
+
 void souvenirs::removeSouvenir(int index){
     if(index < 0 || index >= _size){
         return; // error
     }
 
-    _size--;
-    for(int i = index; i < _size; i++){
-        _s[i] = _s[i+1];
-    }
+    _s[index] = _s[_size--];
 }
 
 int souvenirs::getItemCount(souvenir itemName){
@@ -82,8 +80,41 @@ void souvenirs::resize(){
 std::string souvenirs::totalPrice(){
     double total = 0.0;
     for(int i = 0; i < _size; i++){
-        total += std::stod(_s[i].getPrice());
+        total += std::stod(_s[i].getPrice())*_s[i].getQuantity();
     }
 
-    return std::to_string(total);
+    std::string stotal = "$" + std::to_string(total);
+    stotal = stotal.substr(0, stotal.find('.')+3);
+
+    return stotal;
+}
+
+std::string souvenirs::printReport(){
+    std::string output = "----------Begin Report---------\n\n";
+    if(_size == 0){
+        output += "No Purchases Made";
+    } else{
+        for(int i = 0; i < _size; i++){
+            output += "Name: ";
+            output += _s[i].getName();
+            output += "\nPrice: $";
+            output += _s[i].getPrice();
+            output += "\nQuantity Purchased: ";
+            output += std::to_string(_s[i].getQuantity());
+            output += "\n\n";
+        }
+    }
+    output += "\n\n---------End Report---------";
+
+    return output;
+}
+
+int souvenirs::getIndex(std::string name){
+    for(int i = 0; i < _size; i++){
+        if(_s[i].getName() == name){
+            return i;
+        }
+    }
+
+    return -1;
 }
