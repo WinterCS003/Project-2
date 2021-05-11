@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->angelsButton->setFixedSize(80, 55);
     ui->sanDiegoButton->setFixedSize(80, 55);
     ui->oaklandAButton->setFixedSize(80, 55);
-
 }
 
 MainWindow::~MainWindow()
@@ -78,8 +77,7 @@ void MainWindow::on_stadiumInfoDoneButton_clicked()
 
 void MainWindow::on_exitMainButton_clicked()
 {
-
-
+    close();
 }
 
 void MainWindow::on_minnesotaButton_clicked()
@@ -256,9 +254,11 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_modAddNewButton_clicked()
 {
+    souvenir _s;
+
+    s.addSouvenir(_s);
     ui->modificationTable->insertRow(ui->modificationTable->rowCount());
     ui->modificationTable->scrollToBottom();
-
 }
 
 void MainWindow::on_modDoneButton_clicked()
@@ -274,7 +274,27 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_modSDoneButton_clicked()
 {
+    size_t i;
+    bool check;
+    string message;
 
+    ui->modSouvenir_message->setText("");
+    message = "";
+
+    for(i = 0; i < ui->modSouvenirTable->rowCount(); i++)
+    {
+        ui->modSouvenirTable->item(i, 1)->text().toDouble(&check);
+        if(!check)
+            message += "Invalid price for row: " + std::to_string(i + 1) + "   " + ui->modSouvenirTable->itemAt(i, 1)->text().toStdString() + "\n";
+    }
+
+    if(message.empty())
+    {
+        gotoPage(5);
+        return;
+    }
+
+    ui->modSouvenir_message->setText(QString::fromStdString(message));
 }
 void MainWindow::on_modSAddNewButton_clicked()
 {
@@ -420,4 +440,49 @@ void MainWindow::on_showMapButtonMainPage_clicked()
 void MainWindow::on_DoneButton2_clicked()
 {
     gotoPage(1);
+}
+
+
+void MainWindow::on_modSouvenirTable_itemChanged(QTableWidgetItem *item)
+{
+    bool check;
+    int i;
+
+    i = item->column();
+    // Handle Name
+    if(i == 0)
+    {
+        i = item->row();
+        // Remove
+        if(item->text().isEmpty())
+        {
+            s.removeSouvenir(i);
+            ui->modSouvenirTable->removeRow(i);
+            ui->modSouvenir_message->setText(QString::fromStdString("Row ") + QString::number(i) + QString::fromStdString(" removed."));
+            return;
+        }
+
+        s[i].setName(item->text().toStdString());
+        ui->modSouvenir_message->setText(QString::fromStdString("Name updated."));
+        return;
+    }
+
+    // Handle Price
+    if(i == 1)
+    {
+        i = item->row();
+
+        item->text().toDouble(&check);
+        if(!check)
+        {
+            ui->modSouvenir_message->setText(QString::fromStdString("Invalid price for row: ") + QString::number(i+1));
+            return;
+        }
+
+        s[i].setPrice(item->text().toStdString());
+        ui->modSouvenir_message->setText(QString::fromStdString("Price updated."));
+        return;
+    }
+
+    // ignore rest
 }

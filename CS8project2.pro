@@ -44,3 +44,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES +=
 
 DISTFILES += \
+    textFiles/SouvenirList.txt \
+    textFiles/stadiumDistances.txt

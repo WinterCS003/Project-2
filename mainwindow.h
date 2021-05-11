@@ -5,6 +5,7 @@
 #include "souvenir.h"
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QTableWidgetItem>
 #include <vector>
 #include <string>
 
@@ -182,6 +183,9 @@ private slots:
 
     void on_DoneButton2_clicked();
 
+    // modSouvenirTable
+    void on_modSouvenirTable_itemChanged(QTableWidgetItem*);
+
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
 
@@ -207,10 +211,5 @@ private:
 
     List<stadium> newStadiumaAddedbyUser;
     List<stadium> getStadiumListALL();
-
-
-
-
-
 };
 #endif // MAINWINDOW_H
