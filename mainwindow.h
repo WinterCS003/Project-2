@@ -77,7 +77,7 @@ private slots:
 
     void on_modAddNewButton_clicked();
 
-    void on_modDoneButton_clicked();
+    void on_modStadium_doneButton_clicked();
 
     void on_gobacktomainpage_clicked();
 

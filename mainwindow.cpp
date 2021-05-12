@@ -286,9 +286,9 @@ void MainWindow::on_modAddNewButton_clicked()
     ui->modificationTable->scrollToBottom();
 }
 
-void MainWindow::on_modDoneButton_clicked()
+void MainWindow::on_modStadium_doneButton_clicked()
 {
-
+    gotoPage(5);
 }
 
 void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()

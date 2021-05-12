@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>9</number>
+     <number>8</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1228,7 +1228,7 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="modificationPage">
+    <widget class="QWidget" name="modStadiumPg">
      <widget class="QTableWidget" name="modificationTable">
       <property name="geometry">
        <rect>
@@ -1270,7 +1270,7 @@ p, li { white-space: pre-wrap; }
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="modDoneButton">
+        <widget class="QPushButton" name="modStadium_doneButton">
          <property name="text">
           <string>Done</string>
          </property>
