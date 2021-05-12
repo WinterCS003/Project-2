@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>10</number>
+     <number>9</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1279,13 +1279,13 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="modPageForSouvenir">
-     <widget class="QTableWidget" name="modSouvenirTable">
+    <widget class="QWidget" name="modSouvenirPage">
+     <widget class="QTableWidget" name="modSouvenir_table">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>50</y>
-        <width>321</width>
+        <x>20</x>
+        <y>30</y>
+        <width>471</width>
         <height>411</height>
        </rect>
       </property>
@@ -1299,25 +1299,17 @@ p, li { white-space: pre-wrap; }
         <string>Price</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>Description</string>
+       </property>
+      </column>
      </widget>
-     <widget class="QLabel" name="label_15">
+     <widget class="QPushButton" name="modSouvenir_addNewButton">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>300</y>
-        <width>301</width>
-        <height>201</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/souvenirsLogo.jpeg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="modSAddNewButton">
-      <property name="geometry">
-       <rect>
-        <x>400</x>
-        <y>490</y>
+        <x>20</x>
+        <y>510</y>
         <width>121</width>
         <height>41</height>
        </rect>
@@ -1326,11 +1318,11 @@ p, li { white-space: pre-wrap; }
        <string>Add New Sourvenir</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="modSDoneButton">
+     <widget class="QPushButton" name="modSouvenir_doneButton">
       <property name="geometry">
        <rect>
-        <x>600</x>
-        <y>490</y>
+        <x>660</x>
+        <y>510</y>
         <width>121</width>
         <height>41</height>
        </rect>
@@ -1339,26 +1331,26 @@ p, li { white-space: pre-wrap; }
        <string>Done</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="modSouvenir_hint">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>460</y>
+        <x>20</x>
+        <y>450</y>
         <width>341</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>To remove an item: Clear off the name of the item.</string>
+       <string>Hint: To remove an item: Clear off the name of the item.</string>
       </property>
      </widget>
      <widget class="QLabel" name="modSouvenir_message">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>50</y>
-        <width>291</width>
-        <height>41</height>
+        <x>510</x>
+        <y>30</y>
+        <width>271</width>
+        <height>411</height>
        </rect>
       </property>
       <property name="text">

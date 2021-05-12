@@ -77,10 +77,6 @@ private slots:
 
     void on_modAddNewButton_clicked();
 
-    void on_modSDoneButton_clicked();
-
-    void on_modSAddNewButton_clicked();
-
     void on_modDoneButton_clicked();
 
     void on_gobacktomainpage_clicked();
@@ -180,7 +176,11 @@ private slots:
     void on_DoneButton2_clicked();
 
     // modSouvenirTable
-    void on_modSouvenirTable_itemChanged(QTableWidgetItem*);
+    void on_modSouvenir_doneButton_clicked();
+
+    void on_modSouvenir_addButton_clicked();
+
+    void on_modSouvenir_table_itemChanged(QTableWidgetItem*);
 
     void on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item);
 

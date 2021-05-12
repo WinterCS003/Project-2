@@ -21,9 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
         ui->souvenirListForAdd->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
         ui->souvenirListForAdd->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
 
-        ui->modSouvenirTable->insertRow(i);
-        ui->modSouvenirTable->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
-        ui->modSouvenirTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+        ui->modSouvenir_table->insertRow(i);
+        ui->modSouvenir_table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
+        ui->modSouvenir_table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
     }
 
     //Setup Push buttons
@@ -295,38 +295,6 @@ void MainWindow::on_pushButton_3_clicked()
 
 }
 
-void MainWindow::on_modSDoneButton_clicked()
-{
-    size_t i;
-    bool check;
-    string message;
-
-    ui->modSouvenir_message->setText("");
-    message = "";
-
-    for(i = 0; i < ui->modSouvenirTable->rowCount(); i++)
-    {
-        ui->modSouvenirTable->item(i, 1)->text().toDouble(&check);
-        if(!check)
-            message += "Invalid price for row: " + std::to_string(i + 1) + "   " + ui->modSouvenirTable->itemAt(i, 1)->text().toStdString() + "\n";
-    }
-
-    if(message.empty())
-    {
-        gotoPage(5);
-        return;
-    }
-
-    ui->modSouvenir_message->setText(QString::fromStdString(message));
-}
-void MainWindow::on_modSAddNewButton_clicked()
-{
-    souvenir _s;
-
-    s.addSouvenir(_s);
-    ui->modSouvenirTable->insertRow(ui->modSouvenirTable->rowCount());
-    ui->modSouvenirTable->scrollToBottom();
-}
 void MainWindow::on_stadiumTable_clicked()
 {
     gotoPage(7);
@@ -475,7 +443,41 @@ void MainWindow::on_DoneButton2_clicked()
 }
 
 
-void MainWindow::on_modSouvenirTable_itemChanged(QTableWidgetItem *item)
+
+void MainWindow::on_modSouvenir_doneButton_clicked()
+{
+    size_t i;
+    bool check;
+    string message;
+
+    ui->modSouvenir_message->setText("");
+    message = "";
+
+    for(i = 0; i < ui->modSouvenir_table->rowCount(); i++)
+    {
+        ui->modSouvenir_table->item(i, 1)->text().toDouble(&check);
+        if(!check)
+            message += "Invalid price for row: " + std::to_string(i + 1) + "   " + ui->modSouvenir_table->itemAt(i, 1)->text().toStdString() + "\n";
+    }
+
+    if(message.empty())
+    {
+        gotoPage(5);
+        return;
+    }
+
+    ui->modSouvenir_message->setText(QString::fromStdString(message));
+}
+
+void MainWindow::on_modSouvenir_addButton_clicked()
+{
+    souvenir _s;
+
+    s.addSouvenir(_s);
+    ui->modSouvenir_table->insertRow(ui->modSouvenir_table->rowCount());
+    ui->modSouvenir_table->scrollToBottom();
+}
+void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 {
     bool check;
     int i;
@@ -489,7 +491,7 @@ void MainWindow::on_modSouvenirTable_itemChanged(QTableWidgetItem *item)
         if(item->text().isEmpty())
         {
             s.removeSouvenir(i);
-            ui->modSouvenirTable->removeRow(i);
+            ui->modSouvenir_table->removeRow(i);
             ui->modSouvenir_message->setText(QString::fromStdString("Row ") + QString::number(i) + QString::fromStdString(" removed."));
             return;
         }
