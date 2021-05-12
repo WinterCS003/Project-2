@@ -51,7 +51,7 @@ private slots:
 
     void setStadiumTextBrowser(string stadiumTemp); //IN - stadium to add
 
-    void on_stadiumsByNamButton_clicked();
+    void on_stadiumsByNameButton_clicked();
 
     void on_stadiumTableInfo_clicked();
 
@@ -73,7 +73,7 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_adminPg_goto_modSouvenirPg_clicked();
 
     void on_modAddNewButton_clicked();
 

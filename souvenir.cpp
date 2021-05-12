@@ -3,6 +3,7 @@
 souvenirs::souvenirs(){
     _s = new souvenir[50];
     _capacity = 50;
+    _size = 0;
 }
 
 souvenirs::~souvenirs(){

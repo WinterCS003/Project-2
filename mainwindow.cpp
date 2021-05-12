@@ -20,10 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
         ui->souvenirListForAdd->insertRow(i);
         ui->souvenirListForAdd->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
         ui->souvenirListForAdd->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+        ui->souvenirListForAdd->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(s[i].getDescription())));
 
         ui->modSouvenir_table->insertRow(i);
         ui->modSouvenir_table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
         ui->modSouvenir_table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+        ui->modSouvenir_table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(s[i].getDescription())));
     }
 
     //Setup Push buttons
@@ -220,7 +222,7 @@ void MainWindow::on_nyMetsButton_clicked()
     planTeamButtons("Citi Field");
 }
 
-void MainWindow::on_stadiumsByNamButton_clicked()
+void MainWindow::on_stadiumsByNameButton_clicked()
 {
     gotoPage(2);
 
@@ -289,10 +291,20 @@ void MainWindow::on_modDoneButton_clicked()
 
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
 {
     gotoPage(9);
+    /*
+    int index;
+    QObjectList list;
 
+    list = ui->centralwidget->children();
+    for(index = 0; index < list.length(); index++)
+        if(list[index] == ui->modSouvenirPg)
+        {
+            gotoPage(index);
+            break;
+        }*/
 }
 
 void MainWindow::on_stadiumTable_clicked()
@@ -516,6 +528,16 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 
         s[i].setPrice(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Price updated."));
+        return;
+    }
+
+    // Handle Descsription
+    if(i == 2)
+    {
+        i = item->row();
+
+        s[i].setDescription(item->text().toStdString());
+        ui->modSouvenir_message->setText(QString::fromStdString("Description updated."));
         return;
     }
 

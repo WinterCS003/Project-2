@@ -1,5 +1,10 @@
-Baseball cap, $25.99
-Baseball bat, $35.35
-Team pennant, $12.99
+Baseball Cap, $25.99
+A baseball cap with the team logo.
+Baseball Bat, $35.35
+A baseball bat with the team logo.
+Team Pennant, $12.99
+A pennant with the team logo.
 Autographed baseball, $19.99
+A baseball signed by the team.
 Pen, $15.95
+A pen with the team logo.

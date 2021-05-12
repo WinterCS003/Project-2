@@ -25,9 +25,13 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
             souvenir temp;
             temp.setName(line.substr(0, line.find(',')));
             temp.setPrice(line.substr(line.find('$')+1));
+            if(std::getline(input, line))
+                temp.setDescription(line);
 
             s.addSouvenir(temp);
         }
+
+        input.close();
     }
 }
 

@@ -994,7 +994,7 @@ p, li { white-space: pre-wrap; }
        <string>Modify Stadium</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="adminPg_goto_modSouvenirPg">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -1279,7 +1279,7 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="modSouvenirPage">
+    <widget class="QWidget" name="modSouvenirPg">
      <widget class="QTableWidget" name="modSouvenir_table">
       <property name="geometry">
        <rect>
@@ -1305,7 +1305,7 @@ p, li { white-space: pre-wrap; }
        </property>
       </column>
      </widget>
-     <widget class="QPushButton" name="modSouvenir_addNewButton">
+     <widget class="QPushButton" name="modSouvenir_addButton">
       <property name="geometry">
        <rect>
         <x>20</x>
