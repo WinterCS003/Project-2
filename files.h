@@ -22,9 +22,15 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
     ifstream input(fileName);
     if(input.is_open()){
         while(std::getline(input, line)){
+            // line should be: "name, $xx.xx, quantity"
+            //                 "description"
             souvenir temp;
             temp.setName(line.substr(0, line.find(',')));
-            temp.setPrice(line.substr(line.find('$')+1));
+            temp.setPrice(line.substr(line.find('$')+1, line.find_last_of(',')-line.find('$')-1));
+
+             std::string quantity = line.substr(line.find_last_of(',')+2);
+            temp.setQuantity(std::stoi(quantity));
+
             if(std::getline(input, line))
                 temp.setDescription(line);
 
@@ -32,26 +38,6 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
         }
 
         input.close();
-    }
-}
-
-void readSouvenirsPurchases(souvenirs& s,
-                            std::string fileName){
-    std::string line;
-    ifstream input(fileName);
-    if(input.is_open()){
-        while(std::getline(input, line)){
-            std::string name = line.substr(0, line.find(','));
-            std::string price = line.substr(line.find('$')+1, ',');
-            std::string quantity = line.substr(line.find_last_of(',')+2);
-
-            souvenir temp;
-            temp.setName(name);
-            temp.setPrice(price);
-            temp.setQuantity(std::stoi(quantity));
-
-            s.addSouvenir(temp);
-        }
     }
 }
 
@@ -63,10 +49,8 @@ void saveSouvenirs(souvenirs& s,        // IN - the souvenirs object to read
                    std::string fileName){    // IN - name of file
     ofstream output(fileName);
     for(int i = 0; i < s.getSize(); i++){
-        output << s[i].getName() << ", $" << s[i].getPrice();
-        if(s[i].getQuantity() != 0){
-            output << ", " << s[i].getQuantity();
-        }
+        output << s[i].getName() << ", $" << s[i].getPrice() << ", " << s[i].getQuantity();
+        output << "\n" << s[i].getDescription();
         output << "\n";
     }
 }

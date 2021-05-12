@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     gotoPage(0);
     readSouvenirs(s, "textFiles/SouvenirList.txt");
-    readSouvenirsPurchases(purchases, "textFiles/SouvenirPurchases.txt");
+    readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
 
     ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
     for(int i = 0; i < s.getSize(); i++){
@@ -427,6 +427,7 @@ void MainWindow::on_pushButton_5_clicked()
            ui->souvenirListForAdd->insertRow(i);
            ui->souvenirListForAdd->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(s[i].getName())));
            ui->souvenirListForAdd->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
+           ui->souvenirListForAdd->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(s[i].getDescription())));
         }
     }
     gotoPage(10);
@@ -504,6 +505,7 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
         {
             s.removeSouvenir(i);
             ui->modSouvenir_table->removeRow(i);
+            ui->souvenirListForAdd->removeRow(i);
             ui->modSouvenir_message->setText(QString::fromStdString("Row ") + QString::number(i) + QString::fromStdString(" removed."));
             return;
         }
@@ -556,7 +558,7 @@ void MainWindow::on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item)
             purchases.addSouvenir(s[index]);
             purchases[purchases.getSize()-1].addQuantity();
         }
+        QString msg = item->text() + " Purchased!";
+        ui->msg->setText(msg);
     }
-    ui->msg->setText("Purchased!");
 }
-

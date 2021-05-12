@@ -44,7 +44,10 @@ void souvenirs::removeSouvenir(int index){
         return; // error
     }
 
-    _s[index] = _s[_size--];
+    _size--;
+    for(int i = index; i < _size; i++){
+        _s[i] = _s[i+1];
+    }
 }
 
 int souvenirs::getItemCount(souvenir itemName){
