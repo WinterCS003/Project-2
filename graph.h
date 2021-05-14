@@ -15,6 +15,14 @@ struct stadiumNode{
         _visited = visited;
     }
 
+    bool operator==(const stadium& s){
+        if(_des == s){
+            return true;
+        }
+
+        return false;
+    }
+
     stadium _des;
     int _distance; // ATT - the distance to the source
     bool _visited; // ATT - if this stadium has been visited

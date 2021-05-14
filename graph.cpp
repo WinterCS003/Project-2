@@ -168,6 +168,12 @@ void graph::removeStadium(stadium toRemove){
     }
 
     for(int i = 0; i < _capacity; i++){
-
+        for(node<stadiumNode>* curr = adjList[i].Begin(); curr->_next != nullptr; curr = curr->_next){
+            if(curr->_next->_data == toRemove){
+                node<stadiumNode>* temp = curr->_next;
+                curr = temp->_next;
+                delete temp;
+            }
+        }
     }
 }
