@@ -30,8 +30,8 @@ public:
             if (!(w->_item == w2->_item)){
                 return false;
             }
-            w = w->next;
-            w2 = w2->next;
+            w = w->_next;
+            w2 = w2->_next;
         }
         return true;
     }
@@ -96,7 +96,7 @@ List<T>::List(){
 
 template <class T>
 List<T>::List(const List<T> &copyThis){
-    for(node<T>* curr = copyThis.head; curr != nullptr; curr = curr->next){
+    for(node<T>* curr = copyThis.head; curr != nullptr; curr = curr->_next){
         append(curr->_data);
     }
 }
@@ -105,7 +105,7 @@ template<class T>
 List<T>::~List(){
     for(node<T>* curr = head; curr != nullptr;){
         node<T>* temp = curr;
-        curr = curr->next;
+        curr = curr->_next;
         delete temp;
     }
 //    _ClearList(head);
@@ -113,7 +113,7 @@ List<T>::~List(){
 
 template <class T>
 List<T>& List<T>::operator=(const List& RHS){
-    for(node<T>* curr = RHS.head; curr != nullptr; curr = curr->next){
+    for(node<T>* curr = RHS.head; curr != nullptr; curr = curr->_next){
         append(curr->_data);
     }
 
@@ -135,10 +135,10 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
         return iMarker;
     }
 
-    for(node<T>* current = head; current->next != nullptr; current = current->next){
-        if(current->next->_item == iMarker){
-            node<T>* temp = current->next;
-            current->next = temp->next;
+    for(node<T>* current = head; current->_next != nullptr; current = current->_next){
+        if(current->_next->_data == iMarker){
+            node<T>* temp = current->_next;
+            current->_next = temp->_next;
             delete temp;
 
             return iMarker;
@@ -148,7 +148,7 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
 
 template<class T>
 node<T>* List<T>::Search(const T &key){     //IN - search for this
-    for(node<T>* curr = head; curr != nullptr; curr = curr->next){
+    for(node<T>* curr = head; curr != nullptr; curr = curr->_next){
         if(curr->_data == key){
             return curr;
         }
@@ -160,7 +160,7 @@ node<T>* List<T>::Search(const T &key){     //IN - search for this
 template<class T>
 int List<T>::find(const T &key){     //IN - search for this
     int index = 0;
-    for(node<T>* curr = head; curr != nullptr; curr = curr->next, index++){
+    for(node<T>* curr = head; curr != nullptr; curr = curr->_next, index++){
         if(curr->_data == key){
             return index;
         }
@@ -173,7 +173,7 @@ T& List<T>::operator[](int index){  //IN - position of element
     int pos = 0;
     for(node<T>* curr = head; curr != nullptr; curr = curr->_next, pos++){
         if(pos == index){
-            return *curr;
+            return curr->_data;
         }
     }
 //    return At(head, index);
@@ -198,8 +198,8 @@ node<T>* List<T>::append(T i){
         return head;
     }
 
-    tail->next = new node<T>(i);
-    tail = tail->next;
+    tail->_next = new node<T>(i);
+    tail = tail->_next;
     return tail;
 }
 
