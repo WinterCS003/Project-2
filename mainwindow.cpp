@@ -430,6 +430,7 @@ void MainWindow::on_pushButton_5_clicked()
            ui->souvenirListForAdd->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(s[i].getDescription())));
         }
     }
+
     gotoPage(10);
 }
 
@@ -489,7 +490,11 @@ void MainWindow::on_modSouvenir_addButton_clicked()
     s.addSouvenir(_s);
     ui->modSouvenir_table->insertRow(ui->modSouvenir_table->rowCount());
     ui->modSouvenir_table->scrollToBottom();
+
+//    ui->souvenirListForAdd->insertRow(ui->souvenirListForAdd->rowCount());
+//    ui->souvenirListForAdd->scrollToBottom();
 }
+
 void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 {
     bool check;
@@ -513,6 +518,8 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
         s[i].setName(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Name updated."));
 
+//        ui->souvenirListForAdd->item(i, 0)->setText(QString::fromStdString(s[i].getName()));
+
         return;
     }
 
@@ -530,6 +537,9 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 
         s[i].setPrice(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Price updated."));
+
+//        ui->souvenirListForAdd->item(i, 1)->setText(QString::fromStdString(s[i].getPrice()));
+
         return;
     }
 
@@ -540,6 +550,8 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 
         s[i].setDescription(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Description updated."));
+
+//        ui->souvenirListForAdd->item(i, 2)->setText(QString::fromStdString(s[i].getDescription()));
         return;
     }
 

@@ -9,23 +9,15 @@
 struct stadiumNode{
 
     stadiumNode(){}
-    stadiumNode(string src, string des, int dist, bool visited = false){
-        _src = src;
+    stadiumNode(stadium des, int dist, bool visited = false){
         _des = des;
-        _distancetoSrc = dist;
+        _distance = dist;
         _visited = visited;
     }
-    string _src;        // ATT - the source stadium
-    string _des;        // ATT - the destination stadium
-    int _distancetoSrc; // ATT - the distance to the source
-    bool _visited;      // ATT - if this stadium has been visited
 
-    friend ostream& operator << (ostream& out,              // OUT - output str
-                                 const stadiumNode& l){     // IN -  node to out
-        out << l._src << ", " << l._des << ", " << l._distancetoSrc;
-        return out;
-    }
-
+    stadium _des;
+    int _distance; // ATT - the distance to the source
+    bool _visited; // ATT - if this stadium has been visited
 };
 
 class graph
@@ -39,16 +31,16 @@ public:
 
     stadium getStadiumInfo(string stadiumName); // IN -  stadium name
 
-    stadiumNode getedge(string stadiumSrc, // IN -  stadium source name
-                        string stadiumDes);// IN -  stadium destination name
+    stadiumNode getedge(stadium stadiumSrc, // IN -  stadium source name
+                        stadium stadiumDes);// IN -  stadium destination name
 
-    List<stadiumNode> getedges(string stadiumSrc); // IN -  stadium source name
+    List<stadiumNode> getedges(stadium stadiumSrc); // IN -  stadium source name
 
 
     void addStadium(stadium s); // IN -  stadium to add to list
 
-    void addEdge(string src,        // IN -  stadium source to add
-                 string des,        // IN -  stadium desintaton to add
+    void addEdge(stadium src,        // IN -  stadium source to add
+                 stadium des,        // IN -  stadium desintaton to add
                  int distance);     // IN -  distance between
 
 
@@ -108,11 +100,9 @@ public:
     bool checkExist(const List<stadiumNode>&, // IN - check this list
                     string toCheck);          // IN - if this exits
 
-    void removeStadium(List<stadiumNode>&,      // IN - list to remove val
-                       string toRemove);        // IN - nm of stadium to rem
+    void removeEdge(stadiumNode toRemove);        // IN - nm of stadium to rem
 
-    void removeStadium(List<stadium>&,         // IN - list to remove val
-                       string toRemove);       // IN - nm of stadium to rem
+    void removeStadium(stadium toRemove);       // IN - nm of stadium to rem
 
 
 private:
@@ -127,7 +117,8 @@ private:
     int getLength(List<stadiumNode>);
 
     List<stadium> stadiums;             // ATT - list of stadiums
-    List<List<stadiumNode> > adjList;   // ATT - list of edges
+    List<stadiumNode>* adjList;   // ATT - list of edges
+    int _capacity;
     int _size;                          // ATT - total # of stadiums
 };
 

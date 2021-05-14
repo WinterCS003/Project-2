@@ -1,35 +1,67 @@
 #include "graph.h"
 #include <vector>
 
-graph::graph(){}
+graph::graph(){
+    adjList = new List<stadiumNode>[30];
+    _capacity = 0;
+    _size = 0;
+}
 
 graph::~graph(){}
 
 stadium graph::getStadiumInfo(string stadiumName){
 }
 
-stadiumNode graph::getedge(string stadiumSrc, string stadiumDes){
-
+stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
+    int index = stadiums.find(stadiumSrc);
+    for(int i = 0; i < adjList[index].size(); i++){
+        if(adjList[index][i]._des == stadiumDes){
+            return adjList[index][i];
+        }
+    }
 }
 
-List<stadiumNode> graph::getedges(string stadiumSrc){
+List<stadiumNode> graph::getedges(stadium stadiumSrc){
+    int index = stadiums.find(stadiumSrc);
+    return adjList[index];
 }
 
 void graph::addStadium(stadium s){
+    if(_capacity == _size){
+        List<stadiumNode>* temp = new List<stadiumNode>[2*_size];
+        for(int i = 0; i < _size; i++){
+            temp[i] = adjList[i];
+        }
+        _size = 2*_size;
+    }
 
+    stadiums.append(s);
+    _capacity++;
 }
 
-void graph::addEdge(string src, string des, int distance){
+void graph::addEdge(stadium src, stadium des, int distance){
+    int index = stadiums.find(src);
+    stadiumNode temp(des, distance);
+    adjList[index].append(temp);
 
-
+    // make sure is non-directed
+    index = stadiums.find(des);
+    temp._des = src;
+    adjList[index].append(temp);
 }
 
 int graph::getSize(){
-    return _size;
+    return _capacity;
 }
 
 List<stadium> graph::getStadiumWithGrassField(){
-
+    List<stadium> output;
+    for(int i = 0; i < _capacity; i++){
+        if(stadiums[i].getFieldSurface() == "Grass"){
+            output.append(stadiums[i]);
+        }
+    }
+    return output;
 }
 
 List<stadium> graph::getStadiumListForDijkstras(){
@@ -37,14 +69,29 @@ List<stadium> graph::getStadiumListForDijkstras(){
 }
 
 List<stadium> graph::getAmericanLeagueStadiums(){
+    List<stadium> output;
+    for(int i = 0; i < _capacity; i++){
+        if(stadiums[i].getType() == "American League"){
+            output.append(stadiums[i]);
+        }
+    }
 
+    return output;
 }
 
 List<stadium> graph::getNationalLeagueStadiums(){
+    List<stadium> output;
+    for(int i = 0; i < _capacity; i++){
+        if(stadiums[i].getType() == "National League"){
+            output.append(stadiums[i]);
+        }
+    }
 
+    return output;
 }
 
 int graph::getLength(List<stadiumNode> l){
+
 }
 
 List<stadiumNode> graph::shortestPath(const List<stadium>& stadiumList,
@@ -107,10 +154,20 @@ bool graph::checkExist(const List<stadiumNode>& list, string toCheck){
 
 }
 
-void graph::removeStadium(List<stadiumNode>& list, string toRemove){
+void graph::removeEdge(stadiumNode toRemove){
 
 }
 
-void graph::removeStadium(List<stadium>& list, string toRemove){
+void graph::removeStadium(stadium toRemove){
+    int index = stadiums.find(toRemove);
+    stadiums.Delete(toRemove);
+    _capacity--;
 
+    for(int i = index; i < _capacity; i++){
+        adjList[i] = adjList[i+1];
+    }
+
+    for(int i = 0; i < _capacity; i++){
+
+    }
 }

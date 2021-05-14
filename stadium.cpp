@@ -39,5 +39,18 @@ string stadium::getAllInfo(){
     return string(ss.str());
 }
 
+bool stadium::operator == (const stadium& other){
+    if(_sName    == other._sName    &&
+       _teamName == other._teamName &&
+       _address  == other._address  &&
+       _phone    == other._phone    &&
+       _openDate == other._openDate &&
+       _capacity == other._capacity &&
+       _type     == other._type     &&
+       _surface  == other._surface) {
+       return true;
+    }
 
+    return false;
+}
 
