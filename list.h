@@ -166,6 +166,7 @@ node<T>* List<T>::Search(const std::string &key){     //IN - search for this
             return curr;
         }
     }
+    throw "DOES NOT EXIST";
 //    return SearchList(head, key);
 }
 

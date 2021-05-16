@@ -7,17 +7,19 @@
 #include "souvenir.h"
 
 void readStadiums(graph &g, List<stadium>& list, std::string fileName){
+    std::cout << "Stadium" << std::endl;
     ifstream input(fileName);
+    bool AL = false;
     if(input.is_open()){
         std::string line;
         int i = 0;
         stadium temp;
         while(std::getline(input, line)){
             if(line == "AMERICAN LEAGUE TEAMS:"){
-                temp.setType("American Leage");
+                AL = true;
                 i -= 2;
             } else if(line == "NATIONAL LEAGUE TEAMS:"){
-                temp.setType("National Leage");
+                AL = false;
                 i -= 2;
             } else{
                 switch(i){
@@ -36,13 +38,21 @@ void readStadiums(graph &g, List<stadium>& list, std::string fileName){
                     temp.setphone(line);
                     break;
                 case 5:
+                    std::cout << line << std::endl;
                     line = line.substr(line.find('-')+2);
                     temp.setOpenDate(line);
                     break;
                 case 6:
+                    std::cout << line << std::endl;
                     line = line.substr(line.find('-')+2);
                     temp.setCapacity(line);
-                    i = -1;
+                    if(AL){
+                        temp.setType("American League");
+                    } else{
+                        temp.setType("National League");
+                    }
+                    g.addStadium(temp);
+                    i = -2;
                 }
             }
             i++;
@@ -52,14 +62,17 @@ void readStadiums(graph &g, List<stadium>& list, std::string fileName){
 
 void readEdges(graph &g,                        // IN - graph object
                std::string fileName){                // IN - name of stadium file
+    std::cout << "EDGES " << std::endl;
     std::ifstream input(fileName);
     std::string line;
     if(input.is_open()){
         while(std::getline(input, line)){
             std::string s = line.substr(0, line.find(','));
             stadium source = g.getStadiumInfo(s);
-            s = line.substr(line.find(',')+2, line.find_last_of(','));
+
+            s = line.substr(line.find(',')+2, line.find_last_of(',') - line.find(',') - 2);
             stadium des = g.getStadiumInfo(s);
+
             s = line.substr(line.find_last_of(',')+2);
             int d = std::stoi(s);
             g.addEdge(source, des, d);

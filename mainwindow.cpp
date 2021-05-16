@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->dreamMap->setPixmap(img);
     readSouvenirs(s, "textFiles/SouvenirList.txt");
     readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
+    readStadiums(g, newStadiumaAddedbyUser, "textFiles/stadiums.txt");
+    g.printGraph();
+    readEdges(g, "textFiles/stadiumDistances.txt");
 
     ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
     for(int i = 0; i < s.getSize(); i++){

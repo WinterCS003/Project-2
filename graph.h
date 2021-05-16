@@ -111,6 +111,11 @@ public:
     void removeEdge(stadiumNode toRemove);        // IN - nm of stadium to rem
 
     void removeStadium(stadium toRemove);       // IN - nm of stadium to rem
+    void printGraph(){
+        for(node<stadium>* curr = stadiums.Begin(); curr != nullptr; curr = curr->_next){
+            std::cout << curr->_data.getAllInfo() << std::endl;
+        }
+    }
 
 
 private:

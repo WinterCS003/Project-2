@@ -5,41 +5,40 @@ Los Angeles Angels of Anaheim
 2000 E Gene Autry Way,
 Anaheim, CA 92806
 (714)940-2000
-Opened – April 19, 1966
-Capacity – 45,483
+Opened - April 19, 1966
+Capacity - 45,483
 
 Comerica Park
 Detroit Tigers
 2100 Woodward Ave,
 Detroit, MI 48201
 (313) 962-4000
-Opened – April 11, 2000
-Capacity – 41,681
+Opened - April 11, 2000
+Capacity - 41,681
 
 Fenway Park
 Boston Red Sox
 4 Yawkey Way,
 Boston, MA 02215
 (877) 733-7699
-Opened – April 20, 1912
-Capacity – 37,499 (night) & 37,071 (day)
+Opened - April 20, 1912
+Capacity - 37,499 (night) & 37,071 (day)
 
 Globe Life Park in Arlington
 Texas Rangers
 1000 Ballpark Way,
 Arlington, TX 76011
 (817) 273-5222
-Opened – April 1, 1994
-
-Capacity – 48,114
+Opened - April 1, 1994
+Capacity - 48,114
 
 Kauffman Stadium
 Kansas City Royals
 1 Royal Way
 Kansas City, MO 64129
 (816) 921-8000
-Opened – April 10, 1973
-Capacity – 37,903
+Opened - April 10, 1973
+Capacity - 37,903
 
 Minute Maid Park
 Houston Astros
@@ -71,7 +70,6 @@ Cleveland Indians
 Cleveland, OH 44115
 (216) 420-4487
 Opened - April 2, 1994
-
 Capacity - 42,404
 
 Rogers Centre
@@ -112,7 +110,6 @@ Chicago White Sox
 Chicago, IL 60616
 (312) 674-1000
 Opened - April 18, 1991
-
 Capacity - 40,615
 
 Yankee Stadium
@@ -151,7 +148,6 @@ Capacity - 48,633
 
 Citi Field
 New York Mets
-
 126th St. & Roosevelt Ave.
 Queens, NY 11368
 (718) 507-6387
@@ -192,7 +188,6 @@ Capacity - 42,319
 
 Marlins Park
 Miami Marlins
-
 501 Marlins Way
 Miami, FL 33125
 (305)480-1300
@@ -228,11 +223,10 @@ Pittsburgh Pirates
 115 Federal St
 Pittsburgh, PA 15212
 (412) 321-2827
-March 31, 2001
-38,362
-N
-Turner Field
+Opened - March 31, 2001
+Capacity - 38,362
 
+Turner Field
 Atlanta Braves
 755 Hank Aaron Drive
 Atlanta, GA 30315
