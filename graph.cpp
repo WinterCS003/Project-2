@@ -10,7 +10,14 @@ graph::graph(){
 graph::~graph(){}
 
 stadium graph::getStadiumInfo(string stadiumName){
-    return stadiums.Search(stadiumName)->_data;
+    for(node<stadium>* curr = stadiums.Begin(); curr != nullptr ;curr = curr->_next){
+        if(curr->_data.getStadiumName() == stadiumName){
+            std::cout << curr->_data.getStadiumName() << std::endl;
+            return curr->_data;
+        }
+    }
+        throw "NOT FOIUND";
+//    return stadiums.Search(stadiumName)->_data;
 }
 
 stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
