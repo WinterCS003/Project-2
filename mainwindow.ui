@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>10</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -216,7 +216,7 @@
           <string notr="true">background-image: url(:/logos/miamiMarlinsLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Marlins</string>
          </property>
         </widget>
        </item>
@@ -238,7 +238,7 @@
           <string notr="true">background-image: url(:/logos/oaklandALogoNew.png);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Athletics</string>
          </property>
         </widget>
        </item>
@@ -254,7 +254,7 @@
           <string notr="true">background-image: url(:/logos/chicagoCubsLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Cubs</string>
          </property>
         </widget>
        </item>
@@ -270,7 +270,7 @@
           <string notr="true">background-image: url(:/logos/PittsPiratesLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Pirates</string>
          </property>
         </widget>
        </item>
@@ -292,7 +292,7 @@
           <string notr="true">background-image: url(:/logos/coloradoRockiesLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Rockies</string>
          </property>
         </widget>
        </item>
@@ -314,7 +314,7 @@
           <string notr="true">background-image: url(:/logos/texasRangersLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Rangers</string>
          </property>
         </widget>
        </item>
@@ -337,7 +337,7 @@
 </string>
          </property>
          <property name="text">
-          <string/>
+          <string>Padres</string>
          </property>
         </widget>
        </item>
@@ -353,7 +353,7 @@
           <string notr="true">background-image: url(:/logos/washingtonnationalsLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Nationals</string>
          </property>
         </widget>
        </item>
@@ -370,7 +370,7 @@
 </string>
          </property>
          <property name="text">
-          <string/>
+          <string>Twins</string>
          </property>
         </widget>
        </item>
@@ -386,7 +386,7 @@
           <string notr="true">background-image: url(:/logos/whiteSoxLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>White Sox</string>
          </property>
         </widget>
        </item>
@@ -414,10 +414,10 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/oldschoolDodgers.png);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string/>
+          <string>LA Dodgers</string>
          </property>
          <property name="iconSize">
           <size>
@@ -439,7 +439,7 @@
           <string notr="true">background-image: url(:/logos/clevelandIndiansLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Indians</string>
          </property>
         </widget>
        </item>
@@ -455,7 +455,7 @@
           <string notr="true">background-image: url(:/logos/kcRoyalsLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Royals</string>
          </property>
         </widget>
        </item>
@@ -471,7 +471,7 @@
           <string notr="true">background-image: url(:/logos/milwaukeeBrwersLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Brewers</string>
          </property>
         </widget>
        </item>
@@ -487,7 +487,7 @@
           <string notr="true">background-image: url(:/logos/seattleMarinersLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Mariners</string>
          </property>
         </widget>
        </item>
@@ -509,7 +509,7 @@
           <string notr="true">background-image: url(:../logos/LAangelsLogo.png);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Angels</string>
          </property>
         </widget>
        </item>
@@ -526,7 +526,7 @@
 </string>
          </property>
          <property name="text">
-          <string/>
+          <string>Diamond Backs</string>
          </property>
         </widget>
        </item>
@@ -542,7 +542,7 @@
           <string notr="true">background-image: url(:/logos/cinciLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Reds</string>
          </property>
         </widget>
        </item>
@@ -558,7 +558,7 @@
           <string notr="true">background-image: url(:/logos/torontoBlueJayslogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Blue Jays</string>
          </property>
         </widget>
        </item>
@@ -574,7 +574,7 @@
           <string notr="true">background-image: url(:/logos/atlantaBravesLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Braves</string>
          </property>
         </widget>
        </item>
@@ -596,7 +596,7 @@
           <string notr="true">background-image: url(:/logos/sanFranGiantsLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Giants</string>
          </property>
         </widget>
        </item>
@@ -609,10 +609,10 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/stLouisCardinals.jpg);</string>
+          <string notr="true">background-image: url(:/logos/sLouisCardinals.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Cardinals</string>
          </property>
         </widget>
        </item>
@@ -634,7 +634,7 @@
           <string notr="true">background-image: url(:../logos/nyMetsLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>NY Mets</string>
          </property>
         </widget>
        </item>
@@ -647,10 +647,10 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/tampaBayLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string/>
+          <string>Rays</string>
          </property>
         </widget>
        </item>
@@ -666,7 +666,7 @@
           <string notr="true">background-image: url(:/logos/astrosLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Astros</string>
          </property>
         </widget>
        </item>
@@ -679,10 +679,10 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/detroitTigersLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string/>
+          <string>Tigers</string>
          </property>
         </widget>
        </item>
@@ -698,7 +698,7 @@
           <string notr="true">background-image: url(:/logos/bostonRedSoxLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Red Sox</string>
          </property>
         </widget>
        </item>
@@ -714,7 +714,7 @@
           <string notr="true">background-image: url(:/logos/baltimoreOriolesLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Orioles</string>
          </property>
         </widget>
        </item>
@@ -730,7 +730,7 @@
           <string notr="true">background-image: url(:/logos/philliesLogo.jpg);</string>
          </property>
          <property name="text">
-          <string/>
+          <string>Phillies</string>
          </property>
         </widget>
        </item>
@@ -743,10 +743,10 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/nyYankeesLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
-          <string/>
+          <string>Yankees</string>
          </property>
         </widget>
        </item>
@@ -899,7 +899,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/planVacayLogo.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Map&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="dreamMap">
@@ -912,7 +912,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/mlbMap.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/Blank_US_Map.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="mapPgDoneButton">
@@ -1435,7 +1435,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/mlbMap.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/Blank_US_Map.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="DoneButton2">

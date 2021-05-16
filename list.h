@@ -2,6 +2,8 @@
 #define LIST_H
 //#include "linked_list_functions.h"
 
+#include <string>
+
 template <typename ITEM>
 struct node{
     ITEM _data;
@@ -60,6 +62,7 @@ public:
 
 
     node<T>* Search(const T &key);      //IN - search for this value
+    node<T>* Search(const std::string &key);      //IN - search for this value
     int find(const T &key);      //IN - search for this value
 
 
@@ -156,6 +159,15 @@ node<T>* List<T>::Search(const T &key){     //IN - search for this
 //    return SearchList(head, key);
 }
 
+template<class T>
+node<T>* List<T>::Search(const std::string &key){     //IN - search for this
+    for(node<T>* curr = head; curr != nullptr; curr = curr->_next){
+        if(curr->_data == key){
+            return curr;
+        }
+    }
+//    return SearchList(head, key);
+}
 
 template<class T>
 int List<T>::find(const T &key){     //IN - search for this

@@ -22,6 +22,7 @@ public:
             int y = 0);
 
     bool operator == (const stadium& other); // IN - stadium to copy
+    bool operator == (const std::string& other); // IN - stadium to copy
 
     string getStadiumName(){
         return _sName;

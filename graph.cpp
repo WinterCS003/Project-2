@@ -10,6 +10,7 @@ graph::graph(){
 graph::~graph(){}
 
 stadium graph::getStadiumInfo(string stadiumName){
+    return stadiums.Search(stadiumName)->_data;
 }
 
 stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){

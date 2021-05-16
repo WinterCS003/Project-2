@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     gotoPage(0);
+    QPixmap img("/logos/Blank_US_Map.jpg");
+    ui->dreamMap->setPixmap(img);
     readSouvenirs(s, "textFiles/SouvenirList.txt");
     readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
 
@@ -310,8 +312,8 @@ void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
 void MainWindow::on_stadiumTable_clicked()
 {
     gotoPage(7);
-
 }
+
 void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
 {
     if(ui->stadiumInfoCheckBox->isChecked())
@@ -323,6 +325,7 @@ void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
         ui->stadiumCheckBoxBrowser->setText("Check to select a stadiums' info.");
     }
 }
+
 void MainWindow::on_sanDiegoButton_clicked()
 {
     planTeamButtons("Petco Park");
@@ -355,17 +358,29 @@ void MainWindow::on_arizonaButton_clicked()
 
 void MainWindow::planTeamButtons(string stadiumName)
 {
+    stadium search;
+    for(int i = 0; i < g.stadiums.size(); i++){
+        if(g.stadiums[i].getStadiumName() == stadiumName){
+            search = g.stadiums[i];
+            break;
+        }
+    }
 
+    if(ui->stadiumInfoCheckBox->isChecked()){
+        ui->stadiumCheckBoxBrowser->setText(QString::fromStdString(search.getAllInfo()));
+    } else{
+        newStadiumaAddedbyUser.append(search);
+    }
 }
+
 void MainWindow::on_restartDreamList_clicked()
 {
-
-
+    newStadiumaAddedbyUser.~List();
 }
 
 void MainWindow::clearDreamList()
 {
-
+    newStadiumaAddedbyUser.~List();
 }
 bool MainWindow::alreadyInDreamList(string stadiumName)
 {
@@ -404,7 +419,7 @@ void MainWindow::on_backtoMain_clicked()
 void MainWindow::on_showMapButton_clicked()
 {
 
-
+    gotoPage(11);
 }
 
 List<stadium> MainWindow::modify_newStadiumAddedByUser(List<stadium> list){
@@ -448,7 +463,7 @@ void MainWindow::on_back_clicked()
 
 void MainWindow::on_showMapButtonMainPage_clicked()
 {
-
+    gotoPage(11);
 }
 
 void MainWindow::on_DoneButton2_clicked()

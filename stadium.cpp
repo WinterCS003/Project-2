@@ -54,3 +54,7 @@ bool stadium::operator == (const stadium& other){
     return false;
 }
 
+bool stadium::operator==(const std::string& other){
+    return _sName == other;
+}
+
