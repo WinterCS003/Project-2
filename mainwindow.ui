@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>12</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1481,7 +1481,7 @@ p, li { white-space: pre-wrap; }
  <customwidgets>
   <customwidget>
    <class>mapwidget</class>
-   <extends>QStackedWidget</extends>
+   <extends>QWidget</extends>
    <header>mapwidget.h</header>
    <container>1</container>
   </customwidget>

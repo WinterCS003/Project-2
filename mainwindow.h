@@ -8,6 +8,7 @@
 #include <QTableWidgetItem>
 #include <vector>
 #include <string>
+#include <map>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,7 +29,7 @@ public:
     ~MainWindow();
 
 
-    void gotoPage(int pg);      //IN - page to switch to
+    void gotoPage(string pg);      //IN - page to switch to
 
 private slots:
 
@@ -201,6 +202,8 @@ private:
     bool alreadyInDreamList(string stadiumName);    //IN - stadium name to chck
 
     void deleteDreamStadium(string stadiumName);    //IN - stadium to del
+
+    map<string, int> pageMap;       // ATT - map of page numbers by QWidget name
 
     graph g;
 

@@ -1,17 +1,21 @@
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "files.h"
 #include <sstream>
 #include <QPainter>
+#include <stack>        // Provides stack type
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    int i, j, k;
+    stack<string> keyList;
+
     ui->setupUi(this);
-    gotoPage(0);
+    gotoPage("mainMenu");
     QPixmap img("/logos/Blank_US_Map.jpg");
     ui->dreamMap->setPixmap(img);
     readSouvenirs(s, "textFiles/SouvenirList.txt");
@@ -39,7 +43,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->sanDiegoButton->setFixedSize(80, 55);
     ui->oaklandAButton->setFixedSize(80, 55);
 
-    //gotoPage(12);
+    // Add pages to map
+    for(i = 0, j = 0; i < ui->stackedWidget->children().length(); i++)
+    {
+        if(!ui->stackedWidget->children()[i]->inherits("QWidget"))
+            continue;
+
+        cout << "PREPAGE[" << j << "] = " << ui->stackedWidget->children()[i]->objectName().toStdString() << "\n";
+        pageMap[ui->stackedWidget->children()[i]->objectName().toStdString()] = j++;
+        keyList.push(ui->stackedWidget->children()[i]->objectName().toStdString());
+    }
+    // Reverse indexes for map pages
+    for(i = 0; i < j; i++)
+    {
+        cout << "PAGE[" << (j - 1 - pageMap[keyList.top()]) << "] = " << keyList.top() << "\n";
+        pageMap[keyList.top()] = j - 1 - pageMap[keyList.top()];
+        keyList.pop();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -49,45 +69,46 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
-void MainWindow::gotoPage(int pg)
+void MainWindow::gotoPage(string pg)
 {
-    ui->stackedWidget->setCurrentIndex(pg);
+    ui->stackedWidget->setCurrentIndex(pageMap[pg]);
 }
 
 void MainWindow::on_customerPushButtonMenu_clicked()
 {
-    gotoPage(1);
+    gotoPage("custWelcomePage");
 }
 
 void MainWindow::on_adminPushButtonMain_clicked()
 {
-    gotoPage(5);
+    gotoPage("adminWelcomePg");
 }
 
 void MainWindow::on_customerDoneButton_clicked()
 {
-    gotoPage(0);
+    gotoPage("mainMenu");
 }
 
 void MainWindow::on_mapPgDoneButton_clicked()
 {
-    gotoPage(6);
+    gotoPage("planYourTripPage");
 }
 
 void MainWindow::on_adminPgDoneButton_clicked()
 {
     ui->textBrowser_2->clear();
-    gotoPage(0);
+
+    gotoPage("mainMenu");
 }
 
 void MainWindow::on_souvenirsDoneButton_clicked()
 {
-    gotoPage(6);
+    gotoPage("planYourTripPage");
 }
 
 void MainWindow::setStadiumTextBrowser(string stadiumTemp)
 {
-    gotoPage(2);
+    gotoPage("stadiumInfoPage");
     stadium temp;
     temp = g.getStadiumInfo(stadiumTemp);
     string info = temp.getAllInfo();
@@ -98,7 +119,7 @@ void MainWindow::setStadiumTextBrowser(string stadiumTemp)
 
 void MainWindow::on_stadiumInfoDoneButton_clicked()
 {
-    gotoPage(1);
+    gotoPage("custWelcomePage");
 }
 
 void MainWindow::on_exitMainButton_clicked()
@@ -231,17 +252,17 @@ void MainWindow::on_nyMetsButton_clicked()
 
 void MainWindow::on_stadiumsByNameButton_clicked()
 {
-    gotoPage(2);
+    gotoPage("stadiumInfoPage");
 
 }
 void MainWindow::on_stadiumTableInfo_clicked()
 {
-    gotoPage(7);
+    gotoPage("stadiuminfotable");
 }
 void MainWindow::on_gobacktomainpage_clicked()
 
 {
-    gotoPage(0);
+    gotoPage("mainMenu");
 }
 void MainWindow::on_GrassSurface_currentIndexChanged()
 {
@@ -249,7 +270,7 @@ void MainWindow::on_GrassSurface_currentIndexChanged()
 }
 void MainWindow::on_planTripButton_clicked()
 {
-    gotoPage(6);
+    gotoPage("planYourTripPage");
 }
 void MainWindow::plannedTripTable()
 {
@@ -258,7 +279,7 @@ void MainWindow::plannedTripTable()
 void MainWindow::on_pushButton_31_clicked()
 {
 
-    gotoPage(1);
+    gotoPage("custWelcomePage");
 }
 
 void MainWindow::on_allStadiumsButton_clicked()
@@ -274,16 +295,16 @@ void MainWindow::on_pushButton_38_clicked()
     total += QString::fromStdString(purchases.totalPrice());
     ui->currentTotal->setText(total);
 
-    gotoPage(4);
+    gotoPage("custSouvenirsPg");
 }
 void MainWindow::on_pushButton_39_clicked()
 {
-    gotoPage(3);
+    gotoPage("mapPlanPg");
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    gotoPage(8);
+    gotoPage("modStadiumPg");
 
 }
 
@@ -295,12 +316,12 @@ void MainWindow::on_modAddNewButton_clicked()
 
 void MainWindow::on_modStadium_doneButton_clicked()
 {
-    gotoPage(5);
+    gotoPage("adminWelcomePg");
 }
 
 void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
 {
-    gotoPage(9);
+    gotoPage("modSouvenirPg");
     /*
     int index;
     QObjectList list;
@@ -316,7 +337,7 @@ void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
 
 void MainWindow::on_stadiumTable_clicked()
 {
-    gotoPage(7);
+    gotoPage("stadiuminfotable");
 }
 
 void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
@@ -419,12 +440,12 @@ void MainWindow::on_allALStadiumsButton_clicked()
 }
 void MainWindow::on_backtoMain_clicked()
 {
-    gotoPage(0);
+    gotoPage("mainMenu");
 }
 void MainWindow::on_showMapButton_clicked()
 {
 
-    gotoPage(11);
+    gotoPage("GeneralMap");
 }
 
 List<stadium> MainWindow::modify_newStadiumAddedByUser(List<stadium> list){
@@ -451,7 +472,7 @@ void MainWindow::on_pushButton_5_clicked()
         }
     }
 
-    gotoPage(10);
+    gotoPage("TrackSouvenirAdd");
 }
 
 void MainWindow::on_back_clicked()
@@ -463,17 +484,17 @@ void MainWindow::on_back_clicked()
     QString total = "Total Spent: ";
     total += QString::fromStdString(purchases.totalPrice());
     ui->currentTotal->setText(total);
-    gotoPage(4);
+    gotoPage("custSouvenirsPg");
 }
 
 void MainWindow::on_showMapButtonMainPage_clicked()
 {
-    gotoPage(11);
+    gotoPage("GeneralMap");
 }
 
 void MainWindow::on_DoneButton2_clicked()
 {
-    gotoPage(1);
+    gotoPage("custWelcomePage");
 }
 
 
@@ -496,7 +517,7 @@ void MainWindow::on_modSouvenir_doneButton_clicked()
 
     if(message.empty())
     {
-        gotoPage(5);
+        gotoPage("adminWelcomePg");
         return;
     }
 
