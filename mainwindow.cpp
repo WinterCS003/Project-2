@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->angelsButton->setFixedSize(80, 55);
     ui->sanDiegoButton->setFixedSize(80, 55);
     ui->oaklandAButton->setFixedSize(80, 55);
+
+    //gotoPage(12);
 }
 
 MainWindow::~MainWindow()

@@ -20,6 +20,7 @@ SOURCES += \
     graph.cpp \
     main.cpp \
     mainwindow.cpp \
+    mapwidget.cpp \
     souvenir.cpp \
     stadium.cpp
 
@@ -30,6 +31,7 @@ HEADERS += \
     linked_list_functions.h \
     list.h \
     mainwindow.h \
+    mapwidget.h \
     souvenir.h \
     stadium.h
 
