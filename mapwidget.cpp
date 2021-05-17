@@ -2,7 +2,7 @@
 
 #include <QPainter>
 
-mapwidget::mapwidget(QWidget *parent) : QWidget(parent)
+mapwidget::mapwidget(QWidget *parent) : QStackedWidget(parent)
 {
     usMapOutline.load("usmap.png");
     usMapOutline = usMapOutline.scaled(781, 441);

@@ -1,9 +1,9 @@
 #ifndef MAPWIDGET_H
 #define MAPWIDGET_H
 
-#include <QWidget>
+#include <QStackedWidget>
 
-class mapwidget : public QWidget
+class mapwidget : public QStackedWidget
 {
 public:
     explicit mapwidget(QWidget *parent = nullptr);

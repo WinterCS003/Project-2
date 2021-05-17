@@ -1481,7 +1481,7 @@ p, li { white-space: pre-wrap; }
  <customwidgets>
   <customwidget>
    <class>mapwidget</class>
-   <extends>QWidget</extends>
+   <extends>QStackedWidget</extends>
    <header>mapwidget.h</header>
    <container>1</container>
   </customwidget>
