@@ -4,7 +4,7 @@
 graph::graph(){
     adjList = new List<stadiumNode>[30];
     _capacity = 0;
-    _size = 0;
+    _size = 30;
 }
 
 graph::~graph(){}

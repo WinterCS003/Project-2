@@ -81,8 +81,8 @@ public:
 
 
 private:
-    node<T>* head;      //ATT - front of list
-    node<T>* tail;
+    node<T>* head = nullptr;      //ATT - front of list
+    node<T>* tail = nullptr;
     int _size = 0;
 };
 
@@ -111,6 +111,7 @@ List<T>::~List(){
         curr = curr->_next;
         delete temp;
     }
+    _size = 0;
 //    _ClearList(head);
 }
 

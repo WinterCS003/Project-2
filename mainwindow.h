@@ -89,67 +89,6 @@ private slots:
 
     void on_stadiumInfoCheckBox_stateChanged(int arg1); //IN - *placehold*
 
-    void on_sanDiegoButton_clicked();
-
-    void on_dodgerButton_clicked();
-
-    void on_kansasCityButton_clicked();
-
-    void on_stLouisButton_clicked();
-
-    void on_nyMetsButton_clicked();
-
-    void on_sanFranciscoButton_clicked();
-
-    void on_oaklandAButton_clicked();
-
-    void on_seattleButton_clicked();
-
-    void on_coloradoButton_clicked();
-
-    void on_angelsButton_clicked();
-
-    void on_arizonaButton_clicked();
-
-    void on_minnesotaButton_clicked();
-
-    void on_texasRangersButton_clicked();
-
-    void on_houstonButton_clicked();
-
-    void on_milwaukeeButton_clicked();
-
-    void on_chicagoButton_clicked();
-
-    void on_chicagoWhiteSoxButton_clicked();
-
-    void on_cincinattiButton_clicked();
-
-    void on_atlantaButton_clicked();
-
-    void on_clevelandButton_clicked();
-
-    void on_tampaBayButton_clicked();
-
-    void on_floridaButton_clicked();
-
-    void on_pittsburghButton_clicked();
-
-    void on_washingtonButton_clicked();
-
-    void on_torontoButton_clicked();
-
-    void on_detroitButton_2_clicked();
-
-    void on_bostonButton_clicked();
-
-    void on_baltimoreButton_clicked();
-
-    void on_phillyButton_clicked();
-
-    void on_nyYankeesButton_clicked();
-
-
     void on_restartDreamList_clicked();
 
     void on_allNLStadiumsButton_clicked();
@@ -186,6 +125,8 @@ private slots:
     void on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item);
 
     void on_back_clicked();
+
+    void on_allStadiums_itemDoubleClicked(QTableWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;     // ATT - main ui window

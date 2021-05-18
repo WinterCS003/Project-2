@@ -7,6 +7,7 @@
 #include "souvenir.h"
 
 void readStadiums(graph &g, std::string fileName){
+    std::cout << "Reading Stadiums" << std::endl;
     ifstream input(fileName);
     bool AL = false;
     if(input.is_open()){
@@ -56,10 +57,13 @@ void readStadiums(graph &g, std::string fileName){
             i++;
         }
     }
+
+    input.close();
 }
 
 void readEdges(graph &g,                        // IN - graph object
                std::string fileName){                // IN - name of stadium file
+    std::cout << "Reading Edges" << std::endl;
     std::ifstream input(fileName);
     std::string line;
     if(input.is_open()){
@@ -90,7 +94,7 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
             temp.setName(line.substr(0, line.find(',')));
             temp.setPrice(line.substr(line.find('$')+1, line.find_last_of(',')-line.find('$')-1));
 
-             std::string quantity = line.substr(line.find_last_of(',')+2);
+            std::string quantity = line.substr(line.find_last_of(',')+2);
             temp.setQuantity(std::stoi(quantity));
 
             if(std::getline(input, line))
@@ -177,6 +181,8 @@ void saveSouvenirs(souvenirs& s,        // IN - the souvenirs object to read
         output << "\n" << s[i].getDescription();
         output << "\n";
     }
+
+    output.close();
 }
 
 #endif // FILES_H

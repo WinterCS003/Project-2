@@ -24,6 +24,12 @@ MainWindow::MainWindow(QWidget *parent)
     readStadiums(g, "textFiles/stadiums.txt");
     readEdges(g, "textFiles/stadiumDistances.txt");
 
+    ui->allStadiums->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    for(int i = 0; i < g.stadiums.size(); i++){
+        ui->allStadiums->insertRow(i);
+        ui->allStadiums->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getStadiumName())));
+    }
+
     ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
     for(int i = 0; i < s.getSize(); i++){
         ui->souvenirListForAdd->insertRow(i);
@@ -36,12 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
         ui->modSouvenir_table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(s[i].getPrice())));
         ui->modSouvenir_table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(s[i].getDescription())));
     }
-
-    //Setup Push buttons
-    ui->dodgerButton->setFixedSize(80, 55);
-    ui->angelsButton->setFixedSize(80, 55);
-    ui->sanDiegoButton->setFixedSize(80, 55);
-    ui->oaklandAButton->setFixedSize(80, 55);
 
     // Add pages to map
     for(i = 0, j = 0; i < ui->stackedWidget->children().length(); i++)
@@ -128,126 +128,6 @@ void MainWindow::on_exitMainButton_clicked()
     saveSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
 
     close();
-}
-
-void MainWindow::on_minnesotaButton_clicked()
-{
-    planTeamButtons("Target Field");
-}
-
-void MainWindow::on_texasRangersButton_clicked()
-{
-    planTeamButtons("Globe Life Park in Arlington");
-}
-
-void MainWindow::on_houstonButton_clicked()
-{
-    planTeamButtons("Minute Maid Park");
-}
-
-void MainWindow::on_milwaukeeButton_clicked()
-{
-    planTeamButtons("Miller Park");
-}
-
-void MainWindow::on_chicagoButton_clicked()
-{
-    planTeamButtons("Wrigley Field");
-}
-
-void MainWindow::on_chicagoWhiteSoxButton_clicked()
-{
-    planTeamButtons("US Cellular Field");
-}
-
-void MainWindow::on_cincinattiButton_clicked()
-{
-    planTeamButtons("Great America Ball Park");
-}
-
-void MainWindow::on_atlantaButton_clicked()
-{
-    planTeamButtons("Turner Field");
-}
-
-void MainWindow::on_clevelandButton_clicked()
-{
-    planTeamButtons("Progressive Field");
-}
-
-void MainWindow::on_tampaBayButton_clicked()
-{
-    planTeamButtons("Tropicana Field");
-}
-
-void MainWindow::on_floridaButton_clicked()
-{
-    planTeamButtons("Marlins Park");
-}
-
-void MainWindow::on_pittsburghButton_clicked()
-{
-    planTeamButtons("PNC Park");
-}
-
-void MainWindow::on_washingtonButton_clicked()
-{
-    planTeamButtons("Nationals Park");
-}
-
-void MainWindow::on_torontoButton_clicked()
-{
-    planTeamButtons("Rogers Centre");
-}
-
-void MainWindow::on_detroitButton_2_clicked()
-{
-    planTeamButtons("Comerica Park");
-}
-
-void MainWindow::on_bostonButton_clicked()
-{
-    planTeamButtons("Fenway Park");
-}
-
-void MainWindow::on_baltimoreButton_clicked()
-{
-    planTeamButtons("Oriole Park at Camden Yards");
-}
-
-void MainWindow::on_phillyButton_clicked()
-{
-    planTeamButtons("Citizens Bank Park");
-}
-
-void MainWindow::on_nyYankeesButton_clicked()
-{
-    planTeamButtons("Yankee Stadium");
-}
-
-void MainWindow::on_dodgerButton_clicked()
-{
-    planTeamButtons("Dodger Stadium");
-}
-
-void MainWindow::on_angelsButton_clicked()
-{
-    planTeamButtons("Angels Stadium of Anaheim");
-}
-
-void MainWindow::on_kansasCityButton_clicked()
-{
-    planTeamButtons("Kauffman Stadium");
-}
-
-void MainWindow::on_stLouisButton_clicked()
-{
-    planTeamButtons("Busch Stadium");
-}
-
-void MainWindow::on_nyMetsButton_clicked()
-{
-    planTeamButtons("Citi Field");
 }
 
 void MainWindow::on_stadiumsByNameButton_clicked()
@@ -352,36 +232,6 @@ void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
     }
 }
 
-void MainWindow::on_sanDiegoButton_clicked()
-{
-    planTeamButtons("Petco Park");
-}
-
-void MainWindow::on_sanFranciscoButton_clicked()
-{
-    planTeamButtons("AT&T Park");
-}
-
-void MainWindow::on_oaklandAButton_clicked()
-{
-    planTeamButtons("O.co Coliseum");
-}
-
-void MainWindow::on_seattleButton_clicked()
-{
-    planTeamButtons("SafeCo Field");
-}
-
-void MainWindow::on_coloradoButton_clicked()
-{
-    planTeamButtons("Coors Field");
-}
-
-void MainWindow::on_arizonaButton_clicked()
-{
-    planTeamButtons("Chase Field");
-}
-
 void MainWindow::planTeamButtons(string stadiumName)
 {
     stadium search;
@@ -395,6 +245,10 @@ void MainWindow::planTeamButtons(string stadiumName)
     if(ui->stadiumInfoCheckBox->isChecked()){
         ui->stadiumCheckBoxBrowser->setText(QString::fromStdString(search.getAllInfo()));
     } else{
+        if(newStadiumaAddedbyUser.find(search) != -1){
+            ui->plannedTripStadiumBrowser->setText("Already Added");
+            return;
+        }
         if(newStadiumaAddedbyUser.size() == 0){
             // check that first stadium is in CA
             if(search.getAddress().find("CA") == std::string::npos){
@@ -628,4 +482,10 @@ void MainWindow::on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item)
         QString msg = item->text() + " Purchased!";
         ui->msg->setText(msg);
     }
+}
+
+void MainWindow::on_allStadiums_itemDoubleClicked(QTableWidgetItem *item)
+{
+    std::string name = item->text().toStdString();
+    planTeamButtons(name);
 }
