@@ -1,0 +1,10 @@
+Pen, $15.95, 1
+A pen with the team logo
+Autographed baseball, $19.99, 2
+A baseball signed by the team.
+Team Pennant, $12.99, 1
+A pennant with the team logo.
+Baseball Bat, $35.35, 1
+A baseball bat with the team logo.
+Pencil, $5.95, 2
+A pencil

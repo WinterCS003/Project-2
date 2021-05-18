@@ -16,12 +16,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     gotoPage("mainMenu");
-    QPixmap img("/logos/Blank_US_Map.jpg");
-    ui->dreamMap->setPixmap(img);
+
+    // set up souvenirs
     readSouvenirs(s, "textFiles/SouvenirList.txt");
     readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
-    readStadiums(g, newStadiumaAddedbyUser, "textFiles/stadiums.txt");
-    g.printGraph();
+    // set up graph
+    readStadiums(g, "textFiles/stadiums.txt");
     readEdges(g, "textFiles/stadiumDistances.txt");
 
     ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -395,13 +395,27 @@ void MainWindow::planTeamButtons(string stadiumName)
     if(ui->stadiumInfoCheckBox->isChecked()){
         ui->stadiumCheckBoxBrowser->setText(QString::fromStdString(search.getAllInfo()));
     } else{
+        if(newStadiumaAddedbyUser.size() == 0){
+            // check that first stadium is in CA
+            if(search.getAddress().find("CA") == std::string::npos){
+                ui->plannedTripStadiumBrowser->setText("Please choose a stadium in California");
+                return;
+            }
+        }
         newStadiumaAddedbyUser.append(search);
+        QString trip;
+        for(int i = 0; i < newStadiumaAddedbyUser.size(); i++){
+            trip += QString::fromStdString(newStadiumaAddedbyUser[i].getStadiumName());
+            trip += "\n";
+        }
+        ui->plannedTripStadiumBrowser->setText(trip);
     }
 }
 
 void MainWindow::on_restartDreamList_clicked()
 {
     newStadiumaAddedbyUser.~List();
+    ui->plannedTripStadiumBrowser->clear();
 }
 
 void MainWindow::clearDreamList()

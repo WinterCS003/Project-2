@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -213,7 +213,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/miamiMarlinsLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Marlins</string>
@@ -235,7 +235,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/oaklandALogoNew.png);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Athletics</string>
@@ -251,7 +251,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/chicagoCubsLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Cubs</string>
@@ -267,7 +267,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/PittsPiratesLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Pirates</string>
@@ -289,7 +289,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/coloradoRockiesLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Rockies</string>
@@ -311,7 +311,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/texasRangersLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Rangers</string>
@@ -333,8 +333,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/sanDiegoLogo.jpg);
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Padres</string>
@@ -350,7 +349,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/washingtonnationalsLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Nationals</string>
@@ -366,8 +365,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/minnesotaTwinsLogo.jpg);
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Twins</string>
@@ -383,7 +381,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/whiteSoxLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>White Sox</string>
@@ -436,7 +434,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/clevelandIndiansLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Indians</string>
@@ -452,7 +450,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/kcRoyalsLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Royals</string>
@@ -468,7 +466,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/milwaukeeBrwersLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Brewers</string>
@@ -484,7 +482,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/seattleMarinersLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Mariners</string>
@@ -506,7 +504,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:../logos/LAangelsLogo.png);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Angels</string>
@@ -522,8 +520,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/arizonaDiamondBacksLogo.jpg);
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Diamond Backs</string>
@@ -539,7 +536,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/cinciLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Reds</string>
@@ -555,7 +552,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/torontoBlueJayslogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Blue Jays</string>
@@ -571,7 +568,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/atlantaBravesLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Braves</string>
@@ -593,7 +590,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/sanFranGiantsLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Giants</string>
@@ -609,7 +606,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/sLouisCardinals.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Cardinals</string>
@@ -631,7 +628,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:../logos/nyMetsLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>NY Mets</string>
@@ -663,7 +660,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/astrosLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Astros</string>
@@ -695,7 +692,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/bostonRedSoxLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Red Sox</string>
@@ -711,7 +708,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/baltimoreOriolesLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Orioles</string>
@@ -727,7 +724,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logos/philliesLogo.jpg);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Phillies</string>
@@ -1232,12 +1229,47 @@ p, li { white-space: pre-wrap; }
      <widget class="QTableWidget" name="modificationTable">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>10</x>
         <y>60</y>
-        <width>671</width>
+        <width>791</width>
         <height>441</height>
        </rect>
       </property>
+      <column>
+       <property name="text">
+        <string>Stadium Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Team Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Address</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Phone Number</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Opened</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Capacity</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Surface Type</string>
+       </property>
+      </column>
      </widget>
      <widget class="QWidget" name="horizontalLayoutWidget_3">
       <property name="geometry">

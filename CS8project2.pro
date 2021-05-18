@@ -47,4 +47,6 @@ RESOURCES +=
 
 DISTFILES += \
     textFiles/SouvenirList.txt \
-    textFiles/stadiumDistances.txt
+    textFiles/SouvenirPurchases.txt \
+    textFiles/stadiumDistances.txt \
+    textFiles/stadiums.txt

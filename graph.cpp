@@ -12,11 +12,10 @@ graph::~graph(){}
 stadium graph::getStadiumInfo(string stadiumName){
     for(node<stadium>* curr = stadiums.Begin(); curr != nullptr ;curr = curr->_next){
         if(curr->_data.getStadiumName() == stadiumName){
-            std::cout << curr->_data.getStadiumName() << std::endl;
             return curr->_data;
         }
     }
-        throw "NOT FOIUND";
+        throw "NOT FOUND";
 //    return stadiums.Search(stadiumName)->_data;
 }
 
@@ -40,6 +39,13 @@ void graph::addStadium(stadium s){
         for(int i = 0; i < _size; i++){
             temp[i] = adjList[i];
         }
+
+        for(int i = 0; i < _capacity; i++){
+            adjList[i].~List();
+        }
+        delete [] adjList;
+
+        adjList = temp;
         _size = 2*_size;
     }
 

@@ -4,7 +4,8 @@ stadium::stadium(){}
 
 stadium::stadium(string name,       // IN - std name
                  string teamName,   // IN - team at std
-                 string address,    // IN - std addres
+                 string address,    // IN - std address
+                 string address2,   // IN - address 2
                  string phone,      // IN - assoc. phone
                  string openDate,   // IN - day std opened
                  string capacity,   // IN - cap of std
@@ -16,6 +17,7 @@ stadium::stadium(string name,       // IN - std name
     _sName = name;
     _teamName = teamName;
     _address = address;
+    _address2 = address2;
     _phone = phone;
     _openDate = openDate;
     _capacity = capacity;

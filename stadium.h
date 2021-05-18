@@ -13,6 +13,7 @@ public:
     stadium(string, // IN -  stadium name to set
             string, // IN -  team name to set
             string, // IN -  address to set
+            string, // IN -  address 2
             string, // IN -  phone to set
             string, // IN -  open date to set
             string, // IN -  capacity to set
@@ -33,7 +34,7 @@ public:
     }
 
     string getAddress(){
-        return _address;
+        return _address + "\n" + _address2;
     }
 
     string getPhone(){
@@ -80,6 +81,10 @@ public:
         _address = address;
     }
 
+    void setAddress2(string address2){
+        _address2 = address2;
+    }
+
     void setphone(string phone){        // IN -  phone to set
         _phone = phone;
     }
@@ -120,6 +125,7 @@ private:
     string _sName;      //ATT - stadium name
     string _teamName;   //ATT - team name
     string _address;    //ATT - stadium address
+    string _address2;   //ATT - second line of address
     string _phone;      //ATT - stadium phone
     string _openDate;   //ATT - stadium open date
     string _capacity;   //ATT - stadium capacity
