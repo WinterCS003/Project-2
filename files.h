@@ -6,8 +6,7 @@
 #include "graph.h"
 #include "souvenir.h"
 
-void readStadiums(graph &g, List<stadium>& list, std::string fileName){
-    std::cout << "Stadium" << std::endl;
+void readStadiums(graph &g, std::string fileName){
     ifstream input(fileName);
     bool AL = false;
     if(input.is_open()){
@@ -33,17 +32,16 @@ void readStadiums(graph &g, List<stadium>& list, std::string fileName){
                     temp.setAddress(line);
                     break;
                 case 3:
+                    temp.setAddress2(line);
                     break;
                 case 4:
                     temp.setphone(line);
                     break;
                 case 5:
-                    std::cout << line << std::endl;
                     line = line.substr(line.find('-')+2);
                     temp.setOpenDate(line);
                     break;
                 case 6:
-                    std::cout << line << std::endl;
                     line = line.substr(line.find('-')+2);
                     temp.setCapacity(line);
                     if(AL){
@@ -62,7 +60,6 @@ void readStadiums(graph &g, List<stadium>& list, std::string fileName){
 
 void readEdges(graph &g,                        // IN - graph object
                std::string fileName){                // IN - name of stadium file
-    std::cout << "EDGES " << std::endl;
     std::ifstream input(fileName);
     std::string line;
     if(input.is_open()){
@@ -80,7 +77,6 @@ void readEdges(graph &g,                        // IN - graph object
     }
     input.close();
 }
-
 
 void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
                    std::string fileName){        // IN - name of file
@@ -107,8 +103,70 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
     }
 }
 
-void saveStadiums(graph &g, List<stadium>& newS, std::string fileName){
+void saveStadiums(graph &g, std::string fileName){
+    std::ofstream output(fileName);
 
+    if(output.is_open()){
+        List<stadium> al;
+        al = g.getAmericanLeagueStadiums();
+        output << "AMERICAN LEAGUE TEAMS:\n";
+        output << "-----------------------------\n";
+        for(int i = 0; i < al.size(); i++){
+            output << al[i].getStadiumName() << "\n";
+            output << al[i].getTeamName() << "\n";
+            output << al[i].getAddress() << "\n";
+            output << al[i].getPhone() << "\n";
+            output << "Opened - " << al[i].getOpenDate() << "\n";
+            output << "Capacity - " << al[i].getCapacity() << "\n";
+        }
+
+        al = g.getNationalLeagueStadiums();
+        output << "NATIONAL LEAGUE TEAMS:\n";
+        output << "-----------------------------\n";
+        for(int i = 0; i < al.size(); i++){
+            output << al[i].getStadiumName() << "\n";
+            output << al[i].getTeamName() << "\n";
+            output << al[i].getAddress() << "\n";
+            output << al[i].getPhone() << "\n";
+            output << "Opened - " << al[i].getOpenDate() << "\n";
+            output << "Capacity - " << al[i].getCapacity() << "\n";
+        }
+    }
+
+    output.close();
+}
+
+void saveEdges(graph& g, std::string fileName){
+    std::ofstream output(fileName);
+
+    if(output.is_open()){
+        List<stadium> s = g.getAmericanLeagueStadiums();
+        List<stadiumNode> edge;
+        std::string source;
+        std::string destination;
+        int distance;
+        for(int i = 0; i < s.size(); i++){
+            edge = g.getedges(s[i]);
+            source = s[i].getStadiumName();
+            for(int j = 0; j < edge.size(); j++){
+                destination = edge[j]._des.getStadiumName();
+                distance = edge[j]._distance;
+                output << source << ", " << destination << ", " << distance << "\n";
+            }
+        }
+
+        s = g.getNationalLeagueStadiums();
+        for(int i = 0; i < s.size(); i++){
+            edge = g.getedges(s[i]);
+            source = s[i].getStadiumName();
+            for(int j = 0; j < edge.size(); j++){
+                destination = edge[j]._des.getStadiumName();
+                distance = edge[j]._distance;
+                output << source << ", " << destination << ", " << distance << "\n";
+            }
+        }
+    }
+    output.close();
 }
 
 void saveSouvenirs(souvenirs& s,        // IN - the souvenirs object to read
