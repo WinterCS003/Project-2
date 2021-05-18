@@ -128,6 +128,8 @@ private slots:
 
     void on_allStadiums_itemDoubleClicked(QTableWidgetItem *item);
 
+    void on_modificationTable_itemChanged(QTableWidgetItem *item);
+
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
 

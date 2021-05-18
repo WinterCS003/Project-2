@@ -28,6 +28,15 @@ MainWindow::MainWindow(QWidget *parent)
     for(int i = 0; i < g.stadiums.size(); i++){
         ui->allStadiums->insertRow(i);
         ui->allStadiums->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getStadiumName())));
+
+        ui->modificationTable->insertRow(i);
+        ui->modificationTable->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getStadiumName())));
+        ui->modificationTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getTeamName())));
+        ui->modificationTable->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getAddress())));
+        ui->modificationTable->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getPhone())));
+        ui->modificationTable->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getOpenDate())));
+        ui->modificationTable->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getCapacity())));
+        ui->modificationTable->setItem(i, 6, new QTableWidgetItem(QString::fromStdString(g.stadiums[i].getFieldSurface())));
     }
 
     ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -488,4 +497,42 @@ void MainWindow::on_allStadiums_itemDoubleClicked(QTableWidgetItem *item)
 {
     std::string name = item->text().toStdString();
     planTeamButtons(name);
+}
+
+void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
+{
+    int i = item->column();
+
+    if(i == 0){ // edit stadium name
+        i = item->row();
+
+        if(item->text().isEmpty()){
+            g.removeStadium(g.stadiums[i]);
+            ui->modificationTable->removeRow(i);
+            ui->allStadiums->removeRow(i);
+            return;
+        }
+
+        g.stadiums[i].setName(item->text().toStdString());
+    } else if(i == 1){ // edit team name
+        i = item->row();
+        g.stadiums[i].setTeamName(item->text().toStdString());
+    } else if(i == 2){ // edit address
+        i = item->row();
+        g.stadiums[i].setAddress(item->text().toStdString());
+    } else if(i == 3){ // edit phone
+        i = item->row();
+        g.stadiums[i].setphone(item->text().toStdString());
+    } else if(i == 4){ // edit date
+        i = item->row();
+        g.stadiums[i].setOpenDate(item->text().toStdString());
+    } else if(i == 5){ // edit capacity
+        i = item->row();
+        g.stadiums[i].setCapacity(item->text().toStdString());
+    } else if(i == 6){ // edit surface type
+        i = item->row();
+        g.stadiums[i].setFieldSurface(item->text().toStdString());
+    } else{
+
+    }
 }

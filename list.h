@@ -126,16 +126,16 @@ List<T>& List<T>::operator=(const List& RHS){
 
 template<class T>
 T List<T>::Delete(const T& iMarker){        //IN - delete this
-    _size--;
-    if(isEmpty()){
-        delete tail;
-        head = tail = nullptr;
-        return iMarker;
-    }
-
-    if(_size == 1){
-        delete tail;
-        tail = head;
+    if(head->_data == iMarker){
+        node<T>* temp = head;
+        head = head->_next;
+        delete temp;
+        _size--;
+        if(isEmpty()){
+            head = tail = nullptr;
+        } else if(_size == 1){ // delete head, update to point to tail
+            head = tail;
+        }
         return iMarker;
     }
 
@@ -144,6 +144,9 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
             node<T>* temp = current->_next;
             current->_next = temp->_next;
             delete temp;
+            if(--_size == 1){ // delete tail update to point to head
+                tail = head;
+            }
 
             return iMarker;
         }
