@@ -108,7 +108,7 @@ public:
     bool checkExist(const List<stadiumNode>&, // IN - check this list
                     string toCheck);          // IN - if this exits
 
-    void removeEdge(stadiumNode toRemove);        // IN - nm of stadium to rem
+    void removeEdge(stadium src, stadium des);        // IN - nm of stadium to rem
 
     void removeStadium(stadium toRemove);       // IN - nm of stadium to rem
     void printGraph(){
@@ -130,8 +130,7 @@ private:
     int getLength(List<stadiumNode>);
 
     List<stadium> stadiums;             // ATT - list of stadiums
-    List<stadiumNode>* adjList;   // ATT - list of edges
-    int _capacity;
+    List<List<stadiumNode>> adjList;   // ATT - list of edges
     int _size;                          // ATT - total # of stadiums
 };
 

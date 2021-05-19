@@ -1,6 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 //#include "linked_list_functions.h"
+#include <iostream>
 
 #include <string>
 
@@ -40,45 +41,26 @@ public:
 
 
     bool isEmpty() const;
-    node<T>* InsertHead(T i);       //IN - value to insert
-
-    node<T>* InsertAfter(T i,       //IN - value to insert
-                 node<T>* iMarker); //IN - insert aftert this marker
 
     node<T>* append(T i);
 
-
-    node<T>* InsertBefore(T i,          //IN - value to insert
-                node<T>* iMarker);      //IN - insert before this marker
-
-
-    node<T>* InsertSorted(T i);         // IN - insert i. Assume sorted list
-
-
     T Delete(const T& iMarker);         // IN - delete node pointed by iMarker
 
+    void clear();
 
     void Print() const;
 
-
     node<T>* Search(const T &key);      //IN - search for this value
-    node<T>* Search(const std::string &key);      //IN - search for this value
+
     int find(const T &key);      //IN - search for this value
-
-
-    node<T>* Prev(node<T>* iMarker);    //IN - find node previous to this
-
 
     T& operator[](int index);           //IN - index to access
 
-    node<T>* Begin() const;
+    node<T>* Begin() const; // return head
 
-
-    node<T>* End() const;
+    node<T>* End() const; // return tail
 
     int size() const { return _size; };
-
-
 
 private:
     node<T>* head = nullptr;      //ATT - front of list
@@ -106,17 +88,12 @@ List<T>::List(const List<T> &copyThis){
 
 template<class T>
 List<T>::~List(){
-    for(node<T>* curr = head; curr != nullptr;){
-        node<T>* temp = curr;
-        curr = curr->_next;
-        delete temp;
-    }
-    _size = 0;
-//    _ClearList(head);
+    clear();
 }
 
 template <class T>
 List<T>& List<T>::operator=(const List& RHS){
+    this->clear();
     for(node<T>* curr = RHS.head; curr != nullptr; curr = curr->_next){
         append(curr->_data);
     }
@@ -151,6 +128,18 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
             return iMarker;
         }
     }
+
+    throw "Does not exist";
+}
+
+template <class T>
+void List<T>::clear(){
+    for(node<T>* curr = head; curr != nullptr;){
+        node<T>* temp = curr;
+        curr = curr->_next;
+        delete temp;
+    }
+    _size = 0;
 }
 
 template<class T>
@@ -160,18 +149,8 @@ node<T>* List<T>::Search(const T &key){     //IN - search for this
             return curr;
         }
     }
-//    return SearchList(head, key);
-}
 
-template<class T>
-node<T>* List<T>::Search(const std::string &key){     //IN - search for this
-    for(node<T>* curr = head; curr != nullptr; curr = curr->_next){
-        if(curr->_data == key){
-            return curr;
-        }
-    }
-    throw "DOES NOT EXIST";
-//    return SearchList(head, key);
+    throw "Does not exist";
 }
 
 template<class T>
@@ -193,7 +172,8 @@ T& List<T>::operator[](int index){  //IN - position of element
             return curr->_data;
         }
     }
-//    return At(head, index);
+    std::cout << index << "out of bounds";
+    throw std::to_string(index) + "Out of bounds";
 }
 
 template<class T>
@@ -204,7 +184,6 @@ node<T>* List<T>::Begin() const{
 template<class T>
 node<T>* List<T>::End() const{
     return tail;
-//    return LastNode(head);
 }
 
 template <class T>

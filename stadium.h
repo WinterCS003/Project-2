@@ -34,7 +34,11 @@ public:
     }
 
     string getAddress(){
-        return _address + "\n" + _address2;
+        return _address;
+    }
+
+    string getAddress2(){
+        return _address2;
     }
 
     string getPhone(){

@@ -18,12 +18,16 @@ MainWindow::MainWindow(QWidget *parent)
     gotoPage("mainMenu");
 
     // set up souvenirs
+    try{
     readSouvenirs(s, "textFiles/SouvenirList.txt");
     readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
     // set up graph
     readStadiums(g, "textFiles/stadiums.txt");
     readEdges(g, "textFiles/stadiumDistances.txt");
-
+    readDreamStadiums(newStadiumaAddedbyUser, "textFiles/dreamStadiums.txt");
+} catch(const char* msg){
+        std::cout << msg << std::endl;
+    }
     ui->allStadiums->setEditTriggers(QAbstractItemView::NoEditTriggers);
     for(int i = 0; i < g.stadiums.size(); i++){
         ui->allStadiums->insertRow(i);
@@ -73,8 +77,16 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    try{
     saveSouvenirs(s, "textFiles/SouvenirList.txt");
     saveSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
+
+    saveStadiums(g, "textFiles/stadiums.txt");
+    saveEdges(g, "textFiles/stadiumDistances.txt");
+    saveDreamStadiums(newStadiumaAddedbyUser, "textFiles/dreamStadiums.txt");
+} catch(const char* msg){
+        std::cout << msg << std::endl;
+    }
 
     delete ui;
 }
@@ -199,6 +211,8 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_modAddNewButton_clicked()
 {
+    stadium s;
+    g.addStadium(s);
     ui->modificationTable->insertRow(ui->modificationTable->rowCount());
     ui->modificationTable->scrollToBottom();
 }
@@ -243,13 +257,7 @@ void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
 
 void MainWindow::planTeamButtons(string stadiumName)
 {
-    stadium search;
-    for(int i = 0; i < g.stadiums.size(); i++){
-        if(g.stadiums[i].getStadiumName() == stadiumName){
-            search = g.stadiums[i];
-            break;
-        }
-    }
+    stadium search = g.getStadiumInfo(stadiumName);
 
     if(ui->stadiumInfoCheckBox->isChecked()){
         ui->stadiumCheckBoxBrowser->setText(QString::fromStdString(search.getAllInfo()));
@@ -277,17 +285,23 @@ void MainWindow::planTeamButtons(string stadiumName)
 
 void MainWindow::on_restartDreamList_clicked()
 {
-    newStadiumaAddedbyUser.~List();
+    newStadiumaAddedbyUser.clear();
     ui->plannedTripStadiumBrowser->clear();
 }
 
 void MainWindow::clearDreamList()
 {
-    newStadiumaAddedbyUser.~List();
+    newStadiumaAddedbyUser.clear();
 }
 bool MainWindow::alreadyInDreamList(string stadiumName)
 {
+    for(int i = 0; i < dreamList.size(); i++){
+        if(dreamList[i] == stadiumName){
+            return true;
+        }
+    }
 
+    return false;
 }
 void MainWindow::deleteDreamStadium(string stadiumName)
 {
@@ -296,7 +310,7 @@ void MainWindow::deleteDreamStadium(string stadiumName)
 
         if(dreamList[i] == stadiumName)
         {
-            dreamList.erase(dreamList.begin()+i);
+            dreamList.Delete(stadiumName);
             return;
         }
     }
@@ -499,6 +513,7 @@ void MainWindow::on_allStadiums_itemDoubleClicked(QTableWidgetItem *item)
     planTeamButtons(name);
 }
 
+// add/edit stadium
 void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
 {
     int i = item->column();

@@ -2,12 +2,15 @@
 #include <vector>
 
 graph::graph(){
-    adjList = new List<stadiumNode>[30];
-    _capacity = 0;
-    _size = 30;
+    _size = 0;
 }
 
-graph::~graph(){}
+graph::~graph(){
+    for(int i = 0; i < _size; i++){
+        adjList[i].clear();
+    }
+    adjList.clear();
+}
 
 stadium graph::getStadiumInfo(string stadiumName){
     for(node<stadium>* curr = stadiums.Begin(); curr != nullptr ;curr = curr->_next){
@@ -15,14 +18,13 @@ stadium graph::getStadiumInfo(string stadiumName){
             return curr->_data;
         }
     }
-        throw "NOT FOUND";
-//    return stadiums.Search(stadiumName)->_data;
+    throw stadiumName + "NOT FOUND";
 }
 
 stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
     int index = stadiums.find(stadiumSrc);
     for(int i = 0; i < adjList[index].size(); i++){
-        if(adjList[index][i]._des == stadiumDes){
+        if(adjList[index][i] == stadiumDes){
             return adjList[index][i];
         }
     }
@@ -30,51 +32,38 @@ stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
 
 List<stadiumNode> graph::getedges(stadium stadiumSrc){
     int index = stadiums.find(stadiumSrc);
+    if(index == -1){
+        throw "Does not exist";
+    }
+
     return adjList[index];
 }
 
 void graph::addStadium(stadium s){
-    if(_capacity == _size){
-        List<stadiumNode>* temp = new List<stadiumNode>[2*_size];
-        for(int i = 0; i < _size; i++){
-            temp[i] = adjList[i];
-        }
-
-        for(int i = 0; i < _capacity; i++){
-            adjList[i].~List();
-        }
-        delete [] adjList;
-
-        adjList = temp;
-        _size = 2*_size;
-    }
-
+    List<stadiumNode> l;
+    adjList.append(l);
     stadiums.append(s);
-    _capacity++;
+    _size++;
 }
 
 void graph::addEdge(stadium src, stadium des, int distance){
     int index = stadiums.find(src);
     stadiumNode temp(des, distance);
     adjList[index].append(temp);
-
-    // make sure is non-directed
-    index = stadiums.find(des);
-    temp._des = src;
-    adjList[index].append(temp);
 }
 
 int graph::getSize(){
-    return _capacity;
+    return _size;
 }
 
 List<stadium> graph::getStadiumWithGrassField(){
     List<stadium> output;
-    for(int i = 0; i < _capacity; i++){
+    for(int i = 0; i < _size; i++){
         if(stadiums[i].getFieldSurface() == "Grass"){
             output.append(stadiums[i]);
         }
     }
+
     return output;
 }
 
@@ -84,7 +73,7 @@ List<stadium> graph::getStadiumListForDijkstras(){
 
 List<stadium> graph::getAmericanLeagueStadiums(){
     List<stadium> output;
-    for(int i = 0; i < _capacity; i++){
+    for(int i = 0; i < _size; i++){
         if(stadiums[i].getType() == "American League"){
             output.append(stadiums[i]);
         }
@@ -95,7 +84,7 @@ List<stadium> graph::getAmericanLeagueStadiums(){
 
 List<stadium> graph::getNationalLeagueStadiums(){
     List<stadium> output;
-    for(int i = 0; i < _capacity; i++){
+    for(int i = 0; i < _size; i++){
         if(stadiums[i].getType() == "National League"){
             output.append(stadiums[i]);
         }
@@ -104,8 +93,9 @@ List<stadium> graph::getNationalLeagueStadiums(){
     return output;
 }
 
+// returns number of nodes in given list
 int graph::getLength(List<stadiumNode> l){
-
+    return l.size();
 }
 
 List<stadiumNode> graph::shortestPath(const List<stadium>& stadiumList,
@@ -168,24 +158,36 @@ bool graph::checkExist(const List<stadiumNode>& list, string toCheck){
 
 }
 
-void graph::removeEdge(stadiumNode toRemove){
+void graph::removeEdge(stadium src, stadium des){
+    int index = stadiums.find(src);
+    if(index == -1){
+        throw "Does not exist";
+    }
+    for(node<stadiumNode>* curr = adjList[index].Begin(); curr->_next != nullptr;){
+        if(curr->_next->_data == des){
+            node<stadiumNode>* temp = curr->_next;
+            curr->_next = temp->_next;
+            delete temp;
+        }
+    }
 
 }
 
 void graph::removeStadium(stadium toRemove){
     int index = stadiums.find(toRemove);
-    stadiums.Delete(toRemove);
-    _capacity--;
-
-    for(int i = index; i < _capacity; i++){
-        adjList[i] = adjList[i+1];
+    if(index == -1){
+        throw "Does not exist";
     }
+    stadiums.Delete(toRemove);
+    _size--;
 
-    for(int i = 0; i < _capacity; i++){
+    adjList[index].clear();
+
+    for(int i = 0; i < _size; i++){
         for(node<stadiumNode>* curr = adjList[i].Begin(); curr->_next != nullptr; curr = curr->_next){
             if(curr->_next->_data == toRemove){
                 node<stadiumNode>* temp = curr->_next;
-                curr = temp->_next;
+                curr->_next = temp->_next;
                 delete temp;
             }
         }

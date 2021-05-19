@@ -139,7 +139,7 @@ private:
     QString arrow = " --> \n";      // ATT - arrow for output
     string strArrow = " --> \n";    // ATT - arrow for output
 
-    vector<string> dreamList;       // ATT - list of stadiums in trip
+    List<string> dreamList;       // ATT - list of stadiums in trip
 
     void clearDreamList();
     bool alreadyInDreamList(string stadiumName);    //IN - stadium name to chck

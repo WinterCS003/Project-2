@@ -8,7 +8,7 @@
 
 void readStadiums(graph &g, std::string fileName){
     std::cout << "Reading Stadiums" << std::endl;
-    ifstream input(fileName);
+    std::ifstream input(fileName);
     bool AL = false;
     if(input.is_open()){
         std::string line;
@@ -61,6 +61,61 @@ void readStadiums(graph &g, std::string fileName){
     input.close();
 }
 
+void readDreamStadiums(List<stadium>& dream, std::string fileName){
+    std::ifstream input(fileName);
+    bool AL = false;
+
+    if(input.is_open()){
+        std::string line;
+        int i = 0;
+        stadium temp;
+        while(std::getline(input, line)){
+            if(line == "AMERICAN LEAGUE TEAMS:"){
+                AL = true;
+                i -= 2;
+            } else if(line == "NATIONAL LEAGUE TEAMS:"){
+                AL = false;
+                i -= 2;
+            } else{
+                switch(i){
+                case 0:
+                    temp.setName(line);
+                    break;
+                case 1:
+                    temp.setTeamName(line);
+                    break;
+                case 2:
+                    temp.setAddress(line);
+                    break;
+                case 3:
+                    temp.setAddress2(line);
+                    break;
+                case 4:
+                    temp.setphone(line);
+                    break;
+                case 5:
+                    line = line.substr(line.find('-')+2);
+                    temp.setOpenDate(line);
+                    break;
+                case 6:
+                    line = line.substr(line.find('-')+2);
+                    temp.setCapacity(line);
+                    if(AL){
+                        temp.setType("American League");
+                    } else{
+                        temp.setType("National League");
+                    }
+                    dream.append(temp);
+                    i = -2;
+                }
+            }
+            i++;
+        }
+    }
+
+    input.close();
+}
+
 void readEdges(graph &g,                        // IN - graph object
                std::string fileName){                // IN - name of stadium file
     std::cout << "Reading Edges" << std::endl;
@@ -85,7 +140,7 @@ void readEdges(graph &g,                        // IN - graph object
 void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
                    std::string fileName){        // IN - name of file
     std::string line;
-    ifstream input(fileName);
+    std::ifstream input(fileName);
     if(input.is_open()){
         while(std::getline(input, line)){
             // line should be: "name, $xx.xx, quantity"
@@ -107,6 +162,47 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
     }
 }
 
+void saveDreamStadiums(List<stadium>& dream, std::string fileName){
+    std::ofstream output(fileName);
+
+    if(output.is_open()){
+        List<stadium> al;
+        for(int i = 0; i < dream.size(); i++){
+            if(dream[i].getType() == "American Leauge"){
+                al.append(dream[i]);
+            }
+        }
+        output << "AMERICAN LEAGUE TEAMS:\n";
+        output << "-----------------------------\n";
+        for(int i = 0; i < al.size(); i++){
+            output << al[i].getStadiumName() << "\n";
+            output << al[i].getTeamName() << "\n";
+            output << al[i].getAddress() << "\n";
+            output << al[i].getAddress2() << "\n";
+            output << al[i].getPhone() << "\n";
+            output << "Opened - " << al[i].getOpenDate() << "\n";
+            output << "Capacity - " << al[i].getCapacity() << "\n";
+        }
+
+        for(int i = 0; i < dream.size(); i++){
+            if(dream[i].getType() == "National Leauge"){
+                al.append(dream[i]);
+            }
+        }
+        output << "NATIONAL LEAGUE TEAMS:\n";
+        output << "-----------------------------\n";
+        for(int i = 0; i < al.size(); i++){
+            output << al[i].getStadiumName() << "\n";
+            output << al[i].getTeamName() << "\n";
+            output << al[i].getAddress() << "\n";
+            output << al[i].getAddress2() << "\n";
+            output << al[i].getPhone() << "\n";
+            output << "Opened - " << al[i].getOpenDate() << "\n";
+            output << "Capacity - " << al[i].getCapacity() << "\n";
+        }
+    }
+}
+
 void saveStadiums(graph &g, std::string fileName){
     std::ofstream output(fileName);
 
@@ -119,21 +215,23 @@ void saveStadiums(graph &g, std::string fileName){
             output << al[i].getStadiumName() << "\n";
             output << al[i].getTeamName() << "\n";
             output << al[i].getAddress() << "\n";
+            output << al[i].getAddress2() << "\n";
             output << al[i].getPhone() << "\n";
             output << "Opened - " << al[i].getOpenDate() << "\n";
-            output << "Capacity - " << al[i].getCapacity() << "\n";
+            output << "Capacity - " << al[i].getCapacity() << "\n\n";
         }
 
-        al = g.getNationalLeagueStadiums();
+        List<stadium>nl = g.getNationalLeagueStadiums();
         output << "NATIONAL LEAGUE TEAMS:\n";
         output << "-----------------------------\n";
-        for(int i = 0; i < al.size(); i++){
-            output << al[i].getStadiumName() << "\n";
-            output << al[i].getTeamName() << "\n";
-            output << al[i].getAddress() << "\n";
-            output << al[i].getPhone() << "\n";
-            output << "Opened - " << al[i].getOpenDate() << "\n";
-            output << "Capacity - " << al[i].getCapacity() << "\n";
+        for(int i = 0; i < nl.size(); i++){
+            output << nl[i].getStadiumName() << "\n";
+            output << nl[i].getTeamName() << "\n";
+            output << nl[i].getAddress() << "\n";
+            output << nl[i].getAddress2() << "\n";
+            output << nl[i].getPhone() << "\n";
+            output << "Opened - " << nl[i].getOpenDate() << "\n";
+            output << "Capacity - " << nl[i].getCapacity() << "\n\n";
         }
     }
 
@@ -144,11 +242,13 @@ void saveEdges(graph& g, std::string fileName){
     std::ofstream output(fileName);
 
     if(output.is_open()){
-        List<stadium> s = g.getAmericanLeagueStadiums();
+        List<stadium> s;
+        s = g.getAmericanLeagueStadiums();
         List<stadiumNode> edge;
         std::string source;
         std::string destination;
         int distance;
+
         for(int i = 0; i < s.size(); i++){
             edge = g.getedges(s[i]);
             source = s[i].getStadiumName();
@@ -158,14 +258,15 @@ void saveEdges(graph& g, std::string fileName){
                 output << source << ", " << destination << ", " << distance << "\n";
             }
         }
-
-        s = g.getNationalLeagueStadiums();
-        for(int i = 0; i < s.size(); i++){
-            edge = g.getedges(s[i]);
-            source = s[i].getStadiumName();
-            for(int j = 0; j < edge.size(); j++){
-                destination = edge[j]._des.getStadiumName();
-                distance = edge[j]._distance;
+        List<stadium> nl;
+        nl = g.getNationalLeagueStadiums();
+        List<stadiumNode> edges;
+        for(int i = 0; i < nl.size(); i++){
+            edges = g.getedges(nl[i]);
+            source = nl[i].getStadiumName();
+            for(int j = 0; j < edges.size(); j++){
+                destination = edges[j]._des.getStadiumName();
+                distance = edges[j]._distance;
                 output << source << ", " << destination << ", " << distance << "\n";
             }
         }
@@ -175,7 +276,7 @@ void saveEdges(graph& g, std::string fileName){
 
 void saveSouvenirs(souvenirs& s,        // IN - the souvenirs object to read
                    std::string fileName){    // IN - name of file
-    ofstream output(fileName);
+    std::ofstream output(fileName);
     for(int i = 0; i < s.getSize(); i++){
         output << s[i].getName() << ", $" << s[i].getPrice() << ", " << s[i].getQuantity();
         output << "\n" << s[i].getDescription();
