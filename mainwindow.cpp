@@ -61,17 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         if(!ui->stackedWidget->children()[i]->inherits("QWidget"))
             continue;
-
-        cout << "PREPAGE[" << j << "] = " << ui->stackedWidget->children()[i]->objectName().toStdString() << "\n";
-        pageMap[ui->stackedWidget->children()[i]->objectName().toStdString()] = j++;
-        keyList.push(ui->stackedWidget->children()[i]->objectName().toStdString());
-    }
-    // Reverse indexes for map pages
-    for(i = 0; i < j; i++)
-    {
-        cout << "PAGE[" << (j - 1 - pageMap[keyList.top()]) << "] = " << keyList.top() << "\n";
-        pageMap[keyList.top()] = j - 1 - pageMap[keyList.top()];
-        keyList.pop();
+        pageMap[ui->stackedWidget->children()[i]->objectName().toStdString()] = (QWidget*) ui->stackedWidget->children()[i];
     }
 }
 
@@ -90,9 +80,10 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
+
 void MainWindow::gotoPage(string pg)
 {
-    ui->stackedWidget->setCurrentIndex(pageMap[pg]);
+    ui->stackedWidget->setCurrentWidget(pageMap[pg]);
 }
 
 void MainWindow::on_customerPushButtonMenu_clicked()

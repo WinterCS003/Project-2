@@ -146,7 +146,7 @@ private:
 
     void deleteDreamStadium(string stadiumName);    //IN - stadium to del
 
-    map<string, int> pageMap;       // ATT - map of page numbers by QWidget name
+    map<string, QWidget*> pageMap;       // ATT - map of page numbers by QWidget name
 
     graph g;
 
