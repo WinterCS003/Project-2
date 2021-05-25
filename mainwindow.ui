@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>827</width>
-    <height>622</height>
+    <width>828</width>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -82,6 +82,24 @@
        <string>Stadium Information</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>20</y>
+        <width>131</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Welcome!</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="custWelcomePage">
      <widget class="QLabel" name="custWelcomeLabel">
@@ -94,7 +112,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/baseballCalculatorLogo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Plan Your Trip!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="allNLStadiumsButton">
@@ -327,12 +345,12 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>320</x>
         <y>0</y>
-        <width>151</width>
+        <width>171</width>
         <height>101</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/mlbLOGO.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Stadium Info&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
@@ -347,7 +365,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Map&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Map&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="dreamMap">
@@ -465,7 +483,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/adminLogoo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Make Changes&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="adminPgDoneButton">
@@ -566,32 +584,6 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
-     <widget class="QLabel" name="mapLogo_2">
-      <property name="geometry">
-       <rect>
-        <x>610</x>
-        <y>30</y>
-        <width>141</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/planVacayLogo.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="mlbLogo_2">
-      <property name="geometry">
-       <rect>
-        <x>610</x>
-        <y>110</y>
-        <width>151</width>
-        <height>101</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/mlbLOGO.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="stadiuminfotable">
      <widget class="QPushButton" name="backtoMain">
@@ -610,9 +602,9 @@ p, li { white-space: pre-wrap; }
      <widget class="QTableWidget" name="tableWidget_2">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>0</x>
         <y>80</y>
-        <width>711</width>
+        <width>811</width>
         <height>401</height>
        </rect>
       </property>
@@ -625,6 +617,41 @@ p, li { white-space: pre-wrap; }
       <property name="styleSheet">
        <string notr="true">alternate-background-color: rgb(255, 255, 255);</string>
       </property>
+      <column>
+       <property name="text">
+        <string>Stadium Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Team Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Address</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Phone Number</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Opened</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Capacity</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Surface Type</string>
+       </property>
+      </column>
      </widget>
      <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
@@ -653,7 +680,12 @@ p, li { white-space: pre-wrap; }
         <widget class="QComboBox" name="GrassSurface">
          <item>
           <property name="text">
-           <string>All</string>
+           <string>Team Name</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Stadium Name</string>
           </property>
          </item>
          <item>
@@ -669,6 +701,11 @@ p, li { white-space: pre-wrap; }
          <item>
           <property name="text">
            <string>American Leagues</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Date Opened</string>
           </property>
          </item>
         </widget>
@@ -911,21 +948,21 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="map2">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>40</x>
         <y>40</y>
-        <width>631</width>
-        <height>441</height>
+        <width>640</width>
+        <height>416</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logos/Blank_US_Map.jpg&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="DoneButton2">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>500</y>
+        <x>260</x>
+        <y>530</y>
         <width>181</width>
         <height>31</height>
        </rect>
@@ -954,7 +991,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>827</width>
+     <width>828</width>
      <height>21</height>
     </rect>
    </property>

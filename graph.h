@@ -37,7 +37,7 @@ public:
     ~graph();
 
 
-    stadium getStadiumInfo(string stadiumName); // IN -  stadium name
+    stadium getStadiumInfo(stadium s); // IN -  stadium name
 
     stadiumNode getedge(stadium stadiumSrc, // IN -  stadium source name
                         stadium stadiumDes);// IN -  stadium destination name

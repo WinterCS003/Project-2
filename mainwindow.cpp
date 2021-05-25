@@ -3,8 +3,8 @@
 
 #include "files.h"
 #include <sstream>
-#include <QPainter>
 #include <stack>        // Provides stack type
+#include <algorithm>    // sort
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -15,19 +15,21 @@ MainWindow::MainWindow(QWidget *parent)
     stack<string> keyList;
 
     ui->setupUi(this);
-    gotoPage("mainMenu");
 
     // set up souvenirs
     try{
-    readSouvenirs(s, "textFiles/SouvenirList.txt");
-    readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
-    // set up graph
-    readStadiums(g, "textFiles/stadiums.txt");
-    readEdges(g, "textFiles/stadiumDistances.txt");
-    readDreamStadiums(newStadiumaAddedbyUser, "textFiles/dreamStadiums.txt");
-} catch(const char* msg){
+        readSouvenirs(s, "textFiles/SouvenirList.txt");
+        readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
+        // set up graph
+        readStadiums(g, "textFiles/stadiums.txt");
+        readEdges(g, "textFiles/stadiumDistances.txt");
+        readDreamStadiums(newStadiumaAddedbyUser, "textFiles/dreamStadiums.txt");
+    } catch(const char* msg){
         std::cout << msg << std::endl;
     }
+
+    ui->tableWidget_2->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     ui->allStadiums->setEditTriggers(QAbstractItemView::NoEditTriggers);
     for(int i = 0; i < g.stadiums.size(); i++){
         ui->allStadiums->insertRow(i);
@@ -63,6 +65,37 @@ MainWindow::MainWindow(QWidget *parent)
             continue;
         pageMap[ui->stackedWidget->children()[i]->objectName().toStdString()] = (QWidget*) ui->stackedWidget->children()[i];
     }
+    gotoPage("mainMenu");
+
+    loadMap(g);
+}
+
+void MainWindow::loadMap(graph g){
+    img.load("textFiles/map.png");
+    paint.begin(&img);
+
+    yellow.setColor(QColor(0, 255, 255));
+    yellow.setWidth(10);
+
+    line.setColor(QColor(0, 0, 0));
+    line.setWidth(1);
+
+    red.setColor(QColor(255, 0, 0));
+    red.setWidth(10);
+
+    paint.setPen(red);
+    paint.drawPoint(630, 410);
+
+    paint.setPen(yellow);
+    paint.drawPoint(10, 10);
+    paint.setPen(line);
+
+//    paint.drawLine(50, 100, 100, 80);
+//    paint.drawText(75, 90, "100");
+
+    ui->map2->setPixmap(img);
+    ui->map2->show();
+    std::cout << "loading images" << std::endl;
 }
 
 MainWindow::~MainWindow()
@@ -121,8 +154,9 @@ void MainWindow::on_souvenirsDoneButton_clicked()
 void MainWindow::setStadiumTextBrowser(string stadiumTemp)
 {
     gotoPage("stadiumInfoPage");
-    stadium temp;
-    temp = g.getStadiumInfo(stadiumTemp);
+    stadium temp, s;
+    s.setName(stadiumTemp);
+    temp = g.getStadiumInfo(s);
     string info = temp.getAllInfo();
     QString a;
     a = QString::fromStdString(info);
@@ -145,14 +179,41 @@ void MainWindow::on_exitMainButton_clicked()
 void MainWindow::on_stadiumsByNameButton_clicked()
 {
     gotoPage("stadiumInfoPage");
-
 }
+
+bool MainWindow::TeamName(node<stadium>& s1, node<stadium>& s2){
+    return s1._data.getTeamName() < s2._data.getTeamName();
+}
+
+bool MainWindow::StadiumName(node<stadium>& s1, node<stadium>& s2){
+    return s1._data.getStadiumName() < s2._data.getStadiumName();
+}
+
+bool MainWindow::Date(node<stadium>& s1, node<stadium>& s2){
+    return s1._data.getOpenDate() < s2._data.getOpenDate();
+}
+
 void MainWindow::on_stadiumTableInfo_clicked()
 {
+    List<stadium> temp = g.stadiums;
+
+    temp.sort(TeamName);
+
+    for(int i = 0; i < temp.size(); i++){
+        ui->tableWidget_2->insertRow(i);
+        ui->tableWidget_2->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(temp[i].getStadiumName())));
+        ui->tableWidget_2->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(temp[i].getTeamName())));
+        ui->tableWidget_2->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(temp[i].getAddress())));
+        ui->tableWidget_2->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(temp[i].getPhone())));
+        ui->tableWidget_2->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(temp[i].getOpenDate())));
+        ui->tableWidget_2->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(temp[i].getCapacity())));
+        ui->tableWidget_2->setItem(i, 6, new QTableWidgetItem(QString::fromStdString(temp[i].getFieldSurface())));
+    }
+
     gotoPage("stadiuminfotable");
 }
-void MainWindow::on_gobacktomainpage_clicked()
 
+void MainWindow::on_gobacktomainpage_clicked()
 {
     gotoPage("mainMenu");
 }
@@ -248,7 +309,9 @@ void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
 
 void MainWindow::planTeamButtons(string stadiumName)
 {
-    stadium search = g.getStadiumInfo(stadiumName);
+    stadium temp;
+    temp.setName(stadiumName);
+    stadium search = g.getStadiumInfo(temp);
 
     if(ui->stadiumInfoCheckBox->isChecked()){
         ui->stadiumCheckBoxBrowser->setText(QString::fromStdString(search.getAllInfo()));
@@ -540,5 +603,40 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
         g.stadiums[i].setFieldSurface(item->text().toStdString());
     } else{
 
+    }
+}
+
+void MainWindow::on_GrassSurface_currentIndexChanged(int index)
+{
+    List<stadium> temp = g.stadiums;
+
+    if(index == 0){
+        temp.sort(TeamName);
+    } else if(index == 1){
+        temp.sort(StadiumName);
+    } else if(index == 2){
+        temp = g.getStadiumWithGrassField();
+        temp.sort(TeamName);
+    } else if(index == 3){
+        temp = g.getNationalLeagueStadiums();
+        temp.sort(TeamName);
+    } else if(index == 4){
+        temp = g.getAmericanLeagueStadiums();
+        temp.sort(TeamName);
+    } else{
+        temp = g.stadiums;
+        temp.sort(Date);
+    }
+
+    ui->tableWidget_2->setRowCount(0);
+    for(int i = 0; i < temp.size(); i++){
+        ui->tableWidget_2->insertRow(i);
+        ui->tableWidget_2->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(temp[i].getStadiumName())));
+        ui->tableWidget_2->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(temp[i].getTeamName())));
+        ui->tableWidget_2->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(temp[i].getAddress())));
+        ui->tableWidget_2->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(temp[i].getPhone())));
+        ui->tableWidget_2->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(temp[i].getOpenDate())));
+        ui->tableWidget_2->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(temp[i].getCapacity())));
+        ui->tableWidget_2->setItem(i, 6, new QTableWidgetItem(QString::fromStdString(temp[i].getFieldSurface())));
     }
 }

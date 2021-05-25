@@ -10,6 +10,10 @@
 #include <string>
 #include <map>
 
+#include <QPixmap>
+#include <QPainter>
+#include <QPen>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -32,6 +36,7 @@ public:
     void gotoPage(string pg);      //IN - page to switch to
 
 private slots:
+    void loadMap(graph g);
 
     void on_exitMainButton_clicked();
 
@@ -130,9 +135,23 @@ private slots:
 
     void on_modificationTable_itemChanged(QTableWidgetItem *item);
 
+    void on_GrassSurface_currentIndexChanged(int index);
+
+    static bool TeamName(node<stadium>& s1, node<stadium>& s2);
+
+    static bool StadiumName(node<stadium>& s1, node<stadium>& s2);
+
+    static bool Date(node<stadium>& s1, node<stadium>& s2);
+
+
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
 
+    QPixmap img;
+    QPainter paint;
+    QPen red;
+    QPen yellow;
+    QPen line;
 
     QString getDreamStrArray();
     QString stadiumPathText = "";   // ATT - text to display path
@@ -152,7 +171,6 @@ private:
 
     souvenirs s;
     souvenirs purchases;
-
 
     userInfo client;
 

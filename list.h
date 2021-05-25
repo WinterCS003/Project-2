@@ -9,6 +9,7 @@ template <typename ITEM>
 struct node{
     ITEM _data;
     node<ITEM>* _next;
+    node<ITEM>* _previous;
     node(){};
     node(ITEM i): _data(i), _next(nullptr){};
 };
@@ -62,6 +63,8 @@ public:
 
     int size() const { return _size; };
 
+    void sort(bool (*compare)(node<T>&, node<T>&));
+
 private:
     node<T>* head = nullptr;      //ATT - front of list
     node<T>* tail = nullptr;
@@ -109,18 +112,18 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
         delete temp;
         _size--;
         if(isEmpty()){
-            head = tail = nullptr;
-        } else if(_size == 1){ // delete head, update to point to tail
-            head = tail;
+            tail = nullptr;
+        }
+        if(head == tail){
+            tail->_previous = nullptr;
         }
         return iMarker;
     }
 
-    for(node<T>* current = head; current->_next != nullptr; current = current->_next){
-        if(current->_next->_data == iMarker){
-            node<T>* temp = current->_next;
-            current->_next = temp->_next;
-            delete temp;
+    for(node<T>* current = head; current != nullptr; current = current->_next){
+        if(current->_data == iMarker){
+            current->_previous->_next = current->_next;
+            delete current;
             if(--_size == 1){ // delete tail update to point to head
                 tail = head;
             }
@@ -139,6 +142,7 @@ void List<T>::clear(){
         curr = curr->_next;
         delete temp;
     }
+    this->head = this->tail = nullptr;
     _size = 0;
 }
 
@@ -183,21 +187,42 @@ node<T>* List<T>::Begin() const{
 
 template<class T>
 node<T>* List<T>::End() const{
-    return tail;
+    if(isEmpty()){
+        return head;
+    }
+
+    return tail->_next; // nullptr
 }
 
 template <class T>
 node<T>* List<T>::append(T i){
-    _size++;
-    if(isEmpty()){
+    if(_size++ == 0){
         tail = head = new node<T>(i);
         return head;
     }
 
     tail->_next = new node<T>(i);
+    tail->_next->_previous = tail;
     tail = tail->_next;
+
     return tail;
 }
 
+template <class T>
+void List<T>::sort(bool (*compare)(node<T>&, node<T>&)){
+    if(isEmpty()){
+        return;
+    }
+
+    for(node<T>* curr = head->_next; curr != nullptr; curr = curr->_next){
+        node<T>* temp = curr;
+        while(temp != head && compare(*temp, *temp->_previous)){
+            T t = temp->_data;
+            temp->_data = temp->_previous->_data;
+            temp->_previous->_data = t;
+            temp = temp->_previous;
+        }
+    }
+}
 
 #endif // LIST_H

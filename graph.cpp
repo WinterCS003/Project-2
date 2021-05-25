@@ -12,13 +12,8 @@ graph::~graph(){
     adjList.clear();
 }
 
-stadium graph::getStadiumInfo(string stadiumName){
-    for(node<stadium>* curr = stadiums.Begin(); curr != nullptr ;curr = curr->_next){
-        if(curr->_data.getStadiumName() == stadiumName){
-            return curr->_data;
-        }
-    }
-    throw stadiumName + "NOT FOUND";
+stadium graph::getStadiumInfo(stadium s){
+    return stadiums.Search(s)->_data;
 }
 
 stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){

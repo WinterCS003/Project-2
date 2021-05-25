@@ -121,7 +121,7 @@ Opened - April 16, 2009
 Capacity - 50,291
 
 NATIONAL LEAGUE TEAMS:
---------------------------------
+-----------------------------
 AT&T Park
 San Francisco Giants
 24 Willie Mays Plaza
@@ -241,3 +241,4 @@ Chicago, IL 60613
 (773) 404-2827
 Opened - April 23, 1914
 Capacity - 42,374
+

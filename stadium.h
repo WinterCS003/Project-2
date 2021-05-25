@@ -25,48 +25,48 @@ public:
     bool operator == (const stadium& other); // IN - stadium to copy
     bool operator == (const std::string& other); // IN - stadium to copy
 
-    string getStadiumName(){
+    string getStadiumName() const {
         return _sName;
     }
 
-    string getTeamName(){
+    string getTeamName() const {
         return _teamName;
     }
 
-    string getAddress(){
+    string getAddress() const {
         return _address;
     }
 
-    string getAddress2(){
+    string getAddress2() const {
         return _address2;
     }
 
-    string getPhone(){
+    string getPhone() const {
         return _phone;
     }
 
-    string getOpenDate(){
+    string getOpenDate() const {
         return _openDate;
     }
 
-    string getCapacity(){
+    string getCapacity() const {
         return _capacity;
     }
 
-    string getType(){
+    string getType() const {
         return _type;
     }
-    string getFieldSurface(){
+    string getFieldSurface() const {
         return _surface;
     }
 
 
-    int getXCoor()
+    int getXCoor() const
     {
         return xPixel;
     }
 
-    int getYCoor()
+    int getYCoor() const
     {
         return yPixel;
     }

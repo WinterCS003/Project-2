@@ -124,10 +124,13 @@ void readEdges(graph &g,                        // IN - graph object
     if(input.is_open()){
         while(std::getline(input, line)){
             std::string s = line.substr(0, line.find(','));
-            stadium source = g.getStadiumInfo(s);
+            stadium temp;
+            temp.setName(s);
+            stadium source = g.getStadiumInfo(temp);
 
             s = line.substr(line.find(',')+2, line.find_last_of(',') - line.find(',') - 2);
-            stadium des = g.getStadiumInfo(s);
+            temp.setName(s);
+            stadium des = g.getStadiumInfo(temp);
 
             s = line.substr(line.find_last_of(',')+2);
             int d = std::stoi(s);
