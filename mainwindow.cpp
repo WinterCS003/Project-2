@@ -119,10 +119,14 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::loadMap(graph g, List<stadium>* s){
+    size_t ii;
+
     std::cout << "loading images" << std::endl;
     paint.end();
     paint.eraseRect(0,0, 640, 416);
+
     img.load("textFiles/map.png");
+    img = img.scaled(ui->map2->geometry().width(), ui->map2->geometry().height());
     paint.begin(&img);
 
     yellow.setColor(QColor(0, 255, 255));
@@ -130,6 +134,15 @@ void MainWindow::loadMap(graph g, List<stadium>* s){
 
     line.setColor(QColor(0, 0, 0));
     line.setWidth(1);
+
+    QPen green;
+    green.setColor(QColor(0,255,0));
+    paint.setBrush(Qt::green);
+    for(ii = 0; ii < newStadiumaAddedbyUser.size(); ii++)
+    {
+        paint.drawEllipse(newStadiumaAddedbyUser[ii].getXCoor()-10, newStadiumaAddedbyUser[ii].getYCoor()-10, 20, 20);
+    }
+    g.getShortestTripPath(newStadiumaAddedbyUser);
 
     red.setColor(QColor(255, 0, 0));
     red.setWidth(10);

@@ -62,11 +62,9 @@ public:
 
     List<stadium> getStadiumListForDijkstras();
 
-
-
     int getSize();
 
-
+    stadium * getStadiumByName(string name);
 
     List<stadiumNode> shortestPath(string src,  // IN -  stadium source name
                                    string des,  // IN -  stadium destin name
@@ -118,6 +116,16 @@ public:
             std::cout << curr->_data.getAllInfo() << std::endl;
         }
     }
+
+    void getShortestTripPath(List<stadium>& targets);
+
+    int getIndex(stadium& target);  // get target index in master list
+
+    void dijkstras(int *path,           // IN/OUT - array to write to
+                   int& nodes_visited,  // OUT - how many nodes visited
+                   int& distance,       // OUT - total distance
+                   int src,             // IN - starting index
+                   int *unused_targets, int unused_targets_size);           // IN - ending index
 
 
 private:

@@ -1,0 +1,225 @@
+#include "b-tree.h"
+
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+btree::btree(): _root(nullptr) {}
+
+btree::~btree()
+{
+  stack<Node23*> nodes;
+  Node23 *currentNode;
+
+  if(_root == nullptr)
+    return;
+  
+  nodes.push(_root);
+  while(!nodes.empty())
+  {
+    currentNode = nodes.top();
+    nodes.pop();
+
+    if(currentNode->left != nullptr)
+      nodes.push(currentNode->left);
+    if(currentNode->mid != nullptr)
+      nodes.push(currentNode->mid);
+    if(currentNode->right != nullptr)
+      nodes.push(currentNode->right);
+
+    delete currentNode;
+  }
+}
+
+void btree::Insert(int value)
+{
+  stack<Node23*> nodeStack;
+  Node23 *currentNode, *parentNode, *tempNode;
+  bool needFix;
+  int temp;
+
+  if(_root == nullptr)
+  {
+    _root = new Node23();
+    _root->small = value;
+    return;
+  }
+
+  nodeStack.push(_root);
+  needFix = false;
+  // Find leaf node and insert value
+  while(!nodeStack.empty())
+  {
+    currentNode = nodeStack.top();
+
+    // Small should always have a value
+    // Check if large empty
+    if(currentNode->large == -1)
+    {
+      // Only need to check one side since balanced tree
+      // Handle leaf
+      if(currentNode->left == nullptr)
+      {
+        // Handle small in correct spot
+        if(currentNode->small < value)
+        {
+          currentNode->large = value;
+          break;
+        }
+
+        // Handle new value is small
+        currentNode->large = currentNode->small;
+        currentNode->small = value;
+        break;
+      }
+
+      // Handle not leaf
+      if(currentNode->small > value)
+        nodeStack.push(currentNode->left);
+      else
+        nodeStack.push(currentNode->mid);
+      continue;
+    }
+
+    // Handle small and large exists
+    // Handle leaf
+    if(currentNode->left == nullptr)
+    {
+      tempNode = new Node23();
+      if(value < currentNode->small)
+      { // Handle smallest
+        tempNode->small = currentNode->small;
+        currentNode->small = value;
+      }
+      else if(value > currentNode->large)
+      { // Handle largest
+        tempNode->small = currentNode->large;
+        currentNode->large = value;
+      }
+      else
+      { // Handle middle value
+        tempNode->small = value;
+      }
+      needFix = true;
+      break;
+    }
+
+    // Handle new traverse
+    if(value < currentNode->small)
+      nodeStack.push(currentNode->left);
+    else if(value > currentNode->large)
+      nodeStack.push(currentNode->right);
+    else
+      nodeStack.push(currentNode->mid);
+  }
+
+  // Tree good
+  if(!needFix)
+    return;
+  
+  // Fix tree
+  while(!nodeStack.empty())
+  {
+    currentNode = nodeStack.top();
+    nodeStack.pop();
+    parentNode = nodeStack.top();
+
+    // Handle parent node has one value
+    if(parentNode->large == -1)
+    {
+      // Handle came up from left
+      if(parentNode->left == currentNode)
+      {
+        // Set parent values
+        parentNode->large = parentNode->small;
+        parentNode->small = value;
+
+        // Move child nodes
+        parentNode->right = parentNode->mid;
+        parentNode->mid = new Node23();
+
+        // Change child values
+        parentNode->mid->small = currentNode->large;
+        currentNode->large = -1;
+        break;
+      }
+
+      // Handle came up from right
+      // Set parent values
+      parentNode->large = value;
+
+      // Move child nodes
+      parentNode->right = new Node23();
+
+      // Change child values
+      parentNode->right->small = currentNode->large;
+      currentNode->large = -1;
+      break;
+    }
+
+    // Handle full parent
+    tempNode = new Node23();
+    if(parentNode->left == currentNode)
+    { // Handle came from left
+      tempNode->small = parentNode->small;
+      tempNode->left = 
+      
+      currentNode->mid = new Node23();
+      currentNode->mid->small = currentNode->large;
+    }
+    else if(parentNode->mid == currentNode)
+    { // Handle came from mid
+      tempNode->small = value;
+
+      tempNode->mid = new Node23();
+      tempNode->mid->small = parentNode->large;
+      tempNode->mid->left = new Node23();
+      tempNode->mid->mid = parentNode->right;
+      
+      tempNode->left = parentNode;
+      parentNode->large = - 1;
+      parentNode->mid = currentNode;
+      parentNode->right = nullptr;
+
+      currentNode->large = -1;
+    }
+    else
+    { // Handle came from right
+      tempNode->small = parentNode->large;
+      tempNode->left = parentNode->left;
+      tempNode->right = parentNode->right;
+       
+    }
+
+    // Handle parent is root
+    if(parentNode == _root)
+    {
+      _root = new Node23();
+      _root->small = value;
+
+
+      break;
+    }
+  }
+}
+
+void btree::Remove(int value)
+{
+  
+}
+
+void btree::InOrderDisplay()
+{
+  
+}
+
+void btree::PreOrderDisplay()
+{
+  
+}
+
+void btree::PostOrderDisplay()
+{
+  
+}

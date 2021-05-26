@@ -51,6 +51,18 @@ int graph::getSize(){
     return _size;
 }
 
+
+stadium * graph::getStadiumByName(string name)
+{
+    size_t i;
+
+    for(i = 0; i < stadiums.size(); i++)
+        if(stadiums[i].getStadiumName() == name)
+            return &stadiums[i];
+
+    return nullptr;
+}
+
 List<stadium> graph::getStadiumWithGrassField(){
     List<stadium> output;
     for(int i = 0; i < _size; i++){
@@ -203,4 +215,173 @@ void graph::removeStadium(stadium toRemove){
     adjList.Delete(index);
     stadiums.Delete(toRemove);
     _size--;
+}
+
+#include <list>
+
+void graph::getShortestTripPath(List<stadium> &targets)
+{
+    int total_path[stadiums.size()*stadiums.size()];
+    int total_path_used;
+    int unused_targets[targets.size() - 1];
+    int unused_targets_size;
+    int total_distance;
+    int target_indices[targets.size()];
+    int target_indices_used;
+    int i, j;
+
+    int path[stadiums.size()];
+    int nodes_visited;
+    int distance;
+
+    if(targets.size() < 2)
+        return;
+
+    unused_targets_size = targets.size()-1;
+    for(i = 0; i < targets.size()-1; i++)
+        unused_targets[i] = getIndex(targets[i+1]);
+
+    total_path_used = 1;
+    total_distance = 0;
+    total_path[0] = getIndex(targets[0]);
+    target_indices[0] = 0;
+    target_indices_used = 1;
+    for(i = 1; i < targets.size(); i++)
+    {
+        dijkstras(path, nodes_visited, distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
+        for(j = 1; j < nodes_visited; j++)
+            total_path[total_path_used++] = path[j];
+        target_indices[target_indices_used++] = total_path_used-1;
+        total_distance += distance;
+    }
+
+    target_indices_used = 0;
+    for(i = 0; i < total_path_used; i++)
+    {
+        if(i == target_indices[target_indices_used])
+        {
+            std::cout << "- Trip Node: ";
+            target_indices_used++;
+        }
+        std::cout << "Visit: " << stadiums[total_path[i]] << "\n";
+    }
+    std::cout << "- Total Distance: " << total_distance << "\n";
+
+    /*
+    int i, j, targetsUsed;
+    int targetsMainIndex[targets.size()];           // cache of target index in main list
+    bool targetVisited[targets.size()];          // cache of if target node was already visited
+    int path[stadiums.size() * stadiums.size()];    // array of nodes to take, "worst case" size
+    int sub_path[stadiums.size()];
+    int distances[stadiums.size()];
+
+    // Cache target indices
+    for(i = 0; i < targets.size(); i++)
+        for(j = 0; j < stadiums.size(); j++)
+            if(stadiums[j].getStadiumName() == targets[i].getStadiumName())
+            {
+                targetsMainIndex[i] = j;
+                break;
+            }
+
+    path[0] = targetsMainIndex[0];
+    targetVisited[0] = true;
+    targetsUsed = 1;
+    // Loop until path found
+    while(targetsUsed < targets.size())
+    {
+        // Loop through every target, other than main
+        for(i = 1; i < targets.size(); i++)
+        {
+            // Skip if used
+            if(targetVisited[i])
+                continue;
+        }
+    }*/
+}
+
+int graph::getIndex(stadium& target)
+{
+    int i;
+
+    for(i = 0; i < stadiums.size(); i++)
+        if(stadiums[i].getStadiumName() == target.getStadiumName())
+            return i;
+
+    return -1;
+}
+
+void graph::dijkstras(int *path,            // IN/OUT - array to write to
+                        int& nodes_visited,       // OUT - how many nodes visited
+                        int& dis,      // OUT - total distance
+                        int src,            // IN - starting index
+                        int *unused_targets,
+                        int unused_targets_size)
+{
+    int max = stadiums.size();
+    int infinity = 1000000;
+
+    int cost[max][max],distances[max],prev[max];
+    int count,min,nextnode,i,j;
+    bool visited[max];
+
+    for(i=0;i<max;i++)
+    {
+        for(j = 0; j < max; j++)
+            cost[i][j] = infinity;
+        for(j = 0; j < adjList[i].size(); j++)
+        {
+            int index = getIndex(adjList[i][j]._des);
+            if(index == i)
+                index = getIndex(adjList[i][j]._src);
+            cost[i][index] = adjList[i][j]._distance;
+        }
+        distances[i] = cost[src][i];
+        prev[i] = src;
+        visited[i] = false;
+    }
+
+
+    distances[src] = 0;
+    visited[src] = 1;
+    count = 1;
+
+    while(count<max-1)
+    {
+        min=-1;
+        for(i=0;i<max;i++)
+        {
+            if(distances[i] != -1 && (min == -1 || distances[i] < min) && !visited[i])
+            {
+                min=distances[i];
+                nextnode=i;
+            }
+        }
+        visited[nextnode] = true;
+        for(i=0;i<max;i++)
+        {
+            if(!visited[i] && distances[i] != -1 && cost[nextnode][i] != -1 && min + cost[nextnode][i] < distances[i]) {
+                distances[i] = min + cost[nextnode][i];
+                prev[i] = nextnode;
+            }
+        }
+        count++;
+    }
+
+    min = distances[unused_targets[0]];
+    int min_i = unused_targets[0];
+    for(i = 1; i < unused_targets_size; i++)
+    {
+        if(distances[unused_targets[i]] != -1 && min > distances[unused_targets[i]])
+        {
+            min = unused_targets[i];
+            min_i = unused_targets[i];
+        }
+    }
+    i = 0;
+    j = min_i;
+    dis = min;
+    for(i = 0, j = min_i; i < max && j != src; i++, j=prev[j])
+        path[i] = j;
+    nodes_visited = i;
 }
