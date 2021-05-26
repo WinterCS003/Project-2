@@ -137,12 +137,24 @@ void MainWindow::loadMap(graph g, List<stadium>* s){
 
     QPen green;
     green.setColor(QColor(0,255,0));
+
+    int total_path[g.stadiums.size()*g.stadiums.size()];
+    int total_path_used;
+    g.getShortestTripPath(total_path, total_path_used, newStadiumaAddedbyUser);
+    QPen trace;
+    trace.setWidth(5);
+    trace.setColor(Qt::darkGreen);
+    paint.setPen(trace);
+    for(ii = 1; ii < total_path_used; ii++)
+    {
+        paint.drawLine(g.stadiums[total_path[ii-1]].getXCoor(), g.stadiums[total_path[ii-1]].getYCoor(), g.stadiums[total_path[ii]].getXCoor(), g.stadiums[total_path[ii]].getYCoor());
+    }
+    paint.setPen(nullptr);
     paint.setBrush(Qt::green);
     for(ii = 0; ii < newStadiumaAddedbyUser.size(); ii++)
     {
         paint.drawEllipse(newStadiumaAddedbyUser[ii].getXCoor()-10, newStadiumaAddedbyUser[ii].getYCoor()-10, 20, 20);
     }
-    g.getShortestTripPath(newStadiumaAddedbyUser);
 
     red.setColor(QColor(255, 0, 0));
     red.setWidth(10);
