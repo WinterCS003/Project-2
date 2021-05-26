@@ -156,46 +156,51 @@ bool graph::checkExist(const List<stadiumNode>& list, string toCheck){
 void graph::removeEdge(stadium src, stadium des){
     int index = stadiums.find(src);
     if(index == -1){
-        throw "Does not exist";
+        throw "Source does not exist";
     }
+    std::cout << "Removing Edges" << std::endl;
+    int i = 0;
     for(node<stadiumNode>* curr = adjList[index].Begin(); curr != nullptr;){
         if(curr->_data._des == des){
+            node<stadiumNode>* temp = curr;
             curr->_previous->_next = curr->_next;
             curr->_next->_previous = curr->_previous;
 
-            delete curr;
+            delete temp;
         }
+        curr = curr->_next;
     }
 
     index = stadiums.find(des);
+    if(index == -1){
+        throw "Destination does not exist";
+    }
     for(node<stadiumNode>* curr = adjList[index].Begin(); curr != nullptr;){
         if(curr->_data._des == src){
+            node<stadiumNode>* temp = curr;
             curr->_previous->_next = curr->_next;
             curr->_next->_previous = curr->_previous;
+            curr = curr->_next;
 
-            delete curr;
+            delete temp;
         }
+        curr = curr->_next;
     }
-
 }
 
 void graph::removeStadium(stadium toRemove){
+    std::cout << "Removing" << std::endl;
     int index = stadiums.find(toRemove);
     if(index == -1){
         throw "Does not exist";
     }
-    adjList.Delete(getedges(toRemove));
-
-    stadiums.Delete(toRemove);
-    _size--;
 
     for(int i = 0; i < _size; i++){
-        for(node<stadiumNode>* curr = adjList[i].Begin(); curr != nullptr; curr = curr->_next){
-            if(curr->_data._des == toRemove){
-                curr->_previous->_next = curr->_next;
-                curr->_next = curr->_previous;
-                delete curr;
-            }
-        }
+        stadium src = stadiums[i];
+        this->removeEdge(src, toRemove);
     }
+
+    adjList.Delete(index);
+    stadiums.Delete(toRemove);
+    _size--;
 }

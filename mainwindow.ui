@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>828</width>
-    <height>606</height>
+    <width>883</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>811</width>
+      <width>861</width>
       <height>571</height>
      </rect>
     </property>
@@ -604,7 +604,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>0</x>
         <y>80</y>
-        <width>811</width>
+        <width>851</width>
         <height>401</height>
        </rect>
       </property>
@@ -650,6 +650,11 @@ p, li { white-space: pre-wrap; }
       <column>
        <property name="text">
         <string>Surface Type</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Type</string>
        </property>
       </column>
      </widget>
@@ -719,7 +724,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>60</y>
-        <width>791</width>
+        <width>801</width>
         <height>441</height>
        </rect>
       </property>
@@ -756,6 +761,11 @@ p, li { white-space: pre-wrap; }
       <column>
        <property name="text">
         <string>Surface Type</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Type</string>
        </property>
       </column>
      </widget>
@@ -971,6 +981,19 @@ p, li { white-space: pre-wrap; }
        <string>Done</string>
       </property>
      </widget>
+     <widget class="QLabel" name="drawing">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>40</y>
+        <width>640</width>
+        <height>416</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="drawnMap">
      <widget class="mapwidget" name="widget_2" native="true">
@@ -985,13 +1008,52 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>580</y>
+      <width>160</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="coordinate">
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="Ycord"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QSpinBox" name="Xcord"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="xLabel">
+       <property name="text">
+        <string>X Coordinate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="yLabel">
+       <property name="text">
+        <string>Y Coordinate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="submit">
+       <property name="text">
+        <string>Submit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>828</width>
+     <width>883</width>
      <height>21</height>
     </rect>
    </property>

@@ -36,7 +36,7 @@ public:
     void gotoPage(string pg);      //IN - page to switch to
 
 private slots:
-    void loadMap(graph g);
+    void loadMap(graph g, List<stadium>* s = nullptr);
 
     void on_exitMainButton_clicked();
 
@@ -61,17 +61,10 @@ private slots:
 
     void on_stadiumTableInfo_clicked();
 
-
-    void on_GrassSurface_currentIndexChanged();
-
-
-
     void on_planTripButton_clicked();
 
 
     void on_pushButton_31_clicked();
-
-    void on_allStadiumsButton_clicked();
 
     void on_pushButton_38_clicked();
 
@@ -96,11 +89,6 @@ private slots:
 
     void on_restartDreamList_clicked();
 
-    void on_allNLStadiumsButton_clicked();
-
-
-    void on_allALStadiumsButton_clicked();
-
 
     void on_backtoMain_clicked();
 
@@ -109,10 +97,6 @@ private slots:
 
 
     void plannedTripTable();
-
-    List<stadium> modify_newStadiumAddedByUser(List<stadium> list);
-
-    bool isNewStadium(stadium);
 
     void on_pushButton_5_clicked();
 
@@ -143,6 +127,18 @@ private slots:
 
     static bool Date(node<stadium>& s1, node<stadium>& s2);
 
+    void on_submit_clicked();
+
+    void loadStadiumTable1();
+
+    void loadStadiumTable2();
+
+    void loadStadiumTable3();
+
+    void loadSouvenirTable1();
+
+    void loadSouvenirTable2();
+
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
 
@@ -152,7 +148,6 @@ private:
     QPen yellow;
     QPen line;
 
-    QString getDreamStrArray();
     QString stadiumPathText = "";   // ATT - text to display path
     QString arrow = " --> \n";      // ATT - arrow for output
     string strArrow = " --> \n";    // ATT - arrow for output
@@ -174,6 +169,5 @@ private:
     userInfo client;
 
     List<stadium> newStadiumaAddedbyUser;
-    List<stadium> getStadiumListALL();
 };
 #endif // MAINWINDOW_H

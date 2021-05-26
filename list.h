@@ -26,19 +26,19 @@ public:
 
     List& operator =(const List& RHS);  //IN - list to copy
 
-    bool operator ==(const List& rhs){  //IN - list to compare
-        node<T>* w = this->head;        // CALC - to traverse
-        node<T>* w2 = rhs.head;         // CALC - to traverse rhs
+//    bool operator ==(const List& rhs){  //IN - list to compare
+//        node<T>* w = this->head;        // CALC - to traverse
+//        node<T>* w2 = rhs.head;         // CALC - to traverse rhs
 
-        while(w || w2){
-            if (!(w->_data == w2->_data)){
-                return false;
-            }
-            w = w->_next;
-            w2 = w2->_next;
-        }
-        return true;
-    }
+//        while(w || w2){
+//            if (!(w->_data == w2->_data)){
+//                return false;
+//            }
+//            w = w->_next;
+//            w2 = w2->_next;
+//        }
+//        return true;
+//    }
 
 
     bool isEmpty() const;
@@ -46,6 +46,8 @@ public:
     node<T>* append(T i);
 
     T Delete(const T& iMarker);         // IN - delete node pointed by iMarker
+
+    bool Delete(int i);
 
     void clear();
 
@@ -106,6 +108,11 @@ List<T>& List<T>::operator=(const List& RHS){
 
 template<class T>
 T List<T>::Delete(const T& iMarker){        //IN - delete this
+    std::cout << "Deleting" << std::endl;
+    if(isEmpty()){
+        throw "Trying to delete on an empty list";
+    }
+
     if(head->_data == iMarker){
         node<T>* temp = head;
         head = head->_next;
@@ -113,27 +120,85 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
         _size--;
         if(isEmpty()){
             tail = nullptr;
-        }
-        if(head == tail){
+        } else if(head == tail){
             tail->_previous = nullptr;
         }
         return iMarker;
     }
 
-    for(node<T>* current = head; current != nullptr; current = current->_next){
+    if(tail->_data == iMarker){
+        _size--;
+        node<T>* temp = tail;
+        tail = tail->_previous;
+        tail->_next = nullptr;
+        delete temp;
+
+        return iMarker;
+    }
+
+    for(node<T>* current = head; current != tail;){
         if(current->_data == iMarker){
+            std::cout << "Found" << std::endl;
             current->_previous->_next = current->_next;
             current->_next->_previous = current->_previous;
             delete current;
-            if(--_size == 1){ // delete tail update to point to head
-                tail = head;
-            }
+            _size--;
 
             return iMarker;
         }
+        current = current->_next;
+    }
+
+
+    throw "Does not exist";
+}
+
+template <class T>
+bool List<T>::Delete(int i){
+    std::cout << "Deleting" << std::endl;
+    if(isEmpty()){
+        throw "Trying to delete on an empty list";
+    }
+
+    if(i == 0){
+        node<T>* temp = head;
+        head = head->_next;
+        delete temp;
+        _size--;
+        if(isEmpty()){
+            tail = nullptr;
+        } else if(head == tail){
+            tail->_previous = nullptr;
+        }
+        return true;
+    }
+
+    if(i == _size-1){
+        _size--;
+        node<T>* temp = tail;
+        tail = tail->_previous;
+        tail->_next = nullptr;
+        delete temp;
+
+        return true;
+    }
+
+    int pos = 0;
+    for(node<T>* current = head; current != tail;pos++){
+        if(pos == i){
+            std::cout << "Found" << std::endl;
+            current->_previous->_next = current->_next;
+            current->_next->_previous = current->_previous;
+            delete current;
+            _size--;
+
+            return true;
+        }
+        current = current->_next;
     }
 
     throw "Does not exist";
+    return false;
 }
 
 template <class T>
