@@ -19,7 +19,7 @@ stadium graph::getStadiumInfo(stadium s){
 stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
     int index = stadiums.find(stadiumSrc);
     for(int i = 0; i < adjList[index].size(); i++){
-        if(adjList[index][i] == stadiumDes){
+        if(adjList[index][i]._des == stadiumDes){
             return adjList[index][i];
         }
     }
@@ -43,7 +43,7 @@ void graph::addStadium(stadium s){
 
 void graph::addEdge(stadium src, stadium des, int distance){
     int index = stadiums.find(src);
-    stadiumNode temp(des, distance);
+    stadiumNode temp(src, des, distance);
     adjList[index].append(temp);
 }
 
@@ -158,11 +158,22 @@ void graph::removeEdge(stadium src, stadium des){
     if(index == -1){
         throw "Does not exist";
     }
-    for(node<stadiumNode>* curr = adjList[index].Begin(); curr->_next != nullptr;){
-        if(curr->_next->_data == des){
-            node<stadiumNode>* temp = curr->_next;
-            curr->_next = temp->_next;
-            delete temp;
+    for(node<stadiumNode>* curr = adjList[index].Begin(); curr != nullptr;){
+        if(curr->_data._des == des){
+            curr->_previous->_next = curr->_next;
+            curr->_next->_previous = curr->_previous;
+
+            delete curr;
+        }
+    }
+
+    index = stadiums.find(des);
+    for(node<stadiumNode>* curr = adjList[index].Begin(); curr != nullptr;){
+        if(curr->_data._des == src){
+            curr->_previous->_next = curr->_next;
+            curr->_next->_previous = curr->_previous;
+
+            delete curr;
         }
     }
 
@@ -173,17 +184,17 @@ void graph::removeStadium(stadium toRemove){
     if(index == -1){
         throw "Does not exist";
     }
+    adjList.Delete(getedges(toRemove));
+
     stadiums.Delete(toRemove);
     _size--;
 
-    adjList[index].clear();
-
     for(int i = 0; i < _size; i++){
-        for(node<stadiumNode>* curr = adjList[i].Begin(); curr->_next != nullptr; curr = curr->_next){
-            if(curr->_next->_data == toRemove){
-                node<stadiumNode>* temp = curr->_next;
-                curr->_next = temp->_next;
-                delete temp;
+        for(node<stadiumNode>* curr = adjList[i].Begin(); curr != nullptr; curr = curr->_next){
+            if(curr->_data._des == toRemove){
+                curr->_previous->_next = curr->_next;
+                curr->_next = curr->_previous;
+                delete curr;
             }
         }
     }

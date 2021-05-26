@@ -31,7 +31,7 @@ public:
         node<T>* w2 = rhs.head;         // CALC - to traverse rhs
 
         while(w || w2){
-            if (!(w->_item == w2->_item)){
+            if (!(w->_data == w2->_data)){
                 return false;
             }
             w = w->_next;
@@ -123,6 +123,7 @@ T List<T>::Delete(const T& iMarker){        //IN - delete this
     for(node<T>* current = head; current != nullptr; current = current->_next){
         if(current->_data == iMarker){
             current->_previous->_next = current->_next;
+            current->_next->_previous = current->_previous;
             delete current;
             if(--_size == 1){ // delete tail update to point to head
                 tail = head;
@@ -176,8 +177,8 @@ T& List<T>::operator[](int index){  //IN - position of element
             return curr->_data;
         }
     }
-    std::cout << index << "out of bounds";
-    throw std::to_string(index) + "Out of bounds";
+    std::cout << index << " out of bounds";
+    throw std::to_string(index) + " Out of bounds";
 }
 
 template<class T>
@@ -196,11 +197,13 @@ node<T>* List<T>::End() const{
 
 template <class T>
 node<T>* List<T>::append(T i){
-    if(_size++ == 0){
+    if(_size == 0){
+        _size++;
         tail = head = new node<T>(i);
         return head;
     }
 
+    _size++;
     tail->_next = new node<T>(i);
     tail->_next->_previous = tail;
     tail = tail->_next;

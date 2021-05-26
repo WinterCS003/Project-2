@@ -9,14 +9,15 @@
 struct stadiumNode{
 
     stadiumNode(){}
-    stadiumNode(stadium des, int dist, bool visited = false){
+    stadiumNode(stadium src, stadium des, int dist, bool visited = false){
+        _src = src;
         _des = des;
         _distance = dist;
         _visited = visited;
     }
 
-    bool operator==(const stadium& s){
-        if(_des == s){
+    bool operator==(const stadiumNode& s){
+        if(_src == s._src && _des == s._des && _distance == s._distance){
             return true;
         }
 
@@ -24,6 +25,7 @@ struct stadiumNode{
     }
 
     stadium _des;
+    stadium _src;
     int _distance; // ATT - the distance to the source
     bool _visited; // ATT - if this stadium has been visited
 };

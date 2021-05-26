@@ -71,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::loadMap(graph g){
+    std::cout << "loading images" << std::endl;
+
     img.load("textFiles/map.png");
     paint.begin(&img);
 
@@ -83,19 +85,34 @@ void MainWindow::loadMap(graph g){
     red.setColor(QColor(255, 0, 0));
     red.setWidth(10);
 
-    paint.setPen(red);
-    paint.drawPoint(630, 410);
+    // draw all stadiums onto map
+    for(int i = 0; i < g.stadiums.size(); i++){
+        if(g.stadiums[i].getType() == "American League"){
+            paint.setPen(red);
+        } else{
+            paint.setPen(yellow);
+        }
+        paint.drawPoint(g.stadiums[i].getXCoor(), g.stadiums[i].getYCoor());
+    }
 
-    paint.setPen(yellow);
-    paint.drawPoint(10, 10);
+    // draw all edges on map
     paint.setPen(line);
+    for(int i = 0; i < g.adjList.size(); i++){
 
-//    paint.drawLine(50, 100, 100, 80);
-//    paint.drawText(75, 90, "100");
+        stadium src = g.stadiums[i];
+        for(int j = 0; j < g.adjList[i].size(); j++){
+            stadium des = g.adjList[i][j]._des;
+            int distance = g.adjList[i][j]._distance;
+            int midX = (src.getXCoor() + des.getXCoor())/2;
+            int midY = (src.getYCoor() + des.getYCoor())/2;
+
+            paint.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
+            paint.drawText(midX, midY, QString::fromStdString(std::to_string(distance)));
+        }
+    }
 
     ui->map2->setPixmap(img);
     ui->map2->show();
-    std::cout << "loading images" << std::endl;
 }
 
 MainWindow::~MainWindow()

@@ -7,7 +7,6 @@
 #include "souvenir.h"
 
 void readStadiums(graph &g, std::string fileName){
-    std::cout << "Reading Stadiums" << std::endl;
     std::ifstream input(fileName);
     bool AL = false;
     if(input.is_open()){
@@ -50,6 +49,16 @@ void readStadiums(graph &g, std::string fileName){
                     } else{
                         temp.setType("National League");
                     }
+                    break;
+                case 7:
+                    line = line.substr(line.find('-')+2);
+                    temp.setFieldSurface(line);
+                    break;
+                case 8:
+                    int x = std::stoi(line.substr(line.find(':')+2, line.find(',') - line.find(':')-2));
+                    int y = std::stoi(line.substr(line.find(',')+2));
+                    temp.setXCoor(x);
+                    temp.setYCoor(y);
                     g.addStadium(temp);
                     i = -2;
                 }
@@ -105,6 +114,15 @@ void readDreamStadiums(List<stadium>& dream, std::string fileName){
                     } else{
                         temp.setType("National League");
                     }
+                case 7:
+                    line = line.substr(line.find('-')+2);
+                    temp.setFieldSurface(line);
+                    break;
+                case 8:
+                    int x = std::stoi(line.substr(line.find(':')+2, line.find(',') - line.find(':')-2));
+                    int y = std::stoi(line.substr(line.find(',')+2));
+                    temp.setXCoor(x);
+                    temp.setYCoor(y);
                     dream.append(temp);
                     i = -2;
                 }
@@ -185,6 +203,8 @@ void saveDreamStadiums(List<stadium>& dream, std::string fileName){
             output << al[i].getPhone() << "\n";
             output << "Opened - " << al[i].getOpenDate() << "\n";
             output << "Capacity - " << al[i].getCapacity() << "\n";
+            output << "Surface Type - " << al[i].getFieldSurface() << "\n";
+            output << "Coordinates: " << al[i].getXCoor() << ", " << al[i].getYCoor() << "\n\n";
         }
 
         for(int i = 0; i < dream.size(); i++){
@@ -202,6 +222,8 @@ void saveDreamStadiums(List<stadium>& dream, std::string fileName){
             output << al[i].getPhone() << "\n";
             output << "Opened - " << al[i].getOpenDate() << "\n";
             output << "Capacity - " << al[i].getCapacity() << "\n";
+            output << "Surface Type - " << al[i].getFieldSurface() << "\n";
+            output << "Coordinates: " << al[i].getXCoor() << ", " << al[i].getYCoor() << "\n\n";
         }
     }
 }
@@ -221,7 +243,9 @@ void saveStadiums(graph &g, std::string fileName){
             output << al[i].getAddress2() << "\n";
             output << al[i].getPhone() << "\n";
             output << "Opened - " << al[i].getOpenDate() << "\n";
-            output << "Capacity - " << al[i].getCapacity() << "\n\n";
+            output << "Capacity - " << al[i].getCapacity() << "\n";
+            output << "Surface Type - " << al[i].getFieldSurface() << "\n";
+            output << "Coordinates: " << al[i].getXCoor() << ", " << al[i].getYCoor() << "\n\n";
         }
 
         List<stadium>nl = g.getNationalLeagueStadiums();
@@ -234,7 +258,9 @@ void saveStadiums(graph &g, std::string fileName){
             output << nl[i].getAddress2() << "\n";
             output << nl[i].getPhone() << "\n";
             output << "Opened - " << nl[i].getOpenDate() << "\n";
-            output << "Capacity - " << nl[i].getCapacity() << "\n\n";
+            output << "Capacity - " << nl[i].getCapacity() << "\n";
+            output << "Surface Type - " << nl[i].getFieldSurface() << "\n";
+            output << "Coordinates: " << nl[i].getXCoor() << ", " << nl[i].getYCoor() << "\n\n";
         }
     }
 

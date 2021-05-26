@@ -143,7 +143,6 @@ private slots:
 
     static bool Date(node<stadium>& s1, node<stadium>& s2);
 
-
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
 
