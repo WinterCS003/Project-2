@@ -9,17 +9,20 @@
 void readStadiums(graph &g, std::string fileName){
     std::ifstream input(fileName);
     bool AL = false;
+
     if(input.is_open()){
         std::string line;
         int i = 0;
         stadium temp;
         while(std::getline(input, line)){
             if(line == "AMERICAN LEAGUE TEAMS:"){
+                std::getline(input, line);
                 AL = true;
-                i -= 2;
+                i -= 1;
             } else if(line == "NATIONAL LEAGUE TEAMS:"){
+                std::getline(input, line);
                 AL = false;
-                i -= 2;
+                i -= 1;
             } else{
                 switch(i){
                 case 0:
