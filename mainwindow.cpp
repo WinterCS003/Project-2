@@ -124,6 +124,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Ycord->clear();
     ui->yLabel->hide();
     ui->submit->hide();
+
+    ui->mapLegend->hide();
 }
 
 void MainWindow::loadMap(graph g, List<stadium>* custom){
@@ -254,9 +256,12 @@ void MainWindow::on_customerPushButtonMenu_clicked()
     loadStadiumTable2();
 
     if(!newStadiumaAddedbyUser.isEmpty()){
+        QString stadiums;
         for(int i = 0; i < newStadiumaAddedbyUser.size(); i++){
-
+            stadiums += QString::fromStdString(newStadiumaAddedbyUser[i].getStadiumName());
+            stadiums += "\n";
         }
+        ui->plannedTripStadiumBrowser->setText(stadiums);
     }
 
     gotoPage("custWelcomePage");
@@ -275,6 +280,8 @@ void MainWindow::on_customerDoneButton_clicked()
 void MainWindow::on_mapPgDoneButton_clicked()
 {
     gotoPage("planYourTripPage");
+
+    ui->mapLegend->hide();
 }
 
 void MainWindow::on_adminPgDoneButton_clicked()
@@ -524,6 +531,7 @@ void MainWindow::on_showMapButton_clicked()
 {
     loadMap(g, &newStadiumaAddedbyUser);
 
+    ui->mapLegend->show();
     gotoPage("GeneralMap");
 }
 
@@ -551,12 +559,16 @@ void MainWindow::on_back_clicked()
 void MainWindow::on_showMapButtonMainPage_clicked()
 {
     loadMap(g);
+
+    ui->mapLegend->show();
     gotoPage("GeneralMap");
 }
 
 void MainWindow::on_DoneButton2_clicked()
 {
     loadStadiumTable2();
+
+    ui->mapLegend->hide();
     gotoPage("custWelcomePage");
 }
 
@@ -785,6 +797,7 @@ void MainWindow::on_allALStadiumsButton_clicked()
     List<stadium> al = g.getAmericanLeagueStadiums();
 
     loadMap(g, &al);
+    ui->mapLegend->show();
     gotoPage("GeneralMap");
 }
 
@@ -793,11 +806,13 @@ void MainWindow::on_allNLStadiumsButton_clicked()
     List<stadium> nl = g.getNationalLeagueStadiums();
 
     loadMap(g, &nl);
+    ui->mapLegend->show();
     gotoPage("GeneralMap");
 }
 
 void MainWindow::on_allStadiumsButton_clicked()
 {
     loadMap(g, &g.stadiums);
+    ui->mapLegend->show();
     gotoPage("GeneralMap");
 }
