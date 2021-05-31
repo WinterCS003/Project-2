@@ -1,18 +1,21 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "graph.h"
-#include "souvenir.h"
-#include <QMainWindow>
-#include <QMessageBox>
-#include <QTableWidgetItem>
 #include <vector>
 #include <string>
 #include <map>
 
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QTableWidgetItem>
+
 #include <QPixmap>
 #include <QPainter>
 #include <QPen>
+
+#include "graph.h"
+#include "souvenir.h"
+#include "date.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,7 +39,7 @@ public:
     void gotoPage(string pg);      //IN - page to switch to
 
 private slots:
-    void loadMap(graph g, List<stadium>* s = nullptr);
+    void loadMap(graph g, List<stadium>* custom = nullptr);
 
     void on_exitMainButton_clicked();
 
@@ -125,7 +128,7 @@ private slots:
 
     static bool StadiumName(node<stadium>& s1, node<stadium>& s2);
 
-    static bool Date(node<stadium>& s1, node<stadium>& s2);
+    static bool date(node<stadium>& s1, node<stadium>& s2);
 
     void on_submit_clicked();
 
@@ -138,6 +141,12 @@ private slots:
     void loadSouvenirTable1();
 
     void loadSouvenirTable2();
+
+    void on_allALStadiumsButton_clicked();
+
+    void on_allNLStadiumsButton_clicked();
+
+    void on_allStadiumsButton_clicked();
 
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
@@ -154,7 +163,6 @@ private:
 
     List<string> dreamList;       // ATT - list of stadiums in trip
 
-    void clearDreamList();
     bool alreadyInDreamList(string stadiumName);    //IN - stadium name to chck
 
     void deleteDreamStadium(string stadiumName);    //IN - stadium to del

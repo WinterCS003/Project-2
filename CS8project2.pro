@@ -30,7 +30,6 @@ HEADERS += \
     date.h \
     files.h \
     graph.h \
-    linked_list_functions.h \
     list.h \
     mainwindow.h \
     mapwidget.h \

@@ -22,12 +22,12 @@ private:
 public:
     Date();
     Date(unsigned m, unsigned d, unsigned y);
-    Date(const string &mn, unsigned d, unsigned y);
+    Date(const string &mn);
 
-    string getDate();                                    //access date
-    unsigned getDay();                                   //access day
-    unsigned getMonth();                                 //access month
-    unsigned getYear();                                  //access year
+    string getDate() const;                              //access date
+    unsigned getDay() const;                             //access day
+    unsigned getMonth() const;                           //access month
+    unsigned getYear() const;                            //access year
     string name(unsigned m) const;                       //return the name of month in string
     void setWhole(const string&);                        //share string to date
     void setDay(unsigned d);                             //sets date
@@ -46,6 +46,11 @@ public:
     bool operator<=(const Date& other);
     bool operator> (const Date& other);
     bool operator< (const Date& other);
+
+    friend std::ostream& operator<<(std::ostream& os, const Date& d){
+        os << d.getDate();
+        return os;
+    }
 };
 
 #endif // DATE_H

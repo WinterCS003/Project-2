@@ -1,5 +1,6 @@
 #ifndef STADIUM_H
 #define STADIUM_H
+
 #include <iostream>
 #include <sstream>
 

@@ -29,14 +29,15 @@ stadium::stadium(string name,       // IN - std name
 
 string stadium::getAllInfo(){
     stringstream ss;
-    ss << getStadiumName() <<endl;
-    ss << getTeamName()<<endl;
-    ss << getAddress() <<endl;
-    ss << "Phone: " << getPhone() <<endl;
-    ss << "Founded: "<<getOpenDate() <<endl;
-    ss << "Capacity: " << getCapacity() <<endl;
-    ss << "League: " << getType() <<endl;
-    ss << "Field surface: " << getFieldSurface() <<endl;
+    ss << getStadiumName() << endl;
+    ss << getTeamName()<< endl;
+    ss << getAddress() << endl;
+    ss << getAddress2() << endl;
+    ss << "Phone: " << getPhone() << endl;
+    ss << "Founded: "<<getOpenDate() << endl;
+    ss << "Capacity: " << getCapacity() << endl;
+    ss << "League: " << getType() << endl;
+    ss << "Field surface: " << getFieldSurface() << endl;
 
     return string(ss.str());
 }

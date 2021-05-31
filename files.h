@@ -1,8 +1,10 @@
 
 #ifndef FILES_H
 #define FILES_H
+
 #include <fstream>
 #include <sstream>
+
 #include "graph.h"
 #include "souvenir.h"
 
@@ -192,7 +194,7 @@ void saveDreamStadiums(List<stadium>& dream, std::string fileName){
     if(output.is_open()){
         List<stadium> al;
         for(int i = 0; i < dream.size(); i++){
-            if(dream[i].getType() == "American Leauge"){
+            if(dream[i].getType() == "American League"){
                 al.append(dream[i]);
             }
         }
@@ -209,9 +211,9 @@ void saveDreamStadiums(List<stadium>& dream, std::string fileName){
             output << "Surface Type - " << al[i].getFieldSurface() << "\n";
             output << "Coordinates: " << al[i].getXCoor() << ", " << al[i].getYCoor() << "\n\n";
         }
-
+        al.clear();
         for(int i = 0; i < dream.size(); i++){
-            if(dream[i].getType() == "National Leauge"){
+            if(dream[i].getType() == "National League"){
                 al.append(dream[i]);
             }
         }

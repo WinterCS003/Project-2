@@ -47,16 +47,22 @@ Date::Date(unsigned m, //month
     }
 }
 
-Date::Date(const string &mn, //string representation of that month
-           unsigned d,       //date
-           unsigned y)       //year
+Date::Date(const string &date) //string representation of date
 {
     string upperMonth[12] = {"January", "February", "March", "April",
                             "May", "June", "July", "August", "September",
                             "October", "November", "December"};
     string lowerMonth[12] = {"january", "february", "march", "april",
                              "may", "june", "july", "august", "september",
-                             "october", "november", "december"};
+                             "october", "november", "december"};    
+    string mn;
+    unsigned int d;
+    unsigned int y;
+
+    mn = date.substr(0, date.find(' '));
+    d = std::stoi(date.substr(date.find(' ')+1, date.find(',') - 1));
+    y = std::stoi(date.substr(date.find_last_of(' ')+1));
+
     bool isMonthMatch;
     isMonthMatch = false;
 
@@ -382,7 +388,7 @@ unsigned Date::number(const string& mn) const
     return 1;
 }
 
-string Date::getDate()
+string Date::getDate() const
 {
     string dy;
     string mn;
@@ -392,18 +398,18 @@ string Date::getDate()
     mn = to_string(month);
     yr = to_string(year);
 
-    return mn + "/" + dy + "/" + yr;
+    return monthName + " " + dy + ", " + yr;
 }
 
-unsigned Date::getDay()
+unsigned Date::getDay() const
 {
     return day;
 }
-unsigned Date::getMonth()
+unsigned Date::getMonth() const
 {
     return month;
 }
-unsigned Date::getYear()
+unsigned Date::getYear() const
 {
     return year;
 }

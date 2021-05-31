@@ -219,11 +219,10 @@ void graph::removeStadium(stadium toRemove){
 
 #include <list>
 
-void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stadium> &targets)
+void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stadium> &targets, int& total_distance)
 {
     int unused_targets[targets.size() - 1];
     int unused_targets_size;
-    int total_distance;
     int i, j;
 
     int path[stadiums.size()];

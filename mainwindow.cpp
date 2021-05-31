@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "files.h"
 #include <sstream>
 #include <stack>        // Provides stack type
 #include <algorithm>    // sort
 
+#include "files.h"
+
 void MainWindow::loadStadiumTable1(){
+    // page 8 modify stadium
     ui->modificationTable->setRowCount(0);
     for(int i = 0; i < g.stadiums.size(); i++){
         ui->modificationTable->insertRow(i);
@@ -22,6 +24,7 @@ void MainWindow::loadStadiumTable1(){
 }
 
 void MainWindow::loadStadiumTable2(){
+    // stadiums list on page 1
     ui->allStadiums->setRowCount(0);
     for(int i = 0; i < g.stadiums.size(); i++){
         ui->allStadiums->insertRow(i);
@@ -30,6 +33,7 @@ void MainWindow::loadStadiumTable2(){
 }
 
 void MainWindow::loadStadiumTable3(){
+    // page 7 - stadium info table
     List<stadium> temp = g.stadiums;
     temp.sort(TeamName);
 
@@ -49,6 +53,7 @@ void MainWindow::loadStadiumTable3(){
 }
 
 void MainWindow::loadSouvenirTable1(){
+    // page 10 - purchase souvenir
     ui->souvenirListForAdd->setRowCount(0);
     for(int i = 0; i < s.getSize(); i++){
         ui->souvenirListForAdd->insertRow(i);
@@ -59,6 +64,7 @@ void MainWindow::loadSouvenirTable1(){
 }
 
 void MainWindow::loadSouvenirTable2(){
+    // page 9 create new souvenir
     ui->modSouvenir_table->setRowCount(0);
     for(int i = 0; i < s.getSize(); i++){
         ui->modSouvenir_table->insertRow(i);
@@ -98,6 +104,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->souvenirListForAdd->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+    ui->dijkstrasTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 
     // Add pages to map
     for(i = 0, j = 0; i < ui->stackedWidget->children().length(); i++)
@@ -118,7 +126,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->submit->hide();
 }
 
-void MainWindow::loadMap(graph g, List<stadium>* s){
+void MainWindow::loadMap(graph g, List<stadium>* custom){
     size_t ii;
 
     std::cout << "loading images" << std::endl;
@@ -132,60 +140,59 @@ void MainWindow::loadMap(graph g, List<stadium>* s){
     yellow.setColor(QColor(0, 255, 255));
     yellow.setWidth(10);
 
+    red.setColor(QColor(255, 0, 0));
+    red.setWidth(10);
+
     line.setColor(QColor(0, 0, 0));
     line.setWidth(1);
 
-    QPen green;
-    green.setColor(QColor(0,255,0));
-
-    int total_path[g.stadiums.size()*g.stadiums.size()];
-    int total_path_used;
-    g.getShortestTripPath(total_path, total_path_used, newStadiumaAddedbyUser);
-    QPen trace;
-    trace.setWidth(5);
-    trace.setColor(Qt::darkGreen);
-    paint.setPen(trace);
-    for(ii = 1; ii < total_path_used; ii++)
-    {
-        paint.drawLine(g.stadiums[total_path[ii-1]].getXCoor(), g.stadiums[total_path[ii-1]].getYCoor(), g.stadiums[total_path[ii]].getXCoor(), g.stadiums[total_path[ii]].getYCoor());
-    }
-    paint.setPen(nullptr);
-    paint.setBrush(Qt::green);
-    for(ii = 0; ii < newStadiumaAddedbyUser.size(); ii++)
-    {
-        paint.drawEllipse(newStadiumaAddedbyUser[ii].getXCoor()-10, newStadiumaAddedbyUser[ii].getYCoor()-10, 20, 20);
-    }
-
-    red.setColor(QColor(255, 0, 0));
-    red.setWidth(10);
     // print a custom stadium map
-    if(s && s->size() != 0){
-        // draw all stadiums onto map
-        for(int i = 0; i < s->size(); i++){
-            if((*s)[i].getType() == "American League"){
+    if(custom && !custom->isEmpty()){
+        QPen green;
+        green.setColor(QColor(0,255,0));
+
+        int total_path[g.stadiums.size()*g.stadiums.size()];
+        int total_path_used;
+        int total_distance;
+        g.getShortestTripPath(total_path, total_path_used, *custom, total_distance);
+
+        QPen trace;
+        trace.setWidth(5);
+        trace.setColor(Qt::darkGreen);
+        for(ii = 1; ii < total_path_used; ii++)
+        {
+            stadium src = g.stadiums[total_path[ii-1]];
+            stadium des = g.stadiums[total_path[ii]];
+
+            int distance = g.getedge(src, des)._distance;
+
+            int midX = (src.getXCoor() + des.getXCoor())/2;
+            int midY = (src.getYCoor() + des.getYCoor())/2;
+
+            paint.setPen(trace);
+            paint.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
+
+            paint.setPen(line);
+            paint.drawText(midX, midY, QString::fromStdString(std::to_string(distance)));
+        }
+
+        paint.setPen(nullptr);
+        paint.setBrush(Qt::green);
+        for(ii = 0; ii < custom->size(); ii++)
+        {
+            paint.drawEllipse((*custom)[ii].getXCoor()-10, (*custom)[ii].getYCoor()-10, 20, 20);
+        }
+
+        for(int i = 0; i < total_path_used; i++){
+            if(g.stadiums[total_path[i]].getType() == "American League"){
                 paint.setPen(red);
             } else{
                 paint.setPen(yellow);
             }
-            paint.drawPoint((*s)[i].getXCoor(), (*s)[i].getYCoor());
-        }
 
-        // draw all edges on map
-        paint.setPen(line);
-        for(int i = 0; i < s->size(); i++){
-            stadium src = (*s)[i];
-            int index = g.stadiums.find(src);
-            for(int j = 0; j < g.adjList[index].size(); j++){
-                stadium des = g.adjList[index][j]._des;
-                if(s->find(des) != -1){
-                    int distance = g.adjList[index][j]._distance;
-                    int midX = (src.getXCoor() + des.getXCoor())/2;
-                    int midY = (src.getYCoor() + des.getYCoor())/2;
-
-                    paint.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
-                    paint.drawText(midX, midY, QString::fromStdString(std::to_string(distance)));
-                }
-            }
+            int x = g.stadiums[total_path[i]].getXCoor();
+            int y = g.stadiums[total_path[i]].getYCoor();
+            paint.drawPoint(x, y);
         }
     }
     // print all stadiums
@@ -245,6 +252,13 @@ void MainWindow::gotoPage(string pg)
 void MainWindow::on_customerPushButtonMenu_clicked()
 {
     loadStadiumTable2();
+
+    if(!newStadiumaAddedbyUser.isEmpty()){
+        for(int i = 0; i < newStadiumaAddedbyUser.size(); i++){
+
+        }
+    }
+
     gotoPage("custWelcomePage");
 }
 
@@ -314,8 +328,11 @@ bool MainWindow::StadiumName(node<stadium>& s1, node<stadium>& s2){
     return s1._data.getStadiumName() < s2._data.getStadiumName();
 }
 
-bool MainWindow::Date(node<stadium>& s1, node<stadium>& s2){
-    return s1._data.getOpenDate() < s2._data.getOpenDate();
+bool MainWindow::date(node<stadium>& s1, node<stadium>& s2){
+    Date d1(s1._data.getOpenDate());
+    Date d2(s2._data.getOpenDate());
+
+    return d1 < d2;
 }
 
 void MainWindow::on_stadiumTableInfo_clicked()
@@ -331,6 +348,29 @@ void MainWindow::on_gobacktomainpage_clicked()
 
 void MainWindow::on_planTripButton_clicked()
 {
+    if(!newStadiumaAddedbyUser.isEmpty()){
+        // load custom graph
+        int total_path[g.stadiums.size()*g.stadiums.size()];
+        int total_used;
+        int total_distance;
+        g.getShortestTripPath(total_path, total_used, newStadiumaAddedbyUser, total_distance);
+        // print total distance traveled
+        ui->totalDistanceBrowser->setText(QString::fromStdString(to_string(total_distance)));
+
+        // print total number of stadiums visited
+        QString num = QString::fromStdString(to_string(total_used));
+        ui->totalStadiumsVisitedBrowser->setText(num);
+
+        // print all stadiums visited
+        ui->dijkstrasTable->setRowCount(0);
+        for(int i = 0; i < total_used; i++){
+            ui->dijkstrasTable->insertRow(i);
+            QString stadium;
+            stadium = QString::fromStdString(g.stadiums[total_path[i]].getStadiumName());
+            ui->dijkstrasTable->setItem(i, 0, new QTableWidgetItem(stadium));
+        }
+    }
+
     gotoPage("planYourTripPage");
 }
 
@@ -453,10 +493,6 @@ void MainWindow::on_restartDreamList_clicked()
     ui->plannedTripStadiumBrowser->clear();
 }
 
-void MainWindow::clearDreamList()
-{
-    newStadiumaAddedbyUser.clear();
-}
 bool MainWindow::alreadyInDreamList(string stadiumName)
 {
     for(int i = 0; i < dreamList.size(); i++){
@@ -487,6 +523,7 @@ void MainWindow::on_backtoMain_clicked()
 void MainWindow::on_showMapButton_clicked()
 {
     loadMap(g, &newStadiumaAddedbyUser);
+
     gotoPage("GeneralMap");
 }
 
@@ -707,7 +744,7 @@ void MainWindow::on_GrassSurface_currentIndexChanged(int index)
         temp.sort(TeamName);
     } else{
         temp = g.stadiums;
-        temp.sort(Date);
+        temp.sort(date);
     }
 
     ui->tableWidget_2->setRowCount(0);
@@ -741,4 +778,26 @@ void MainWindow::on_submit_clicked()
 
     ui->modificationTable->insertRow(ui->modificationTable->rowCount());
     ui->modificationTable->scrollToBottom();
+}
+
+void MainWindow::on_allALStadiumsButton_clicked()
+{
+    List<stadium> al = g.getAmericanLeagueStadiums();
+
+    loadMap(g, &al);
+    gotoPage("GeneralMap");
+}
+
+void MainWindow::on_allNLStadiumsButton_clicked()
+{
+    List<stadium> nl = g.getNationalLeagueStadiums();
+
+    loadMap(g, &nl);
+    gotoPage("GeneralMap");
+}
+
+void MainWindow::on_allStadiumsButton_clicked()
+{
+    loadMap(g, &g.stadiums);
+    gotoPage("GeneralMap");
 }

@@ -117,7 +117,7 @@ public:
         }
     }
 
-    void getShortestTripPath(int *total_path, int& total_path_used, List<stadium>& targets);
+    void getShortestTripPath(int *total_path, int& total_path_used, List<stadium>& targets, int& total_distance);
 
     int getIndex(stadium& target);  // get target index in master list
 
