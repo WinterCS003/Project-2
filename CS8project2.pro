@@ -44,10 +44,12 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES +=
+RESOURCES += \
+    textFiles/file.qrc
 
 DISTFILES += \
     textFiles/SouvenirList.txt \
     textFiles/SouvenirPurchases.txt \
+    textFiles/map.png \
     textFiles/stadiumDistances.txt \
     textFiles/stadiums.txt

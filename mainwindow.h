@@ -16,6 +16,9 @@
 #include "graph.h"
 #include "souvenir.h"
 #include "date.h"
+#include "distance.h"
+#include <stdlib.h>
+#include <time.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -147,6 +150,9 @@ private slots:
     void on_allNLStadiumsButton_clicked();
 
     void on_allStadiumsButton_clicked();
+
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
