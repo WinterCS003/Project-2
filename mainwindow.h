@@ -147,6 +147,8 @@ private slots:
     void on_allNLStadiumsButton_clicked();
 
     void on_allStadiumsButton_clicked();
+    
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;     // ATT - main ui window
