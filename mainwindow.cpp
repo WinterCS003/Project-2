@@ -354,6 +354,11 @@ void MainWindow::on_gobacktomainpage_clicked()
 
 void MainWindow::on_planTripButton_clicked()
 {
+    ui->dijkstrasTable->setRowCount(0);
+//    ui->dijkstrasTable->clear();
+    ui->totalDistanceBrowser->setText("N/A");
+    ui->totalStadiumsVisitedBrowser->setText("N/A");
+
     if(!newStadiumaAddedbyUser.isEmpty()){
         // load custom graph
         int total_path[g.stadiums.size()*g.stadiums.size()];
@@ -361,11 +366,16 @@ void MainWindow::on_planTripButton_clicked()
         int total_distance;
         g.getShortestTripPath(total_path, total_used, newStadiumaAddedbyUser, total_distance);
         // print total distance traveled
-        ui->totalDistanceBrowser->setText(QString::fromStdString(to_string(total_distance)));
+        QString distance = "Total Distance Traveled: ";
+        distance += QString::fromStdString(to_string(total_distance));
+
+        ui->totalDistanceBrowser->setText(distance);
 
         // print total number of stadiums visited
-        QString num = QString::fromStdString(to_string(total_used));
-        ui->totalStadiumsVisitedBrowser->setText(num);
+        distance = "Total Stadiums visited: ";
+        distance += QString::fromStdString(to_string(total_used));
+
+        ui->totalStadiumsVisitedBrowser->setText(distance);
 
         // print all stadiums visited
         ui->dijkstrasTable->setRowCount(0);

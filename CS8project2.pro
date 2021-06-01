@@ -26,7 +26,6 @@ SOURCES += \
     stadium.cpp
 
 HEADERS += \
-    StadiumCoordinates.h \
     date.h \
     files.h \
     graph.h \
