@@ -4,12 +4,9 @@
 #include <sstream>
 #include <stack>        // Provides stack type
 #include <algorithm>    // sort
-#include <fstream>
+
 #include "files.h"
-#include "list.h"
-#include "stadium.h"
-#include <QFile>
-#include <QTextStream>
+
 void MainWindow::loadStadiumTable1(){
     // page 8 modify stadium
     ui->modificationTable->setRowCount(0);
@@ -88,18 +85,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     // load state
     try{
-            readSouvenirs(s, "textFiles/SouvenirList.txt");
-            readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
-            // set up graph
-            readStadiums(g, "textFiles/stadiums.txt");
-            readEdges(g, "textFiles/stadiumDistances.txt");
-            readDreamStadiums(newStadiumaAddedbyUser, "textFiles/dreamStadiums.txt");
-            img.load("textFiles/map.png");
-            paint.begin(&img);
-            paint.save();
-        } catch(const char* msg){
-            std::cout << msg << std::endl;
-        }
+        readSouvenirs(s, "textFiles/SouvenirList.txt");
+        readSouvenirs(purchases, "textFiles/SouvenirPurchases.txt");
+        // set up graph
+        readStadiums(g, "textFiles/stadiums.txt");
+        readEdges(g, "textFiles/stadiumDistances.txt");
+        readDreamStadiums(newStadiumaAddedbyUser, "textFiles/dreamStadiums.txt");
+        img.load("textFiles/map.png");
+        paint.begin(&img);
+        paint.save();
+    } catch(const char* msg){
+        std::cout << msg << std::endl;
+    }
 
     ui->tableWidget_2->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -138,7 +135,7 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
     paint.end();
     paint.eraseRect(0,0, 640, 416);
 
-    img.load("C:Users/12432/OneDrive/Desktop/map.png");
+    img.load("textFiles/map.png");
     img = img.scaled(ui->map2->geometry().width(), ui->map2->geometry().height());
     paint.begin(&img);
 
@@ -818,60 +815,4 @@ void MainWindow::on_allStadiumsButton_clicked()
     loadMap(g, &g.stadiums);
     ui->mapLegend->show();
     gotoPage("GeneralMap");
-}
-
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    ui->listWidget->clear();
-    QFile file(":/file/stadiums123.txt");
-
-    string a;
-    string b;
-    string c;
-    string d;
-    string e;
-    string f;
-    string g;
-    string h;
-    string i;
-    string j;
-    vector<stadium> l;
-    if(file.open(QIODevice::ReadOnly))
-    {
-        QTextStream input(&file);
-        while(!input.atEnd())
-        {
-            QString a = input.readLine();
-            QString b = input.readLine();
-            QString c = input.readLine();
-            QString d = input.readLine();
-            QString e = input.readLine();
-            QString f = input.readLine();
-            QString g = input.readLine();
-            QString h = input.readLine();
-            QString i = input.readLine();
-            QString j = input.readLine();
-            l.push_back(stadium(a.toStdString(),b.toStdString(),c.toStdString(),
-                                d.toStdString(),e.toStdString(),f.toStdString(),
-                                g.toStdString(),h.toStdString(),i.toStdString()));
-
-        }
-        file.close();
-    }
-
-    srand(time(NULL));
-    int random;
-
-    random = rand()%l.size()+1;
-
-    ui->listWidget->addItem(QString::fromStdString(l[random].getStadiumName()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getTeamName()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getAddress()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getAddress2()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getPhone()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getOpenDate()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getCapacity()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getType()));
-    ui->listWidget->addItem(QString::fromStdString(l[random].getFieldSurface()));
 }

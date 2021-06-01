@@ -4,7 +4,7 @@
 
 mapwidget::mapwidget(QWidget *parent) : QStackedWidget(parent)
 {
-    usMapOutline.load("textFiles/map.png");
+    usMapOutline.load("usmap.png");
     usMapOutline = usMapOutline.scaled(781, 441);
 }
 
