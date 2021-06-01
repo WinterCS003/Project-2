@@ -3,7 +3,6 @@
 
 #include <sstream>
 #include <stack>        // Provides stack type
-#include <algorithm>    // sort
 
 #include "files.h"
 
@@ -815,4 +814,23 @@ void MainWindow::on_allStadiumsButton_clicked()
     loadMap(g, &g.stadiums);
     ui->mapLegend->show();
     gotoPage("GeneralMap");
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->listWidget->clear();
+    srand(time(NULL));
+
+    int random;
+    random = rand()%g.stadiums.size();
+
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getStadiumName()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getTeamName()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getAddress()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getAddress2()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getPhone()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getOpenDate()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getCapacity()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getType()));
+    ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getFieldSurface()));
 }
