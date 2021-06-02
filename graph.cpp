@@ -562,7 +562,6 @@ void graph::dijkstras(int *path,                    // IN/OUT - array to write t
         }
     }
 
-    std::cout << min_j << "\n";
     if(min_j < unused_targets_size - 1)
     {
         std::copy(unused_targets+min_j+1, unused_targets+unused_targets_size, unused_targets+min_j);
