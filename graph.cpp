@@ -58,11 +58,6 @@ stadium graph::getStadiumInfo(stadium s) const{
  *     nullptr if not found
  ***************************************************************/
 stadiumNode * graph::getedge(stadium stadiumSrc, stadium stadiumDes){
-=======
- *   Return: stadiumNode - returns edge connecting given stadiums.
- ***************************************************************/
-stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
->>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
     int index = stadiums.find(stadiumSrc);
     for(int i = 0; i < adjList[index].size(); i++){
         if(adjList[index][i]._des == stadiumDes){
@@ -127,7 +122,6 @@ void graph::addEdge(stadium src, stadium des, int distance){
     int index = stadiums.find(src);
     stadiumNode temp(src, des, distance);
 
-<<<<<<< HEAD
     // Skip already exiting
     for(i = 0; i < adjList[index].size(); i++)
         if(adjList[index][i]._des == des)
@@ -144,8 +138,6 @@ void graph::addEdge(stadium src, stadium des, int distance){
         adjList[index].append(temp2);
 }
 
-=======
->>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
 /****************************************************************
  * stadium* getStadiumByName(string name);
  *

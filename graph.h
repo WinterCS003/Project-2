@@ -45,11 +45,7 @@ public:
      ***************/
     stadium getStadiumInfo(stadium s) const; // IN -  stadium name
 
-<<<<<<< HEAD
     stadiumNode * getedge(stadium stadiumSrc,  // IN -  stadium source name
-=======
-    stadiumNode getedge(stadium stadiumSrc,  // IN -  stadium source name
->>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
                         stadium stadiumDes); // IN -  stadium destination name
 
     List<stadiumNode> getedges(stadium stadiumSrc); // IN -  stadium source name
