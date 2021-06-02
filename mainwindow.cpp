@@ -229,22 +229,14 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
         trace.setWidth(5);
         trace.setColor(Qt::darkGreen);
         ui->stadiumsVisited->clear();
+        paint.setPen(trace);
         for(ii = 1; ii < total_path_used; ii++)
         {
             ui->stadiumsVisited->addItem(QString::fromStdString(g.stadiums[total_path[ii-1]].getStadiumName()));
             stadium src = g.stadiums[total_path[ii-1]];
             stadium des = g.stadiums[total_path[ii]];
 
-            int distance = g.getedge(src, des)->_distance;
-
-            int midX = (src.getXCoor() + des.getXCoor())/2;
-            int midY = (src.getYCoor() + des.getYCoor())/2;
-
-            paint.setPen(trace);
             paint.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
-
-            paint.setPen(line);
-            paint.drawText(midX, midY, QString::fromStdString("(") + QString::number(ii) + QString::fromStdString(") " + std::to_string(distance)));
         }
         ui->stadiumsVisited->addItem(QString::fromStdString(g.stadiums[total_path[ii-1]].getStadiumName()));
         QString visited = "Visited: ";
@@ -271,6 +263,19 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
             int x = g.stadiums[total_path[i]].getXCoor();
             int y = g.stadiums[total_path[i]].getYCoor();
             paint.drawPoint(x, y);
+        }
+        paint.setPen(line);
+        for(ii = 1; ii < total_path_used; ii++)
+        {
+            stadium src = g.stadiums[total_path[ii-1]];
+            stadium des = g.stadiums[total_path[ii]];
+
+            int distance = g.getedge(src, des)->_distance;
+
+            int midX = (src.getXCoor() + des.getXCoor())/2;
+            int midY = (src.getYCoor() + des.getYCoor())/2;
+
+            paint.drawText(midX, midY, QString::fromStdString("(") + QString::number(ii) + QString::fromStdString(") " + std::to_string(distance)));
         }
     }
     // print all stadiums

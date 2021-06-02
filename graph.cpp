@@ -389,6 +389,19 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
         dijkstras(total_path, total_path_used, total_distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
     }
 
+    std::cout << "start\n";
+    for(i = 0; i < total_path_used; i++)
+    {
+        std::cout << i << "] " << stadiums[total_path[i]].getStadiumName();
+        for(j = 0; j < targets.size(); j++)
+            if(total_path[i] == getIndex(targets[j]))
+            {
+                std::cout << " TARGET";
+                break;
+            }
+        std::cout << "\n";
+    }
+
     // Reinsert duplicate nodes, only once each
     for(i = 0; i < same_positions_used; i++)
     {
@@ -462,7 +475,7 @@ void graph::dijkstras(int *total_path,               // IN/OUT - array to write 
 {
     int max = stadiums.size();
 
-    int i, j, k, u;
+    int i, j, k, l, u;
     int indices[max], distances[max];
     int costs[max][max];
     int paths[max][max];
@@ -519,6 +532,19 @@ void graph::dijkstras(int *total_path,               // IN/OUT - array to write 
             prev_index = i;
             min_index = j;
             min_distance = k;
+          }
+          // Check node same distance, replace if node is target
+          else if(k == min_distance)
+          {
+              for(l = 0; l < unused_targets_size; l++)
+              {
+                  if(unused_targets[l] == j && costs[unused_targets[l]][min_index] == 0)
+                  {
+                      std::cout << "IN\n";
+                      min_index = j;
+                      break;
+                  }
+              }
           }
         }
       }
