@@ -1,6 +1,11 @@
 #include "date.h"
 using namespace std;
-
+/**************************************************************
+ * Date::Date()
+ * ____________________________________________________________
+ * Default date at 1/1/2000
+ *
+ *************************************************************/
 Date::Date()
 {
     day = 1;
@@ -9,6 +14,14 @@ Date::Date()
     year = 2000;
 }
 
+/**************************************************************
+ * Date::Date(unsigned m,
+           unsigned d,
+           unsigned y)
+ * ____________________________________________________________
+ * set date base on parameter
+ *
+ *************************************************************/
 Date::Date(unsigned m, //month
            unsigned d, //day
            unsigned y) //year
@@ -47,6 +60,12 @@ Date::Date(unsigned m, //month
     }
 }
 
+/**************************************************************
+ * Date::Date(const string &date)
+ * ____________________________________________________________
+ * set date base on the parameter
+ *
+ *************************************************************/
 Date::Date(const string &date) //string representation of date
 {
     string upperMonth[12] = {"January", "February", "March", "April",
@@ -97,7 +116,16 @@ Date::Date(const string &date) //string representation of date
         year = y;
     }
 }
-
+/**************************************************************
+ * void Date::setDate(unsigned m, unsigned d, unsigned y)
+ * ____________________________________________________________
+ * Post Condition:
+ * put in order
+ *
+ * Post Condition:
+ * set date information
+ *
+ *************************************************************/
 void Date::setDate(unsigned m, unsigned d, unsigned y)
 {
     if(inRange(m, d))
@@ -133,7 +161,16 @@ void Date::setDate(unsigned m, unsigned d, unsigned y)
         year = y;
     }
 }
-
+/**************************************************************
+ * Mutator: void setWhole(string)
+ * ____________________________________________________________
+ * Post Condition:
+ * Recieved data in format
+ *
+ * Post Condition:
+ * share string and set variable
+ *
+ *************************************************************/
 void Date::setWhole(const string &info)
 {
     char dt[3];
@@ -218,22 +255,60 @@ void Date::setWhole(const string &info)
         year = y;
     }
 }
-
+/**************************************************************
+ * void Date::setMonth(unsigned int m)
+ * ____________________________________________________________
+ * Post Condition:
+ * pass month
+ *
+ * Post Condition:
+ * month variable
+ *
+ *************************************************************/
 void Date::setMonth(unsigned int m)
 {
     month = m;
 }
-
+/**************************************************************
+ * void Date::setDay(unsigned int d)
+ * ____________________________________________________________
+ * Post Condition:
+ * pass day
+ *
+ * Post Condition:
+ * day variable
+ *
+ *************************************************************/
 void Date::setDay(unsigned int d)
 {
     day = d;
 }
-
+/**************************************************************
+ * void Date::setYear(unsigned int y)
+ * ____________________________________________________________
+ * Post Condition:
+ * pass year
+ *
+ * Post Condition:
+ * year variable
+ *
+ *************************************************************/
 void Date::setYear(unsigned int y)
 {
     year = y;
 }
-
+/**************************************************************
+ * bool Date::isLeap(unsigned int year) const
+ * ____________________________________________________________
+ * Check whether is leap year
+ * ____________________________________________________________
+ * Post Condition:
+ * year to check
+ *
+ * Post Condition:
+ * Return true if leap year otherwise return false
+ *
+ *************************************************************/
 bool Date::isLeap(unsigned int year) const
 {
     if(((year%4)==0) and ((year%100)!=0))
@@ -250,6 +325,19 @@ bool Date::isLeap(unsigned int year) const
     }
 }
 
+/**************************************************************
+ * unsigned Date::daysPerMonth(unsigned m,
+                            unsigned y) const
+ * ____________________________________________________________
+ * how many day in a month
+ * ____________________________________________________________
+ * Post Condition:
+ * day in a month
+ *
+ * Post Condition:
+ * return how many day in a month
+ *
+ *************************************************************/
 unsigned Date::daysPerMonth(unsigned m,         //month
                             unsigned y) const   //year
 {
@@ -280,7 +368,18 @@ unsigned Date::daysPerMonth(unsigned m,         //month
 
     return 31;
 }
-
+/**************************************************************
+ * string Date::name(unsigned int m) const
+ * ____________________________________________________________
+ * Transfer month number to word
+ * ____________________________________________________________
+ * Post Condition:
+ * month number
+ *
+ * Post Condition:
+ * return month in string
+ *
+ *************************************************************/
 string Date::name(unsigned int m) const
 {
     if(m == 1)
@@ -335,6 +434,19 @@ string Date::name(unsigned int m) const
     return "January";
 }
 
+
+/**************************************************************
+ * unsigned Date::number(const string& mn) const
+ * ____________________________________________________________
+ * Transfer month in word to number
+ * ____________________________________________________________
+ * Post Condition:
+ * Month in word
+ *
+ * Post Condition:
+ * return month in int
+ *
+ *************************************************************/
 unsigned Date::number(const string& mn) const
 {
     if ((mn == "January") or (mn == "january"))
@@ -387,7 +499,17 @@ unsigned Date::number(const string& mn) const
     }
     return 1;
 }
-
+/**************************************************************
+ * string Date::getDate() const
+ * ____________________________________________________________
+ * Accesses date information
+ * ____________________________________________________________
+ * Post Condition:
+ * none
+ *
+ * Post Condition:
+ * returns string
+ *************************************************************/
 string Date::getDate() const
 {
     string dy;
@@ -400,20 +522,63 @@ string Date::getDate() const
 
     return monthName + " " + dy + ", " + yr;
 }
-
+/**************************************************************
+ * unsigned Date::getDay() const
+ * ____________________________________________________________
+ * day number
+ * ____________________________________________________________
+ * Post Condition:
+ * none
+ *
+ * Post Condition:
+ * returns day
+ *************************************************************/
 unsigned Date::getDay() const
 {
     return day;
 }
+/**************************************************************
+ * unsigned Date::getMonth() const
+ * ____________________________________________________________
+ * month number
+ * ____________________________________________________________
+ * Post Condition:
+ * none
+ *
+ * Post Condition:
+ * returns month
+ *************************************************************/
 unsigned Date::getMonth() const
 {
     return month;
 }
+/**************************************************************
+ * unsigned Date::getYear() const
+ * ____________________________________________________________
+ * year number
+ * ____________________________________________________________
+ * Post Condition:
+ * none
+ *
+ * Post Condition:
+ * return year
+ *************************************************************/
 unsigned Date::getYear() const
 {
     return year;
 }
 
+/**************************************************************
+ * bool Date::inRange(unsigned int m, unsigned int d)
+ * ____________________________________________________________
+ * check whether month and day is in range
+ * ____________________________________________________________
+ * Post Condition:
+ * none
+ *
+ * Post Condition:
+ * return true if in range otherwise return false
+ *************************************************************/
 bool Date::inRange(unsigned int m, unsigned int d)
 {
     if((m<=12 and m>=1) and (d<=31 and d>=1))
@@ -610,7 +775,17 @@ bool Date::operator<(const Date &other)
     return false;
 }
 
-
+/**************************************************************
+ * bool Date::isCorrectDate(unsigned month, unsigned date, unsigned year)
+ * ____________________________________________________________
+ * check if the date is correct
+ * ____________________________________________________________
+ * Post Condition:
+ * none
+ *
+ * Post Condition:
+ * return true if correct otherwise return false
+ *************************************************************/
 bool Date::isCorrectDate(unsigned month, unsigned date, unsigned year)
 {
     if(month <1 && month >12)

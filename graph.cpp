@@ -339,6 +339,10 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     int same_positions_used;
     int i, j;
 
+    int path[stadiums.size()];
+    int nodes_visited;
+    int distance;
+
     if(targets.size() == 0)
         return;
 
@@ -386,7 +390,11 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     // Dijkstras each target
     while(unused_targets_size > 0)
     {
-        dijkstras(total_path, total_path_used, total_distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
+        nodes_visited = 0;
+        dijkstras(path, nodes_visited, distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
+        for(j = 0; j < nodes_visited; j++)
+            total_path[total_path_used++] = path[j];
+        total_distance += distance;
     }
 
     // Reinsert duplicate nodes, only once each
@@ -428,9 +436,9 @@ int graph::getIndex(stadium& target)
 }
 
 /****************************************************************
- * void graph::dijkstras(int *total_path,
- *                      int& total_path_used,
- *                      int& total_distance,
+ * void graph::dijkstras(int *path,
+ *                      int& nodes_visited,
+ *                      int& dis,
  *                      int src,
  *                      int *unused_targets,
  *                      int unused_targets_size);
@@ -439,9 +447,9 @@ int graph::getIndex(stadium& target)
  *             return the shortest path from the source node
  *             to all adjacent nodes
  * --------------------------------------------------------------
- *   Parameters: int *total_path        // IN - array of stadiums
- *                                              visited in order
- *               int& total_path_used   // IN - number of stadiums
+ *   Parameters: int *path               // IN/OUT - array to
+ *                                                   write to
+ *               int& nodes_visited      // OUT - how many nodes
  *                                                visited
  *               int& total_distance     // OUT - total distance
  *               int src                 // IN - starting index
@@ -453,8 +461,8 @@ int graph::getIndex(stadium& target)
  *   Return: none - parameters are updated after function is
  *                  executed
  ***************************************************************/
-void graph::dijkstras(int *total_path,               // IN/OUT - array to write to
-                      int& total_path_used,      // OUT - how many nodes visited
+void graph::dijkstras(int *path,               // IN/OUT - array to write to
+                      int& nodes_visited,      // OUT - how many nodes visited
                       int& total_distance,                // OUT - total distance
                       int src,                 // IN - starting index
                       int *unused_targets,     // IN - index of unused targets
@@ -560,6 +568,6 @@ void graph::dijkstras(int *total_path,               // IN/OUT - array to write 
     total_distance += distances[min_i];
     for(i = 1; i < path_used[min_i]; i++)
     {
-        total_path[total_path_used++] = paths[min_i][i];
+        path[nodes_visited++] = paths[min_i][i];
     }
 }
