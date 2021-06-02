@@ -133,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    int i, j, k;
+    int i, j;
     stack<string> keyList;
 
     ui->setupUi(this);
@@ -196,7 +196,7 @@ MainWindow::MainWindow(QWidget *parent)
  *   Return: none
  *******************************************************************/
 void MainWindow::loadMap(graph g, List<stadium>* custom){
-    size_t ii;
+    int ii;
 
     std::cout << "loading images" << std::endl;
     paint.end();
@@ -235,8 +235,7 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
             stadium src = g.stadiums[total_path[ii-1]];
             stadium des = g.stadiums[total_path[ii]];
 
-            std::cout << "EDGE: " << g.getedge(src, des) << "\n";
-            //int distance = g.getedge(src, des)->_distance;
+            int distance = g.getedge(src, des)->_distance;
 
             int midX = (src.getXCoor() + des.getXCoor())/2;
             int midY = (src.getYCoor() + des.getYCoor())/2;
@@ -245,7 +244,7 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
             paint.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
 
             paint.setPen(line);
-            //paint.drawText(midX, midY, QString::fromStdString(std::to_string(distance)));
+            paint.drawText(midX, midY, QString::fromStdString("(") + QString::number(ii) + QString::fromStdString(") " + std::to_string(distance)));
         }
         ui->stadiumsVisited->addItem(QString::fromStdString(g.stadiums[total_path[ii-1]].getStadiumName()));
         QString visited = "Visited: ";
@@ -884,7 +883,7 @@ bool MainWindow::alreadyInDreamList(string stadiumName)
 
 void MainWindow::deleteDreamStadium(string stadiumName)
 {
-    for(unsigned int i = 0; i < dreamList.size(); i++)
+    for(int i = 0; i < dreamList.size(); i++)
     {
 
         if(dreamList[i] == stadiumName)

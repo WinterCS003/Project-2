@@ -199,9 +199,9 @@ List<stadium> graph::getAmericanLeagueStadiums(){
             output.append(stadiums[i]);
             if(i > 0 && stadiums[i].getStadiumName() == "Angels Stadium of Anaheim")
             {
-                temp = stadiums[0];
-                stadiums[0] = stadiums[i];
-                stadiums[i] = temp;
+                temp = output[0];
+                output[0] = output[output.size() - 1];
+                output[output.size() - 1] = temp;
             }
         }
     }
@@ -226,11 +226,11 @@ List<stadium> graph::getNationalLeagueStadiums(){
     for(int i = 0; i < _size; i++){
         if(stadiums[i].getType() == "National League"){
             output.append(stadiums[i]);
-            if(i > 0 && stadiums[i].getStadiumName() == "AT&T Park")
+            if(i > 0 && stadiums[i].getStadiumName() == "Dodger Stadium")
             {
-                temp = stadiums[0];
-                stadiums[0] = stadiums[i];
-                stadiums[i] = temp;
+                temp = output[0];
+                output[0] = output[output.size() - 1];
+                output[output.size() - 1] = temp;
             }
         }
     }
@@ -331,43 +331,86 @@ void graph::removeStadium(stadium toRemove){
  * --------------------------------------------------------------
  *   Return: none - parameters are updated after running function
  ***************************************************************/
-void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stadium> &targets, int& total_distance)
+void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stadium> targets, int& total_distance)
 {
-    int unused_targets[targets.size() - 1];
+    int unused_targets[targets.size() - 1]; // Unused targets
     int unused_targets_size;
+    int same_positions[targets.size()][2]; // Nodes that have same position on map
+    int same_positions_used;
     int i, j;
 
     int path[stadiums.size()];
     int nodes_visited;
     int distance;
 
-    if(targets.size() < 2)
+    if(targets.size() == 0)
         return;
-
-    nodes_visited = 0;
-
-    unused_targets_size = targets.size();
-    for(i = 0; i < targets.size(); i++)
-        unused_targets[i] = getIndex(targets[i]);
-    unused_targets[0] = -1;
 
     total_distance = 0;
     total_path[0] = getIndex(targets[0]);
     total_path_used = 1;
-    for(i = 1; i < targets.size(); i++)
+
+    if(targets.size() == 1)
+        return;
+
+    // Populate unused targets
+    unused_targets_size = targets.size();
+    for(i = 0; i < targets.size(); i++)
+        unused_targets[i] = getIndex(targets[i]);
+
+    // Remove second node that has distance=0 with another node, will add back in after
+    same_positions_used = 0;
+    for(i = unused_targets_size - 1; i > 0; i--)
     {
-        dijkstras(path, nodes_visited, distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
-        for(j = nodes_visited-1; j >= 0; j--)
-            total_path[total_path_used++] = path[j];
-        total_distance += distance;
-        std::cout << "total: " << total_distance << "\n";
+        for(j = i - 1; j >= 0; j--)
+        {
+            stadiumNode *edge = getedge(stadiums[unused_targets[i]], stadiums[unused_targets[j]]);
+            if(edge == nullptr)
+                continue;
+
+            // Handle hold merged data
+            if(edge->_distance == 0)
+            {
+                same_positions[same_positions_used][0] = unused_targets[j];
+                same_positions[same_positions_used][1] = unused_targets[i];
+                same_positions_used++;
+                if(i < unused_targets_size - 1)
+                {
+                    std::copy(unused_targets+i+1, unused_targets+unused_targets_size, unused_targets+i);
+                }
+                unused_targets_size--;
+                break;
+            }
+        }
     }
 
-    for(i = 0; i < total_path_used; i++)
+    // Use first node
+    unused_targets[0] = -1;
+
+    // Dijkstras each target
+    while(unused_targets_size > 0)
     {
-        std::cout << "Visit: " << stadiums[total_path[i]] << "\n";
+        nodes_visited = 0;
+        dijkstras(path, nodes_visited, distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
+        for(j = 0; j < nodes_visited; j++)
+            total_path[total_path_used++] = path[j];
+        total_distance += distance;
     }
-    std::cout << "- Total Distance: " << total_distance << "\n";
+
+    // Reinsert duplicate nodes, only once each
+    for(i = 0; i < same_positions_used; i++)
+    {
+        for(j = 0; j < total_path_used; j++)
+            if(same_positions[i][0] == total_path[j])
+                break;
+
+        if(j == total_path_used)
+            continue;
+
+        std::copy(total_path + j, total_path + total_path_used, total_path + j + 1);
+        total_path[j+1] = same_positions[i][1];
+        total_path_used++;
+    }
 }
 
 /****************************************************************
@@ -408,11 +451,11 @@ int graph::getIndex(stadium& target)
  *                                                   write to
  *               int& nodes_visited      // OUT - how many nodes
  *                                                visited
- *               int& dis                // OUT - total distance
+ *               int& total_distance     // OUT - total distance
  *               int src                 // IN - starting index
  *               int *unused_targets     // IN - index of unused
  *                                               targets
- *               int unused_targets_size // IN - number of unused
+ *               int &unused_targets_size // IN - number of unused
  *                                               targets
  * --------------------------------------------------------------
  *   Return: none - parameters are updated after function is
@@ -420,94 +463,111 @@ int graph::getIndex(stadium& target)
  ***************************************************************/
 void graph::dijkstras(int *path,               // IN/OUT - array to write to
                       int& nodes_visited,      // OUT - how many nodes visited
-                      int& dis,                // OUT - total distance
+                      int& total_distance,                // OUT - total distance
                       int src,                 // IN - starting index
                       int *unused_targets,     // IN - index of unused targets
-                      int unused_targets_size) // IN - number of unused targets
+                      int &unused_targets_size) // IN - number of unused targets
 {
     int max = stadiums.size();
-    int infinity = 1000000000;
 
-    int cost[max][max],distances[max],prev[max];
-    int count = -1;
-    int min = -1;
-    int nextnode = -1;
-    int i = -1;
-    int j = -1;
-    bool visited[max];
+    int i, j, k, u;
+    int indices[max], distances[max];
+    int costs[max][max];
+    int paths[max][max];
+    int path_used[max];
+    int min_index, min_distance;
+    int prev_index;
 
-    for(int i = 0; i < max; i++){
-        distances[i] = infinity;
-        prev[i] = -1;
-        visited[max] = false;
-        for(int j = 0; j < max; j++){
-            cost[i][j] = infinity;
-        }
-    }
-
-    for(i=0;i<max;i++)
+    // Init Values
+    for(i = 0; i < max; i++)
     {
         for(j = 0; j < max; j++)
-            cost[i][j] = infinity;
+            costs[i][j] = 0;
         for(j = 0; j < adjList[i].size(); j++)
         {
-            int index = getIndex(adjList[i][j]._des);
-            cost[i][index] = adjList[i][j]._distance;
+            int i1 = getIndex(adjList[i][j]._src);
+            int i2 = getIndex(adjList[i][j]._des);
+            costs[i1][i2] = adjList[i][j]._distance;
         }
-        distances[i] = cost[src][i];
-        prev[i] = src;
-        visited[i] = false;
     }
 
-    distances[src] = 0;
-    visited[src] = true;
+    // Get base index
+    indices[0] = src;
+    distances[0] = 0;
 
-    for(count = 0; count < max-1; count++)
+    for(i = 0; i < max; i++)
     {
-        min=infinity;
-        for(i=0;i<max;i++)
-        {
-            if(distances[i] != -1 && (min == -1 || distances[i] < min) && !visited[i])
-            {
-                min=distances[i];
-                nextnode=i;
-            }
-        }
-        visited[nextnode] = true;
-        for(i=0;i<max;i++)
-        {
-            if(!visited[i] && distances[i] != -1 && cost[nextnode][i] != -1 && min + cost[nextnode][i] < distances[i]) {
-                distances[i] = min + cost[nextnode][i];
-                prev[i] = nextnode;
-            }
-        }
+      paths[i][0] = indices[0];
+      path_used[i] = 1;
     }
 
-    // Find minimum path to next trip node
+    // Main loop until full
+    for(u = 1; u < max; u++)
+    {
+      min_distance = 0;
+      // Loop through existing paths
+      for(i = 0; i < u; i++)
+      {
+        // Loop through main indices
+        for(j = 0; j < max; j++)
+        {
+          // Check if visited
+          for(k = 0; k < u && j != indices[i] && j != indices[k]; k++);
+          if(k < u)
+            continue;
+
+          // Get distance of previous index to current
+          k = costs[indices[i]][j];
+          if(k == 0)
+            continue;
+
+          // Check if min_distance set yet or new min distance exists
+          if(k < min_distance || min_distance == 0)
+          {
+            prev_index = i;
+            min_index = j;
+            min_distance = k;
+          }
+        }
+      }
+
+      indices[u] = min_index;
+      distances[u] = min_distance + distances[prev_index];
+
+      path_used[u] = path_used[prev_index];
+      std::copy(paths[prev_index], paths[prev_index]+path_used[u], paths[u]);
+      paths[u][path_used[u]] = min_index;
+      path_used[u] += 1;
+    }
+
     int min_i = -1;
-    int min_j = -1;
+    int min_j;
     for(i = 0; i < max; i++)
     {
         for(j = 0; j < unused_targets_size; j++)
-            if(unused_targets[j] == i)
-                break;
+          if(paths[i][path_used[i]-1] == unused_targets[j])
+              break;
 
-        // Not found in unused, skip
+        // Not in unused, continue
         if(j == unused_targets_size)
-            continue;
+          continue;
 
-        if(min_i == -1 || min > distances[i])
+        if(min_i == -1 || distances[i] < distances[min_i])
         {
-            min = distances[i];
             min_i = i;
             min_j = j;
         }
     }
-    unused_targets[min_j] = -1;
 
-    // Add path onto parent
-    for(i = 0, j = min_i; i < max && j != src; i++, j=prev[j])
-        path[i] = j;
-    nodes_visited = i;
-    dis = min;
+    if(min_j < unused_targets_size - 1)
+    {
+        std::copy(unused_targets+min_j+1, unused_targets+unused_targets_size, unused_targets+min_j);
+    }
+    unused_targets_size--;
+
+    total_distance += distances[min_i];
+    for(i = 1; i < path_used[min_i]; i++)
+    {
+        path[nodes_visited++] = paths[min_i][i];
+    }
 }

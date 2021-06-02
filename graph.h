@@ -58,17 +58,17 @@ public:
 
     void getShortestTripPath(int *total_path,
                              int& total_path_used,
-                             List<stadium>& targets,
+                             List<stadium> targets,
                              int& total_distance);
 
     int getIndex(stadium& target); // get target index in master list
 
     void dijkstras(int *path,           // IN/OUT - array to write to
                    int& nodes_visited,  // OUT - how many nodes visited
-                   int& distance,       // OUT - total distance
+                   int& total_distance, // OUT - total distance
                    int src,             // IN - starting index
                    int *unused_targets,
-                   int unused_targets_size); // IN - ending index
+                   int &unused_targets_size); // IN - ending index
 
     List<stadium> getAmericanLeagueStadiums();
 
@@ -214,10 +214,10 @@ private:
 /****************************************************************
  * void graph::dijkstras(int *path,
  *                      int& nodes_visited,
- *                      int& dis,
+ *                      int& total_distance,
  *                      int src,
  *                      int *unused_targets,
- *                      int unused_targets_size);
+ *                      int &unused_targets_size);
  *
  *   Accessor; This method will use dijkstra's algorithm to
  *             return the shortest path from the source node
