@@ -6,6 +6,16 @@
 
 #include "files.h"
 
+/*******************************************************************
+ * void loadStadiumTable1();
+ *
+ *   Accessor; This method will load all stadiums into the modify
+ *             stadiums table
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::loadStadiumTable1(){
     // page 8 modify stadium
     ui->modificationTable->setRowCount(0);
@@ -22,6 +32,16 @@ void MainWindow::loadStadiumTable1(){
     }
 }
 
+/*******************************************************************
+ * void loadStadiumTable2();
+ *
+ *   Accessor; This method will load all stadiums into the all stadium
+ *             table on the welcome page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::loadStadiumTable2(){
     // stadiums list on page 1
     ui->allStadiums->setRowCount(0);
@@ -31,6 +51,16 @@ void MainWindow::loadStadiumTable2(){
     }
 }
 
+/*******************************************************************
+ * void loadStadiumTable3();
+ *
+ *   Accessor; This method will load all stadiums into the stadium
+ *             info table.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::loadStadiumTable3(){
     // page 7 - stadium info table
     List<stadium> temp = g.stadiums;
@@ -51,6 +81,16 @@ void MainWindow::loadStadiumTable3(){
     }
 }
 
+/*******************************************************************
+ * void loadSouvenirTable1();
+ *
+ *   Accessor; This method will load all souenirs into the purchase
+ *             souvenirs table
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::loadSouvenirTable1(){
     // page 10 - purchase souvenir
     ui->souvenirListForAdd->setRowCount(0);
@@ -62,6 +102,16 @@ void MainWindow::loadSouvenirTable1(){
     }
 }
 
+/*******************************************************************
+ * void loadSouvenirTable2();
+ *
+ *   Accessor; This method will load all souenirs into the edit
+ *             souvenirs table
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::loadSouvenirTable2(){
     // page 9 create new souvenir
     ui->modSouvenir_table->setRowCount(0);
@@ -73,6 +123,12 @@ void MainWindow::loadSouvenirTable2(){
     }
 }
 
+/****************************************************************
+ * MainWindow(QWidget *parent = nullptr);
+ *   Constructor; Create a new instance of the window
+ *   Parameters: parent (QWidget*) // IN - pointer to widget
+ *   Return: none
+ ***************************************************************/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -127,6 +183,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mapLegend->hide();
 }
 
+/*******************************************************************
+ * void loadMap(graph g, List<stadium>* custom = nullptr);
+ *
+ *   Accessor; This method will load the map onto the screen
+ *             with all edges and stadiums from the graph on it.
+ *------------------------------------------------------------------
+ *   Parameter: g (graph) // IN – graph to print onto map
+ *              custom(List<stadium*>) // IN - custom stadiums to
+ *                                             print
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::loadMap(graph g, List<stadium>* custom){
     size_t ii;
 
@@ -160,8 +228,10 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
         QPen trace;
         trace.setWidth(5);
         trace.setColor(Qt::darkGreen);
+        ui->stadiumsVisited->clear();
         for(ii = 1; ii < total_path_used; ii++)
         {
+            ui->stadiumsVisited->addItem(QString::fromStdString(g.stadiums[total_path[ii-1]].getStadiumName()));
             stadium src = g.stadiums[total_path[ii-1]];
             stadium des = g.stadiums[total_path[ii]];
 
@@ -176,6 +246,13 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
             paint.setPen(line);
             paint.drawText(midX, midY, QString::fromStdString(std::to_string(distance)));
         }
+        ui->stadiumsVisited->addItem(QString::fromStdString(g.stadiums[total_path[ii]].getStadiumName()));
+        QString visited = "Visited: ";
+        visited += QString::fromStdString(to_string(total_path_used));
+        ui->numbVisited->setText(visited);
+        QString dis = "Distance: ";
+        dis += QString::fromStdString(to_string(total_distance));
+        ui->distance->setText(dis);
 
         paint.setPen(nullptr);
         paint.setBrush(Qt::green);
@@ -206,6 +283,8 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
                 paint.setPen(yellow);
             }
             paint.drawPoint(g.stadiums[i].getXCoor(), g.stadiums[i].getYCoor());
+            paint.setPen(line);
+            paint.drawText(g.stadiums[i].getXCoor(), g.stadiums[i].getYCoor(), QString::fromStdString(g.stadiums[i].getStadiumName()));
         }
 
         // draw all edges on map
@@ -229,6 +308,12 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
     ui->map2->show();
 }
 
+/****************************************************************
+ * ~MainWindow();
+ *   Destructor; Frees any dynamically allocated memory
+ *   Parameters: none
+ *   Return: none
+ ***************************************************************/
 MainWindow::~MainWindow()
 {
     try{
@@ -245,11 +330,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*******************************************************************
+ * void gotoPage(string pg);
+ *
+ *   Accessor; This method will switch the screen to the indicated
+ *             page
+ *------------------------------------------------------------------
+ *   Parameter: pg (string) // IN – page to switch to
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::gotoPage(string pg)
 {
     ui->stackedWidget->setCurrentWidget(pageMap[pg]);
 }
 
+/*******************************************************************
+ * void on_customerPushButtonMenu_clicked();
+ *
+ *   Accessor; This method will switch the window to the main menu
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_customerPushButtonMenu_clicked()
 {
     loadStadiumTable2();
@@ -266,16 +370,46 @@ void MainWindow::on_customerPushButtonMenu_clicked()
     gotoPage("custWelcomePage");
 }
 
+/*******************************************************************
+ * void on_adminPushButtonMain_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the admin console
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_adminPushButtonMain_clicked()
 {
     gotoPage("adminWelcomePg");
 }
 
+/*******************************************************************
+ * void on_customerDoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the previous
+ *             screen.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_customerDoneButton_clicked()
 {
     gotoPage("mainMenu");
 }
 
+/*******************************************************************
+ * void on_mapPgDoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window from the map
+ *             page to the main menu page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_mapPgDoneButton_clicked()
 {
     gotoPage("planYourTripPage");
@@ -283,6 +417,16 @@ void MainWindow::on_mapPgDoneButton_clicked()
     ui->mapLegend->hide();
 }
 
+/*******************************************************************
+ * void on_adminPgDoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the previous
+ *             screen from the admin console.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_adminPgDoneButton_clicked()
 {
     ui->textBrowser_2->clear();
@@ -290,11 +434,31 @@ void MainWindow::on_adminPgDoneButton_clicked()
     gotoPage("mainMenu");
 }
 
+/*******************************************************************
+ * void on_souvenirsDoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the previous
+ *             screen from the souvenirs page.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_souvenirsDoneButton_clicked()
 {
     gotoPage("planYourTripPage");
 }
 
+/*******************************************************************
+ * void setStadiumTextBrowser(string stadiumTemp);
+ *
+ *   Accessor; This method will set text browser with information
+ *             from the given stadium.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::setStadiumTextBrowser(string stadiumTemp)
 {
     gotoPage("stadiumInfoPage");
@@ -307,12 +471,32 @@ void MainWindow::setStadiumTextBrowser(string stadiumTemp)
     ui->stadiumInfoTextBrowser->setText(a);
 }
 
+/*******************************************************************
+ * void on_stadiumInfoDoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the previous
+ *             screen from the staium info page.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_stadiumInfoDoneButton_clicked()
 {
     loadStadiumTable2();
     gotoPage("custWelcomePage");
 }
 
+/*******************************************************************
+ * void on_exitMainButton_clicked();
+ *
+ *   Accessor; This method will save the state of the program
+ *             before closing the window.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_exitMainButton_clicked()
 {
     saveSouvenirs(s, "textFiles/SouvenirList.txt");
@@ -321,19 +505,59 @@ void MainWindow::on_exitMainButton_clicked()
     close();
 }
 
+/*******************************************************************
+ * void on_stadiumsByName_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the stadium info page.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_stadiumsByNameButton_clicked()
 {
     gotoPage("stadiumInfoPage");
 }
 
+/*******************************************************************
+ * bool TeamName(node<stadium>& s1, node<stadium>& s2);
+ *
+ *   Accessor; This method will sort the stadiums by team name.
+ *------------------------------------------------------------------
+ *   Parameter: s1 (node<stadium>&) // IN - stadium node to compare
+ *              s2 (node<stadium>&) // IN - stadium node to compare
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 bool MainWindow::TeamName(node<stadium>& s1, node<stadium>& s2){
     return s1._data.getTeamName() < s2._data.getTeamName();
 }
 
+/*******************************************************************
+ * bool StadiumName(node<stadium>& s1, node<stadium>& s2);
+ *
+ *   Accessor; This method will sort the stadiums by stadium name.
+ *------------------------------------------------------------------
+ *   Parameter: s1 (node<stadium>&) // IN - stadium node to compare
+ *              s2 (node<stadium>&) // IN - stadium node to compare
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 bool MainWindow::StadiumName(node<stadium>& s1, node<stadium>& s2){
     return s1._data.getStadiumName() < s2._data.getStadiumName();
 }
 
+/*******************************************************************
+ * bool date(node<stadium>& s1, node<stadium>& s2);
+ *
+ *   Accessor; This method will sort the stadiums by opening date.
+ *------------------------------------------------------------------
+ *   Parameter: s1 (node<stadium>&) // IN - stadium node to compare
+ *              s2 (node<stadium>&) // IN - stadium node to compare
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 bool MainWindow::date(node<stadium>& s1, node<stadium>& s2){
     Date d1(s1._data.getOpenDate());
     Date d2(s2._data.getOpenDate());
@@ -341,17 +565,46 @@ bool MainWindow::date(node<stadium>& s1, node<stadium>& s2){
     return d1 < d2;
 }
 
+/*******************************************************************
+ * void on_stadiumTableInfo_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the page with all stadium info
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_stadiumTableInfo_clicked()
 {
     loadStadiumTable3();
     gotoPage("stadiuminfotable");
 }
 
+/*******************************************************************
+ * void on_gobacktomainpage_clicked();
+ *
+ *   Accessor; This method will switch the window to the main window
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_gobacktomainpage_clicked()
 {
     gotoPage("mainMenu");
 }
 
+/*******************************************************************
+ * void on_planTripButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the plan trip
+ *             page.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_planTripButton_clicked()
 {
     ui->dijkstrasTable->setRowCount(0);
@@ -390,17 +643,32 @@ void MainWindow::on_planTripButton_clicked()
     gotoPage("planYourTripPage");
 }
 
-void MainWindow::plannedTripTable()
-{
-
-}
-
+/*******************************************************************
+ * void on_pushButton_31_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the welcome page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_pushButton_31_clicked()
 {
     loadStadiumTable2();
     gotoPage("custWelcomePage");
 }
 
+/*******************************************************************
+ * void on_pushButton_38_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the souvenirs bought page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_pushButton_38_clicked()
 {
     ui->textBrowser_trackS->clear();
@@ -412,11 +680,33 @@ void MainWindow::on_pushButton_38_clicked()
 
     gotoPage("custSouvenirsPg");
 }
+
+/*******************************************************************
+ * void on_pushButton_39_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the map page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_pushButton_39_clicked()
 {
     gotoPage("mapPlanPg");
 }
 
+/*******************************************************************
+ * void on_pushButton_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the mod stadium page, allowing the user
+ *             to edit stadium info as an admin.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_pushButton_clicked()
 {
     loadStadiumTable1();
@@ -424,6 +714,15 @@ void MainWindow::on_pushButton_clicked()
 
 }
 
+/*******************************************************************
+ * void on_modAddNewButton_clicked();
+ *
+ *   Accessor; This method will allow the user to add a new stadium
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_modAddNewButton_clicked()
 {
     ui->Xcord->show();
@@ -433,11 +732,32 @@ void MainWindow::on_modAddNewButton_clicked()
     ui->submit->show();
 }
 
+/*******************************************************************
+ * void on_modStadium_doneButton_clicked();
+ *
+ *   Accessor; This method will allow the user to save changes
+ *             for any stadium edits.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_modStadium_doneButton_clicked()
 {
     gotoPage("adminWelcomePg");
 }
 
+/*******************************************************************
+ * void on_adminPg_goto_modSouvenirPg_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the mod souvenir page, allowing the user to
+ *             edit souvenir info as an admin
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
 {
     loadSouvenirTable2();
@@ -455,12 +775,32 @@ void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
         }*/
 }
 
+/*******************************************************************
+ * void on_stadiumTable_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the stadium info page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_stadiumTable_clicked()
 {
     loadStadiumTable3();
     gotoPage("stadiuminfotable");
 }
 
+/*******************************************************************
+ * void on_stadiumInfoCheckBox_stateChanged(int arg1);
+ *
+ *   Accessor; This method will allow the user to toggle between
+ *             adding stadiums and viewing stadium info.
+ *------------------------------------------------------------------
+ *   Parameter: arg1 (int) // IN - state of check box
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
 {
     if(ui->stadiumInfoCheckBox->isChecked())
@@ -473,6 +813,16 @@ void MainWindow::on_stadiumInfoCheckBox_stateChanged(int arg1)
     }
 }
 
+/*******************************************************************
+ * void planTeamButtons(string stadiumName);
+ *
+ *   Accessor; This method will add the following stadium to the
+ *             custom trip.
+ *------------------------------------------------------------------
+ *   Parameter: stadiumName (string) // IN - stadium to add
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::planTeamButtons(string stadiumName)
 {
     stadium temp;
@@ -503,6 +853,16 @@ void MainWindow::planTeamButtons(string stadiumName)
     }
 }
 
+/*******************************************************************
+ * void on_restartDreamList_clicked();
+ *
+ *   Accessor; This method will clear all custom teams added by the
+ *             user
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_restartDreamList_clicked()
 {
     newStadiumaAddedbyUser.clear();
@@ -519,6 +879,8 @@ bool MainWindow::alreadyInDreamList(string stadiumName)
 
     return false;
 }
+
+
 void MainWindow::deleteDreamStadium(string stadiumName)
 {
     for(unsigned int i = 0; i < dreamList.size(); i++)
@@ -532,10 +894,30 @@ void MainWindow::deleteDreamStadium(string stadiumName)
     }
 }
 
+/*******************************************************************
+ * void on_backtoMain_clicked();
+ *
+ *   Accessor; This method will switch the window to the main
+ *             window
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_backtoMain_clicked()
 {
     gotoPage("mainMenu");
 }
+
+/*******************************************************************
+ * void on_showMapButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the map page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_showMapButton_clicked()
 {
     loadMap(g, &newStadiumaAddedbyUser);
@@ -544,6 +926,16 @@ void MainWindow::on_showMapButton_clicked()
     gotoPage("GeneralMap");
 }
 
+/*******************************************************************
+ * void on_pushButton_5_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to track souvenirs page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_pushButton_5_clicked()
 {
     // load table of souvenirs - s
@@ -553,6 +945,15 @@ void MainWindow::on_pushButton_5_clicked()
     gotoPage("TrackSouvenirAdd");
 }
 
+/*******************************************************************
+ * void on_back_clicked();
+ *
+ *   Accessor; This method will switch the window to the main window
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_back_clicked()
 {
     ui->msg->clear();
@@ -565,6 +966,16 @@ void MainWindow::on_back_clicked()
     gotoPage("custSouvenirsPg");
 }
 
+/*******************************************************************
+ * void on_showMapButtonMainPage_clicked();
+ *
+ *   Accessor; This method will switch the window from the main
+ *             window to the general map page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_showMapButtonMainPage_clicked()
 {
     loadMap(g);
@@ -573,6 +984,16 @@ void MainWindow::on_showMapButtonMainPage_clicked()
     gotoPage("GeneralMap");
 }
 
+/*******************************************************************
+ * void on_DoneButton2_clicked();
+ *
+ *   Accessor; This method will switch the window to the welcome
+ *             page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_DoneButton2_clicked()
 {
     loadStadiumTable2();
@@ -581,8 +1002,15 @@ void MainWindow::on_DoneButton2_clicked()
     gotoPage("custWelcomePage");
 }
 
-
-
+/*******************************************************************
+ * void on_modSouvenir_doneButton_clicked();
+ *
+ *   Accessor; This method will save any changes made to souvenirs.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_modSouvenir_doneButton_clicked()
 {
     size_t i;
@@ -608,6 +1036,15 @@ void MainWindow::on_modSouvenir_doneButton_clicked()
     ui->modSouvenir_message->setText(QString::fromStdString(message));
 }
 
+/*******************************************************************
+ * void on_modSouvenir_addButton_clicked();
+ *
+ *   Accessor; This method will allow the user to add a new souvenir.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_modSouvenir_addButton_clicked()
 {
     souvenir _s;
@@ -615,11 +1052,17 @@ void MainWindow::on_modSouvenir_addButton_clicked()
     s.addSouvenir(_s);
     ui->modSouvenir_table->insertRow(ui->modSouvenir_table->rowCount());
     ui->modSouvenir_table->scrollToBottom();
-
-//    ui->souvenirListForAdd->insertRow(ui->souvenirListForAdd->rowCount());
-//    ui->souvenirListForAdd->scrollToBottom();
 }
 
+/*******************************************************************
+ * void on_modSouvenir_table_itemChanged(QTableWidgetItem*);
+ *
+ *   Accessor; This method will update the souvenir if it is edited
+ *------------------------------------------------------------------
+ *   Parameter: QTableWidgetItem* // IN - table item that is edited
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 {
     bool check;
@@ -643,8 +1086,6 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
         s[i].setName(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Name updated."));
 
-//        ui->souvenirListForAdd->item(i, 0)->setText(QString::fromStdString(s[i].getName()));
-
         return;
     }
 
@@ -662,8 +1103,6 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
 
         s[i].setPrice(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Price updated."));
-
-//        ui->souvenirListForAdd->item(i, 1)->setText(QString::fromStdString(s[i].getPrice()));
 
         return;
     }
@@ -683,6 +1122,16 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
     // ignore rest
 }
 
+/*******************************************************************
+ * void on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem* item);
+ *
+ *   Accessor; This method will allow the user to purchase a new
+ *             souvenir from a table of souvenirs.
+ *------------------------------------------------------------------
+ *   Parameter: item (QTableWidgetItem*) // IN - item that was clicked
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item)
 {
     // add to purchases
@@ -700,13 +1149,60 @@ void MainWindow::on_souvenirListForAdd_itemDoubleClicked(QTableWidgetItem *item)
     }
 }
 
+/*******************************************************************
+ * void on_allStadiums_itemDoubleClicked(QTableWidgetItem *item);
+ *
+ *   Accessor; This method will allow the user to see all stadium
+ *             info from a table of stadiums
+ *------------------------------------------------------------------
+ *   Parameter: item (QTableWidgetItem*) // IN - cell that was clicked
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_allStadiums_itemDoubleClicked(QTableWidgetItem *item)
 {
     std::string name = item->text().toStdString();
     planTeamButtons(name);
 }
 
-// add/edit stadium
+/*******************************************************************
+ * void on_submit_clicked();
+ *
+ *   Accessor; This method will set the x and y coordinates for a
+ *             new stadium
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_submit_clicked()
+{
+    stadium s;
+    s.setXCoor(ui->Xcord->value());
+    s.setYCoor(ui->Ycord->value());
+    g.addStadium(s);
+
+    ui->Xcord->hide();
+    ui->Xcord->clear();
+    ui->xLabel->hide();
+    ui->Ycord->hide();
+    ui->Ycord->clear();
+    ui->yLabel->hide();
+    ui->submit->hide();
+
+    ui->modificationTable->insertRow(ui->modificationTable->rowCount());
+    ui->modificationTable->scrollToBottom();
+}
+
+/*******************************************************************
+ * void on_modificationTable_itemChanged(QTableWidgetItem *item);
+ *
+ *   Accessor; This method will allow the user to edit a souvenir.
+ *------------------------------------------------------------------
+ *   Parameter: item (QTableWidgetItemm*) // IN - item that was edited
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
 {
     int i = item->column();
@@ -720,7 +1216,11 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
             ui->allStadiums->removeRow(i);
             return;
         }
+        for(int i = 0; i < g.stadiums.size(); i++){
+            if(g.stadiums[i].getStadiumName() == item->text().toStdString()){
 
+            }
+        }
         g.stadiums[i].setName(item->text().toStdString());
     } else if(i == 1){ // edit team name
         i = item->row();
@@ -746,6 +1246,17 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
     }
 }
 
+/*******************************************************************
+ * void on_GrassSurface_currentIndexChanged(int index);
+ *
+ *   Accessor; This method will allow the user to toggle between
+ *             sorting the stadiums by team name, stadium name,
+ *             surface type, founding date, and team type
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_GrassSurface_currentIndexChanged(int index)
 {
     List<stadium> temp = g.stadiums;
@@ -782,25 +1293,16 @@ void MainWindow::on_GrassSurface_currentIndexChanged(int index)
     }
 }
 
-void MainWindow::on_submit_clicked()
-{
-    stadium s;
-    s.setXCoor(ui->Xcord->value());
-    s.setYCoor(ui->Ycord->value());
-    g.addStadium(s);
-
-    ui->Xcord->hide();
-    ui->Xcord->clear();
-    ui->xLabel->hide();
-    ui->Ycord->hide();
-    ui->Ycord->clear();
-    ui->yLabel->hide();
-    ui->submit->hide();
-
-    ui->modificationTable->insertRow(ui->modificationTable->rowCount());
-    ui->modificationTable->scrollToBottom();
-}
-
+/*******************************************************************
+ * void on_allALStadiumsButton_clicked();
+ *
+ *   Accessor; This method will load a map that visits all American
+ *             League stadiums.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_allALStadiumsButton_clicked()
 {
     List<stadium> al = g.getAmericanLeagueStadiums();
@@ -810,6 +1312,16 @@ void MainWindow::on_allALStadiumsButton_clicked()
     gotoPage("GeneralMap");
 }
 
+/*******************************************************************
+ * void on_allNLStadiumsButton_clicked();
+ *
+ *   Accessor; This method will load a map that visits all National
+ *             League stadiums.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_allNLStadiumsButton_clicked()
 {
     List<stadium> nl = g.getNationalLeagueStadiums();
@@ -819,6 +1331,16 @@ void MainWindow::on_allNLStadiumsButton_clicked()
     gotoPage("GeneralMap");
 }
 
+/*******************************************************************
+ * void on_allStadiumsButton_clicked();
+ *
+ *   Accessor; This method will load a map that visits all MLB
+ *             stadiums.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_allStadiumsButton_clicked()
 {
     loadMap(g, &g.stadiums);
@@ -826,6 +1348,16 @@ void MainWindow::on_allStadiumsButton_clicked()
     gotoPage("GeneralMap");
 }
 
+/*******************************************************************
+ * void on_pushButton_2_clicked();
+ *
+ *   Accessor; This method will load the information of a random
+ *             stadium.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->listWidget->clear();

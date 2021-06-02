@@ -1,10 +1,22 @@
 #include "graph.h"
-#include <vector>
 
+/****************************************************************
+ * graph();
+ *   Constructor; Initializes an empty class
+ *   Parameters: none
+ *   Return: none
+ ***************************************************************/
 graph::graph(){
     _size = 0;
 }
 
+/****************************************************************
+ * ~graph();
+ *   Destructor; Frees all memory used by the stadiums and
+ *               adjacency list.
+ *   Parameters: none
+ *   Return: none
+ ***************************************************************/
 graph::~graph(){
     for(int i = 0; i < _size; i++){
         adjList[i].clear();
@@ -12,10 +24,33 @@ graph::~graph(){
     adjList.clear();
 }
 
-stadium graph::getStadiumInfo(stadium s){
+/****************************************************************
+ * stadium getStadiumInfo(stadium s) const;
+ *
+ *   Accessor; This method will search the attribute stadiums
+ *             to see if the stadium exists. If it does, then
+ *             the stadium is returned.
+ * --------------------------------------------------------------
+ *   Parameters: s (stadium) // IN - stadium to search for
+ * --------------------------------------------------------------
+ *   Return: age (int)
+ ***************************************************************/
+stadium graph::getStadiumInfo(stadium s) const{
     return stadiums.Search(s)->_data;
 }
 
+/****************************************************************
+ * stadiumNode getedge(stadium stadiumSrc,
+ *                     stadium stadiumDes);
+ *
+ *   Accessor; This method will return the edge that connects
+ *             the two given stadiums
+ * --------------------------------------------------------------
+ *   Parameters: stadiumSrc (stadium) // IN - source stadium
+ *               stadiumDes (stadium) // IN - destination stadium
+ * --------------------------------------------------------------
+ *   Return: stadiumNode - returns edge connecting given stadiums.
+ ***************************************************************/
 stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
     int index = stadiums.find(stadiumSrc);
     for(int i = 0; i < adjList[index].size(); i++){
@@ -25,6 +60,17 @@ stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
     }
 }
 
+/****************************************************************
+ * List<stadiumNode> getedges(stadium stadiumSrc);
+ *
+ *   Accessor; This method will return a list of all stadiums
+ *             connected to the given source stadium.
+ * --------------------------------------------------------------
+ *   Parameters: stadiumSrc (stadium) // IN - source stadium
+ * --------------------------------------------------------------
+ *   Return: List<stadiumNode> - all edge connected to the given
+ *                               stadium.
+ ***************************************************************/
 List<stadiumNode> graph::getedges(stadium stadiumSrc){
     int index = stadiums.find(stadiumSrc);
     if(index == -1){
@@ -34,6 +80,15 @@ List<stadiumNode> graph::getedges(stadium stadiumSrc){
     return adjList[index];
 }
 
+/*******************************************************************
+ * void addStadium(stadium s);
+ *
+ *   Mutator; This method will add the given stadium into the graph
+ *------------------------------------------------------------------
+ *   Parameter: s (stadium) // IN – new stadium to add
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void graph::addStadium(stadium s){
     List<stadiumNode> l;
     adjList.append(l);
@@ -41,18 +96,37 @@ void graph::addStadium(stadium s){
     _size++;
 }
 
+/*******************************************************************
+ * void addEdge(stadium src
+ *              stadium des,
+ *              int distance);
+ *
+ *   Mutator; This method will add a new edge that connects the
+ *            src stadium to the des stadium with the given distance.
+ *------------------------------------------------------------------
+ *   Parameter: src (stadium)  // IN – source stadium
+ *              des (stadium)  // IN - destination stadium
+ *              distance (int) // IN - distance between stadiums
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void graph::addEdge(stadium src, stadium des, int distance){
     int index = stadiums.find(src);
     stadiumNode temp(src, des, distance);
     adjList[index].append(temp);
 }
 
-int graph::getSize(){
-    return _size;
-}
-
-
-stadium * graph::getStadiumByName(string name)
+/****************************************************************
+ * stadium* getStadiumByName(string name);
+ *
+ *   Accessor; This method will return a stadium with the given
+ *             stadium name.
+ * --------------------------------------------------------------
+ *   Parameters: name (string) // IN - stadium name to search for
+ * --------------------------------------------------------------
+ *   Return: stadium* - pointer to stadium with the given name
+ ***************************************************************/
+stadium* graph::getStadiumByName(string name)
 {
     size_t i;
 
@@ -63,6 +137,16 @@ stadium * graph::getStadiumByName(string name)
     return nullptr;
 }
 
+/****************************************************************
+ * List<stadium> getStadiumWithGrassField();
+ *
+ *   Accessor; This method will return a List of all stadiums
+ *             with a grass field.
+ * --------------------------------------------------------------
+ *   Parameters: none
+ * --------------------------------------------------------------
+ *   Return: List<stadium> - list of all grass surface stadiums
+ ***************************************************************/
 List<stadium> graph::getStadiumWithGrassField(){
     List<stadium> output;
     for(int i = 0; i < _size; i++){
@@ -74,10 +158,16 @@ List<stadium> graph::getStadiumWithGrassField(){
     return output;
 }
 
-List<stadium> graph::getStadiumListForDijkstras(){
-
-}
-
+/****************************************************************
+ * List<stadium> getAmericanLeagueStadiums();
+ *
+ *   Accessor; This method will return a List of all american
+ *             league stadiums.
+ * --------------------------------------------------------------
+ *   Parameters: none
+ * --------------------------------------------------------------
+ *   Return: List<stadium> - list of all american league stadiums
+ ***************************************************************/
 List<stadium> graph::getAmericanLeagueStadiums(){
     List<stadium> output;
     for(int i = 0; i < _size; i++){
@@ -89,6 +179,16 @@ List<stadium> graph::getAmericanLeagueStadiums(){
     return output;
 }
 
+/****************************************************************
+ * List<stadium> getNationalLeagueStadiums();
+ *
+ *   Accessor; This method will return a List of all national
+ *             league stadiums.
+ * --------------------------------------------------------------
+ *   Parameters: none
+ * --------------------------------------------------------------
+ *   Return: List<stadium> - list of all national league stadiums
+ ***************************************************************/
 List<stadium> graph::getNationalLeagueStadiums(){
     List<stadium> output;
     for(int i = 0; i < _size; i++){
@@ -100,71 +200,18 @@ List<stadium> graph::getNationalLeagueStadiums(){
     return output;
 }
 
-// returns number of nodes in given list
-int graph::getLength(List<stadiumNode> l){
-    return l.size();
-}
-
-List<stadiumNode> graph::shortestPath(const List<stadium>& stadiumList,
-                                      string src){
-
-
-}
-
-List<stadiumNode> graph::shortestPath(string src,
-                                      string des,
-                                      const List<stadium>& s){
-
-}
-
-void graph::initForShortestPath(const List<stadium>& list,
-                                List<stadiumNode>& result_dijkstras,
-                                string src){
-
-}
-
-void graph::checkSingleVertex(List<stadiumNode>& returnMe, string src){
-
-}
-
-bool graph::allVisited(const List<stadiumNode>& me){
-
-}
-
-bool graph::allVisited(const List<stadiumNode>& toCheck,
-                       const List<stadium>& stadiumList){
-
-
-}
-
-bool graph::checkVisited(const List<stadiumNode>& me, string des){
-
-}
-
-stadiumNode graph::getDistance(string des, const List<stadiumNode>& l){
-
-}
-
-void graph::dijkstras(List<stadiumNode>& getsReturned, List<stadiumNode> edges){
-
-
-}
-
-stadiumNode graph::shortestTotalDistance
-                                    (const List<stadiumNode>& result_dijkstras){
-
-}
-
-stadiumNode graph::shortestTotalDistance(const List<stadiumNode>& result_dijkstras,
-                                         const List<stadium>& toVisit,
-                                         const List<stadiumNode>& visited){
-
-}
-
-bool graph::checkExist(const List<stadiumNode>& list, string toCheck){
-
-}
-
+/*******************************************************************
+ * void removeEdge(stadium src,
+ *                 stadium des);
+ *
+ *   Mutator; This method will remove the edge between the given
+ *            src and des stadiums.
+ *------------------------------------------------------------------
+ *   Parameter: src (stadium) // IN – source stadium
+ *              des (stadium) // IN - destination stadium
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void graph::removeEdge(stadium src, stadium des){
     int index = stadiums.find(src);
     if(index == -1){
@@ -200,6 +247,16 @@ void graph::removeEdge(stadium src, stadium des){
     }
 }
 
+/*******************************************************************
+ * void removeStadium(stadium toRemove);
+ *
+ *   Mutator; This method will remove the given stadium and all edges
+ *            associated with it.
+ *------------------------------------------------------------------
+ *   Parameter: toRemove (stadium) // IN – stadium to remove
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 void graph::removeStadium(stadium toRemove){
     std::cout << "Removing" << std::endl;
     int index = stadiums.find(toRemove);
@@ -217,8 +274,25 @@ void graph::removeStadium(stadium toRemove){
     _size--;
 }
 
-#include <list>
-
+/****************************************************************
+ * void getShortestTripPath(int *total_path,
+ *                          int& total_path_used,
+ *                          List<stadium>& targets,
+ *                          int& total_distance);
+ *
+ *   Accessor; This method will return the shortest path
+ *             connecting all nodes in the graph.
+ * --------------------------------------------------------------
+ *   Parameters: int *total_path        // IN - array of stadiums
+ *                                              visited in order
+ *               int& total_path_used   // IN - number of stadiums
+ *                                              visited
+ *               List<stadium>& targets // IN - stadiums to visit
+ *               int& total_distance    // IN - total distance
+ *                                              traveled
+ * --------------------------------------------------------------
+ *   Return: none - parameters are updated after running function
+ ***************************************************************/
 void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stadium> &targets, int& total_distance)
 {
     int unused_targets[targets.size() - 1];
@@ -289,6 +363,17 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     }*/
 }
 
+/****************************************************************
+ * int getIndex(stadium& target);
+ *
+ *   Accessor; This method will return the index of the
+ *             target stadium if it exists in the graph.
+ * --------------------------------------------------------------
+ *   Parameters: target (stadium&) // IN - stadium to search for
+ * --------------------------------------------------------------
+ *   Return: int - index of stadium in list, -1 if it is not
+ *                 found in list.
+ ***************************************************************/
 int graph::getIndex(stadium& target)
 {
     int i;
@@ -300,19 +385,58 @@ int graph::getIndex(stadium& target)
     return -1;
 }
 
-void graph::dijkstras(int *path,            // IN/OUT - array to write to
-                        int& nodes_visited,       // OUT - how many nodes visited
-                        int& dis,      // OUT - total distance
-                        int src,            // IN - starting index
-                        int *unused_targets,
-                        int unused_targets_size)
+/****************************************************************
+ * void graph::dijkstras(int *path,
+ *                      int& nodes_visited,
+ *                      int& dis,
+ *                      int src,
+ *                      int *unused_targets,
+ *                      int unused_targets_size);
+ *
+ *   Accessor; This method will use dijkstra's algorithm to
+ *             return the shortest path from the source node
+ *             to all adjacent nodes
+ * --------------------------------------------------------------
+ *   Parameters: int *path               // IN/OUT - array to
+ *                                                   write to
+ *               int& nodes_visited      // OUT - how many nodes
+ *                                                visited
+ *               int& dis                // OUT - total distance
+ *               int src                 // IN - starting index
+ *               int *unused_targets     // IN - index of unused
+ *                                               targets
+ *               int unused_targets_size // IN - number of unused
+ *                                               targets
+ * --------------------------------------------------------------
+ *   Return: none - parameters are updated after function is
+ *                  executed
+ ***************************************************************/
+void graph::dijkstras(int *path,               // IN/OUT - array to write to
+                      int& nodes_visited,      // OUT - how many nodes visited
+                      int& dis,                // OUT - total distance
+                      int src,                 // IN - starting index
+                      int *unused_targets,     // IN - index of unused targets
+                      int unused_targets_size) // IN - number of unused targets
 {
     int max = stadiums.size();
     int infinity = 1000000000;
 
     int cost[max][max],distances[max],prev[max];
-    int count,min,nextnode,i,j;
+    int count = -1;
+    int min = -1;
+    int nextnode = -1;
+    int i = -1;
+    int j = -1;
     bool visited[max];
+
+    for(int i = 0; i < max; i++){
+        distances[i] = infinity;
+        prev[i] = -1;
+        visited[max] = false;
+        for(int j = 0; j < max; j++){
+            cost[i][j] = infinity;
+        }
+    }
 
     for(i=0;i<max;i++)
     {
@@ -358,7 +482,7 @@ void graph::dijkstras(int *path,            // IN/OUT - array to write to
 
     // Find minimum path to next trip node
     int min_i = -1;
-    int min_j;
+    int min_j = -1;
     for(i = 0; i < max; i++)
     {
         for(j = 0; j < unused_targets_size; j++)

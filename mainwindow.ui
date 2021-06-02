@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1020,6 +1020,41 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="stadiumsVisited">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>40</y>
+        <width>111</width>
+        <height>192</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>stadium name</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTextBrowser" name="numbVisited">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>250</y>
+        <width>111</width>
+        <height>91</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextBrowser" name="distance">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>370</y>
+        <width>111</width>
+        <height>91</height>
+       </rect>
       </property>
      </widget>
     </widget>
