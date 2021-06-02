@@ -226,7 +226,7 @@ List<stadium> graph::getNationalLeagueStadiums(){
     for(int i = 0; i < _size; i++){
         if(stadiums[i].getType() == "National League"){
             output.append(stadiums[i]);
-            if(i > 0 && stadiums[i].getStadiumName() == "Dodger Stadium")
+            if(i > 0 && stadiums[i].getStadiumName() == "AT&T Park")
             {
                 temp = output[0];
                 output[0] = output[output.size() - 1];
