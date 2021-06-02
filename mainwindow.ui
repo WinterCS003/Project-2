@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>11</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1022,15 +1022,38 @@ p, li { white-space: pre-wrap; }
        <string/>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="drawnMap">
-     <widget class="mapwidget" name="widget_2" native="true">
+     <widget class="QListWidget" name="stadiumsVisited">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>781</width>
-        <height>441</height>
+        <x>710</x>
+        <y>40</y>
+        <width>111</width>
+        <height>192</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>stadium name</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTextBrowser" name="numbVisited">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>250</y>
+        <width>111</width>
+        <height>91</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextBrowser" name="distance">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>370</y>
+        <width>111</width>
+        <height>91</height>
        </rect>
       </property>
      </widget>
@@ -1109,14 +1132,6 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>mapwidget</class>
-   <extends>QWidget</extends>
-   <header>mapwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

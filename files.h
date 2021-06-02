@@ -1,4 +1,3 @@
-
 #ifndef FILES_H
 #define FILES_H
 
@@ -8,7 +7,26 @@
 #include "graph.h"
 #include "souvenir.h"
 
-void readStadiums(graph &g, std::string fileName){
+/**********************************************************
+ *
+ * FUNCTION readStadiums
+ *_________________________________________________________
+ * This function receives a graph and a file name and
+ * reads all stadiums found in the given file name into the
+ * graph
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to read
+ *     g: graph              // IN - graph to initialize
+ *
+ * POST-CONDITIONS
+ *     This function will initialize the graph to have all
+ *     stadiums found in the file.
+ ***********************************************************/
+void readStadiums(graph &g,             // IN - graph to initialize
+                  std::string fileName) // IN - file to read
+{
     std::ifstream input(fileName);
     bool AL = false;
 
@@ -75,7 +93,26 @@ void readStadiums(graph &g, std::string fileName){
     input.close();
 }
 
-void readDreamStadiums(List<stadium>& dream, std::string fileName){
+/**********************************************************
+ *
+ * FUNCTION readDreamStadiums
+ *_________________________________________________________
+ * This function receives a List of stadiumsand a file name
+ * and reads all stadiums found in the given file name into
+ * the list.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to read
+ *     dream: List<stadium>  // IN - List to initialize
+ *
+ * POST-CONDITIONS
+ *     This function will initialize the List to have all
+ *     custom stadiums found in the file.
+ ***********************************************************/
+void readDreamStadiums(List<stadium>& dream, // IN - List of stadiums
+                       std::string fileName) // IN - file to read
+{
     std::ifstream input(fileName);
     bool AL = false;
 
@@ -139,8 +176,26 @@ void readDreamStadiums(List<stadium>& dream, std::string fileName){
     input.close();
 }
 
-void readEdges(graph &g,                        // IN - graph object
-               std::string fileName){                // IN - name of stadium file
+/**********************************************************
+ *
+ * FUNCTION readEdges
+ *_________________________________________________________
+ * This function receives a graph and a file name and
+ * reads all edges found in the given file name into the
+ * graph
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to read
+ *     g: graph              // IN - graph to initialize
+ *
+ * POST-CONDITIONS
+ *     This function will initialize the graph to have all
+ *     edges found in the file.
+ ***********************************************************/
+void readEdges(graph &g,             // IN - graph object
+               std::string fileName) // IN - name of stadium file
+{
     std::cout << "Reading Edges" << std::endl;
     std::ifstream input(fileName);
     std::string line;
@@ -163,8 +218,25 @@ void readEdges(graph &g,                        // IN - graph object
     input.close();
 }
 
-void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
-                   std::string fileName){        // IN - name of file
+/**********************************************************
+ *
+ * FUNCTION readSouvenirs
+ *_________________________________________________________
+ * This function receives a souvenirs class and a file name.
+ * It reads all souvenirs found in the given file name into
+ * the souvenirs class
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to read
+ *     s: souvenirs          // IN - souvenirs to initialize
+ *
+ * POST-CONDITIONS
+ *     This function will initialize the souvenirs to have all
+ *     souvenirs found in the file.
+ ***********************************************************/
+void readSouvenirs(souvenirs& s,          // IN & OUT - souvenir object
+                   std::string fileName){ // IN - name of file
     std::string line;
     std::ifstream input(fileName);
     if(input.is_open()){
@@ -188,7 +260,26 @@ void readSouvenirs(souvenirs& s,            // IN & OUT - souvenir object
     }
 }
 
-void saveDreamStadiums(List<stadium>& dream, std::string fileName){
+/**********************************************************
+ *
+ * FUNCTION saveDreamStadiums
+ *_________________________________________________________
+ * This function receives a List of stadiums and a file name.
+ * It saves all stadiums found in the given list into the
+ * file
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to write
+ *     dream: List<stadium>  // IN - stadiums to save
+ *
+ * POST-CONDITIONS
+ *     This function will save all stadiums in the list to
+ *     the file.
+ ***********************************************************/
+void saveDreamStadiums(List<stadium>& dream, // IN - stadiums to save
+                       std::string fileName) // IN - file to write
+{
     std::ofstream output(fileName);
 
     if(output.is_open()){
@@ -233,7 +324,26 @@ void saveDreamStadiums(List<stadium>& dream, std::string fileName){
     }
 }
 
-void saveStadiums(graph &g, std::string fileName){
+/**********************************************************
+ *
+ * FUNCTION saveStadiums
+ *_________________________________________________________
+ * This function receives a graph and a file name.
+ * It saves all stadiums found in the given graph into the
+ * file
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to write
+ *     g: graph&             // IN - stadiums to save
+ *
+ * POST-CONDITIONS
+ *     This function will save all stadiums found in g to
+ *     the file
+ ***********************************************************/
+void saveStadiums(graph &g,             // IN - graph to save
+                  std::string fileName) // IN - file to write
+{
     std::ofstream output(fileName);
 
     if(output.is_open()){
@@ -272,7 +382,26 @@ void saveStadiums(graph &g, std::string fileName){
     output.close();
 }
 
-void saveEdges(graph& g, std::string fileName){
+/**********************************************************
+ *
+ * FUNCTION saveEdges
+ *_________________________________________________________
+ * This function receives a graph and a file name.
+ * It saves all edges found in the graph into the
+ * file
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to write
+ *     g: graph&             // IN - edges to save
+ *
+ * POST-CONDITIONS
+ *     This function will save all edges found in the graph
+ *     to the file.
+ ***********************************************************/
+void saveEdges(graph& g,             // IN - graph to save
+               std::string fileName) // IN - file to write
+{
     std::ofstream output(fileName);
 
     if(output.is_open()){
@@ -308,6 +437,22 @@ void saveEdges(graph& g, std::string fileName){
     output.close();
 }
 
+/**********************************************************
+ *
+ * FUNCTION saveSouvenirs
+ *_________________________________________________________
+ * This function receives a souvenirs object and a file name.
+ * It saves all souvenirs found in the given object into the
+ * file
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     fileName: std::string // IN - file to write
+ *     s: souvenirs&         // IN - souvenirs to save
+ *
+ * POST-CONDITIONS
+ *     This function will save all souvenirs into the file
+ ***********************************************************/
 void saveSouvenirs(souvenirs& s,        // IN - the souvenirs object to read
                    std::string fileName){    // IN - name of file
     std::ofstream output(fileName);
