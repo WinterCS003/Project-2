@@ -339,10 +339,6 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     int same_positions_used;
     int i, j;
 
-    int path[stadiums.size()];
-    int nodes_visited;
-    int distance;
-
     if(targets.size() == 0)
         return;
 
@@ -390,11 +386,7 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     // Dijkstras each target
     while(unused_targets_size > 0)
     {
-        nodes_visited = 0;
-        dijkstras(path, nodes_visited, distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
-        for(j = 0; j < nodes_visited; j++)
-            total_path[total_path_used++] = path[j];
-        total_distance += distance;
+        dijkstras(total_path, total_path_used, total_distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
     }
 
     std::cout << "start\n";
@@ -474,12 +466,12 @@ int graph::getIndex(stadium& target)
  *   Return: none - parameters are updated after function is
  *                  executed
  ***************************************************************/
-void graph::dijkstras(int *path,               // IN/OUT - array to write to
-                      int& nodes_visited,      // OUT - how many nodes visited
-                      int& total_distance,                // OUT - total distance
-                      int src,                 // IN - starting index
-                      int *unused_targets,     // IN - index of unused targets
-                      int &unused_targets_size) // IN - number of unused targets
+void graph::dijkstras(int *path,                    // IN/OUT - array to write to
+                      int& nodes_visited,           // OUT - how many nodes visited
+                      int& total_distance,          // OUT - total distance
+                      int src,                      // IN - starting index
+                      int *unused_targets,          // IN - index of unused targets
+                      int &unused_targets_size)     // IN - number of unused targets
 {
     int max = stadiums.size();
 
@@ -548,7 +540,6 @@ void graph::dijkstras(int *path,               // IN/OUT - array to write to
               {
                   if(unused_targets[l] == j && costs[unused_targets[l]][min_index] == 0)
                   {
-                      std::cout << "IN\n";
                       min_index = j;
                       break;
                   }

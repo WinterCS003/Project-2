@@ -346,7 +346,7 @@ void MainWindow::update_path_view()
         }
     }
 
-    int total_path[g.stadiums.size()];
+    int total_path[g.stadiums.size()*g.stadiums.size()];
     int pathUsed;
     int totalDistance;
     g.getShortestTripPath(total_path, pathUsed, path, totalDistance);
