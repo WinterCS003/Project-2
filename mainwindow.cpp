@@ -790,7 +790,7 @@ void MainWindow::on_pushButton_clicked()
 {
     loadStadiumTable1();
     gotoPage("modStadiumPg");
-
+    err = true;
 }
 
 /*******************************************************************
@@ -824,6 +824,7 @@ void MainWindow::on_modAddNewButton_clicked()
 void MainWindow::on_modStadium_doneButton_clicked()
 {
     gotoPage("adminWelcomePg");
+    err = false;
 }
 
 /*******************************************************************
@@ -841,6 +842,7 @@ void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
 {
     loadSouvenirTable2();
     gotoPage("modSouvenirPg");
+    err = true;
     /*
     int index;
     QObjectList list;
@@ -1194,6 +1196,7 @@ void MainWindow::on_modSouvenir_doneButton_clicked()
     }
 
     ui->modSouvenir_message->setText(QString::fromStdString(message));
+    err = false;
 }
 
 /*******************************************************************
@@ -1240,6 +1243,12 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
             ui->modSouvenir_table->removeRow(i);
             ui->souvenirListForAdd->removeRow(i);
             ui->modSouvenir_message->setText(QString::fromStdString("Row ") + QString::number(i) + QString::fromStdString(" removed."));
+            return;
+        }
+
+        if(err && s.getIndex(item->text().toStdString()) != -1){
+            QMessageBox::warning(this, "Warning", "Souvenir already exists");
+            item->setText("");
             return;
         }
 
@@ -1377,13 +1386,22 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
             return;
         }
         for(int i = 0; i < g.stadiums.size(); i++){
-            if(g.stadiums[i].getStadiumName() == item->text().toStdString()){
-
+            if(err && g.stadiums[i].getStadiumName() == item->text().toStdString()){
+                QMessageBox::warning(this, "Warning", "Stadium name already taken");
+                item->setText("");
+                return;
             }
         }
         g.stadiums[i].setName(item->text().toStdString());
     } else if(i == 1){ // edit team name
         i = item->row();
+        for(int i = 0; i < g.stadiums.size(); i++){
+            if(err && g.stadiums[i].getTeamName() == item->text().toStdString()){
+                QMessageBox::warning(this, "Warning", "Team already has a stadium");
+                item->setText("");
+                return;
+            }
+        }
         g.stadiums[i].setTeamName(item->text().toStdString());
     } else if(i == 2){ // edit address
         i = item->row();
@@ -1535,4 +1553,157 @@ void MainWindow::on_pushButton_2_clicked()
     ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getCapacity()));
     ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getType()));
     ui->listWidget->addItem(QString::fromStdString(g.stadiums[random].getFieldSurface()));
+}
+
+/*******************************************************************
+ * void on_adminPg_goto_modSouvenirPg_2_clicked();
+ *
+ *   Accessor; This method will switch the page to the modify
+ *             souvenirs page.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_adminPg_goto_modSouvenirPg_2_clicked()
+{
+    for(int i = 0; i < g.stadiums.size(); i++)
+    {
+        ui->stadium1->insertItem(i, QString::fromStdString(g.stadiums[i].getStadiumName()));
+        ui->stadium2->insertItem(i, QString::fromStdString(g.stadiums[i].getStadiumName()));
+    }
+
+    ui->stadium1->hide();
+    ui->stadium2->hide();
+    ui->distance_2->hide();
+    ui->xCo_label->hide();
+    ui->yCo_label->hide();
+    ui->xCo->hide();
+    ui->yCo->hide();
+    ui->distLabel->hide();
+    ui->submit_2->hide();
+    ui->editEdge->show();
+    ui->editLoc->show();
+
+    gotoPage("modifyLocation");
+}
+
+/*******************************************************************
+ * void on_pushButton_3_clicked();
+ *
+ *   Accessor; This method will switch the page to the previous
+ *             page, admin console.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_pushButton_3_clicked()
+{
+    gotoPage("adminWelcomePg");
+}
+
+/*******************************************************************
+ * void on_editLoc_clicked();
+ *
+ *   Accessor; This method will allow the user to change the location
+ *             of a stadium.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_editLoc_clicked()
+{
+    ui->stadium1->show();
+    ui->stadium2->hide();
+    ui->distLabel->hide();
+    ui->distance_2->hide();
+    ui->xCo_label->show();
+    ui->yCo_label->show();
+    ui->xCo->show();
+    ui->yCo->show();
+    ui->submit_2->show();
+}
+
+/*******************************************************************
+ * void on_editEdge_clicked();
+ *
+ *   Accessor; This method will allow the user to add new edges
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_editEdge_clicked()
+{
+    ui->stadium1->show();
+    ui->stadium2->show();
+    ui->distLabel->show();
+    ui->distance_2->show();
+    ui->submit_2->show();
+}
+
+/*******************************************************************
+ * void on_submit_2_clicked();
+ *
+ *   Accessor; This method will finalize any changes made by the
+ *             user to location or edges.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_submit_2_clicked()
+{
+    // editing location of 1 stadium
+    if(ui->stadium2->isHidden()){
+        QString sName = ui->stadium1->currentText();
+        int xCo = ui->xCo->value();
+        int yCo = ui->yCo->value();
+        for(int i = 0; i < g.stadiums.size(); i++){
+            if(g.stadiums[i].getStadiumName() == sName.toStdString()){
+
+                g.stadiums[i].setXCoor(xCo);
+                g.stadiums[i].setYCoor(yCo);
+                break;
+            }
+        }
+    }
+    // adding edges
+    else{
+        QString sName = ui->stadium1->currentText();
+        QString sName2 = ui->stadium2->currentText();
+        int distance = ui->distance_2->value();
+        stadium src;
+        stadium des;
+        for(int i = 0; i < g.stadiums.size(); i++){
+            if(g.stadiums[i].getStadiumName() == sName.toStdString()){
+                src = g.stadiums[i];
+            }
+            else if(g.stadiums[i].getStadiumName() == sName2.toStdString()){
+                des = g.stadiums[i];
+            }
+        }
+        if(g.getedge(src, des) != nullptr){
+            QMessageBox::warning(this, "Warning", "Edge already exists");
+            return;
+        }
+
+        g.addEdge(src, des, distance);
+        g.addEdge(des, src, distance);
+    }
+
+    ui->stadium1->hide();
+    ui->stadium2->hide();
+    ui->distance_2->hide();
+    ui->xCo_label->hide();
+    ui->yCo_label->hide();
+    ui->xCo->hide();
+    ui->yCo->hide();
+    ui->distLabel->hide();
+    ui->submit_2->hide();
+    ui->editEdge->show();
+    ui->editLoc->show();
+    ui->pushButton_3->show();
 }
