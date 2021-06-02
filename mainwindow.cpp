@@ -308,6 +308,85 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
     ui->map2->show();
 }
 
+/*******************************************************************
+ * void update_path_view()
+ *
+ *   Accessor; This method update the path view page with correct
+ *             information
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::update_path_view()
+{
+    if(ui->pathViewCombo_1->currentText().isEmpty() || ui->pathViewCombo_2->currentText().isEmpty())
+        return;
+    if(ui->pathViewCombo_1->currentText() == ui->pathViewCombo_2->currentText())
+    {
+        ui->pathViewLabel->setText("Please select different stadiums.");
+        return;
+    }
+
+    List<stadium> path;
+    for(int i = 0; i < g.stadiums.size(); i++)
+    {
+        if(g.stadiums[i].getStadiumName() == ui->pathViewCombo_1->currentText().toStdString())
+        {
+            path.append(g.stadiums[i]);
+            break;
+        }
+    }
+    for(int i = 0; i < g.stadiums.size(); i++)
+    {
+        if(g.stadiums[i].getStadiumName() == ui->pathViewCombo_2->currentText().toStdString())
+        {
+            path.append(g.stadiums[i]);
+            break;
+        }
+    }
+
+    int total_path[g.stadiums.size()];
+    int pathUsed;
+    int totalDistance;
+    g.getShortestTripPath(total_path, pathUsed, path, totalDistance);
+
+    paint2.end();
+    paint2.eraseRect(0,0, 640, 416);
+
+    img2.load("textFiles/map.png");
+    img2 = img2.scaled(ui->pathMap->geometry().width(), ui->pathMap->geometry().height());
+    paint2.begin(&img2);
+
+    QPen trace;
+    trace.setWidth(5);
+    trace.setColor(Qt::darkGreen);
+    int i = 1;
+    for(; i < pathUsed; i++)
+    {
+        stadium src = g.stadiums[total_path[i-1]];
+        stadium des = g.stadiums[total_path[i]];
+
+        int distance = g.getedge(src, des)->_distance;
+
+        int midX = (src.getXCoor() + des.getXCoor())/2;
+        int midY = (src.getYCoor() + des.getYCoor())/2;
+
+        paint2.setPen(trace);
+        paint2.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
+
+        paint2.setPen(line);
+        paint2.drawText(midX, midY, QString::fromStdString("(") + QString::number(i) + QString::fromStdString(") " + std::to_string(distance)));
+    }
+    paint2.setPen(nullptr);
+    paint2.setBrush(Qt::green);
+    paint2.drawEllipse(path[0].getXCoor()-10, path[0].getYCoor()-10, 20, 20);
+    paint2.drawEllipse(path[1].getXCoor()-10, path[1].getYCoor()-10, 20, 20);
+    ui->pathViewLabel->setText(QString::fromStdString("Total Airports Visited: ") + QString::number(pathUsed) + QString::fromStdString(", Total Distance: ") + QString::number(totalDistance));
+
+    ui->pathMap->setPixmap(img2);
+}
+
 /****************************************************************
  * ~MainWindow();
  *   Destructor; Frees any dynamically allocated memory
@@ -927,6 +1006,41 @@ void MainWindow::on_showMapButton_clicked()
 }
 
 /*******************************************************************
+ * void on_showPathViewerBtn_clicked();
+ *
+ *   Accessor; This method will switch the window to the single
+ *     path viewer page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_showPathViewerBtn_clicked()
+{
+    int i = 0;
+
+    ui->pathViewCombo_1->clear();
+    ui->pathViewCombo_2->clear();
+
+    for(int i = 0; i < g.stadiums.size(); i++)
+    {
+        ui->pathViewCombo_1->insertItem(i, QString::fromStdString(g.stadiums[i].getStadiumName()));
+        ui->pathViewCombo_2->insertItem(i, QString::fromStdString(g.stadiums[i].getStadiumName()));
+    }
+
+    paint2.end();
+    paint2.eraseRect(0,0, 640, 416);
+
+    img2.load("textFiles/map.png");
+    img2 = img2.scaled(ui->pathMap->geometry().width(), ui->pathMap->geometry().height());
+    paint2.begin(&img2);
+
+    ui->pathMap->setPixmap(img2);
+
+    gotoPage("PathViewer");
+}
+
+/*******************************************************************
  * void on_pushButton_5_clicked();
  *
  *   Accessor; This method will switch the window from the main
@@ -1000,6 +1114,52 @@ void MainWindow::on_DoneButton2_clicked()
 
     ui->mapLegend->hide();
     gotoPage("custWelcomePage");
+}
+
+/*******************************************************************
+ * void on_pathView_DoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the welcome
+ *             page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_pathView_DoneButton_clicked()
+{
+    loadStadiumTable2();
+    gotoPage("custWelcomePage");
+}
+
+/*******************************************************************
+ * void on_pathViewCombo_1_currentIndexChanged(int);
+ *
+ *   Accessor; This method will handle when the index of the
+ *             path view combobox changes, updating the map
+ *------------------------------------------------------------------
+ *   Parameter: new index of the combobox (int)
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_pathViewCombo_1_currentIndexChanged(int index)
+{
+    update_path_view();
+}
+
+/*******************************************************************
+ * void on_pathViewCombo_2_currentIndexChanged(int);
+ *
+ *   Accessor; This method will handle when the index of the
+ *             path view combobox changes, updating the map
+ *------------------------------------------------------------------
+ *   Parameter: new index of the combobox (int)
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+void MainWindow::on_pathViewCombo_2_currentIndexChanged(int index)
+{
+    update_path_view();
 }
 
 /*******************************************************************

@@ -38,6 +38,8 @@ private slots:
 
     void loadMap(graph g, List<stadium>* custom = nullptr);
 
+    void update_path_view();
+
     void on_exitMainButton_clicked();
 
     void on_customerPushButtonMenu_clicked();
@@ -90,11 +92,19 @@ private slots:
 
     void on_showMapButton_clicked();
 
+    void on_showPathViewerBtn_clicked();
+
     void on_pushButton_5_clicked();
 
     void on_showMapButtonMainPage_clicked();
 
     void on_DoneButton2_clicked();
+
+    void on_pathView_DoneButton_clicked();
+
+    void on_pathViewCombo_1_currentIndexChanged(int);
+
+    void on_pathViewCombo_2_currentIndexChanged(int);
 
     // modSouvenirTable
     void on_modSouvenir_doneButton_clicked();
@@ -143,7 +153,9 @@ private:
     Ui::MainWindow *ui;     // ATT - main ui window
 
     QPixmap img;
+    QPixmap img2;
     QPainter paint;
+    QPainter paint2;
     QPen red;
     QPen yellow;
     QPen line;
@@ -217,6 +229,17 @@ private:
  *   Parameter: g (graph) // IN – graph to print onto map
  *              custom(List<stadium*>) // IN - custom stadiums to
  *                                             print
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void update_path_view()
+ *
+ *   Accessor; This method update the path view page with correct
+ *             information
+ *------------------------------------------------------------------
+ *   Parameter: none
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/
@@ -528,12 +551,56 @@ private:
  *******************************************************************/
 
 /*******************************************************************
+ * void on_showPathViewerBtn_clicked();
+ *
+ *   Accessor; This method will switch the window to the single
+ *     path viewer page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
  * void on_DoneButton2_clicked();
  *
  *   Accessor; This method will switch the window to the welcome
  *             page
  *------------------------------------------------------------------
  *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_pathView_DoneButton_clicked();
+ *
+ *   Accessor; This method will switch the window to the welcome
+ *             page
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_pathViewCombo_1_currentIndexChanged(int);
+ *
+ *   Accessor; This method will handle when the index of the
+ *             path view combobox changes
+ *------------------------------------------------------------------
+ *   Parameter: new index of the combobox (int)
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_pathViewCombo_2_currentIndexChanged(int);
+ *
+ *   Accessor; This method will handle when the index of the
+ *             path view combobox changes
+ *------------------------------------------------------------------
+ *   Parameter: new index of the combobox (int)
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/

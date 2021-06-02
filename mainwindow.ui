@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>11</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -128,10 +128,10 @@
      <widget class="QLabel" name="custWelcomeLabel">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>0</y>
-        <width>291</width>
-        <height>181</height>
+        <x>30</x>
+        <y>20</y>
+        <width>541</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="text">
@@ -141,8 +141,8 @@
      <widget class="QPushButton" name="allNLStadiumsButton">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>70</y>
+        <x>220</x>
+        <y>110</y>
         <width>170</width>
         <height>32</height>
        </rect>
@@ -154,7 +154,7 @@
      <widget class="QPushButton" name="allALStadiumsButton">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>410</x>
         <y>110</y>
         <width>170</width>
         <height>32</height>
@@ -168,7 +168,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>30</y>
+        <y>110</y>
         <width>170</width>
         <height>32</height>
        </rect>
@@ -330,6 +330,19 @@ p, li { white-space: pre-wrap; }
         <string>Stadium Name</string>
        </property>
       </column>
+     </widget>
+     <widget class="QPushButton" name="showPathViewerBtn">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>150</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Path Viewer</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="stadiumInfoPage">
@@ -1055,6 +1068,67 @@ p, li { white-space: pre-wrap; }
         <width>111</width>
         <height>91</height>
        </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="PathViewer">
+     <widget class="QLabel" name="pathMap">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>120</y>
+        <width>640</width>
+        <height>416</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pathView_DoneButton">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>40</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Done</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="pathViewCombo_1">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>40</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="pathViewCombo_2">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>40</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pathViewLabel">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>70</y>
+        <width>721</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
