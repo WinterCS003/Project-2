@@ -342,9 +342,9 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     if(targets.size() == 0)
         return;
 
-    total_distance = 0;
     total_path[0] = getIndex(targets[0]);
     total_path_used = 1;
+    total_distance = 0;
 
     if(targets.size() == 1)
         return;
@@ -381,7 +381,8 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     }
 
     // Use first node
-    unused_targets[0] = -1;
+    std::copy(unused_targets+1, unused_targets+unused_targets_size, unused_targets);
+    unused_targets_size--;
 
     // Dijkstras each target
     while(unused_targets_size > 0)
@@ -561,15 +562,16 @@ void graph::dijkstras(int *path,                    // IN/OUT - array to write t
         }
     }
 
+    std::cout << min_j << "\n";
     if(min_j < unused_targets_size - 1)
     {
         std::copy(unused_targets+min_j+1, unused_targets+unused_targets_size, unused_targets+min_j);
     }
     unused_targets_size--;
 
-    distance += distances[min_i];
     for(i = 1; i < paths_used[min_i]; i++)
     {
         path[path_used++] = paths[min_i][i];
     }
+    distance += distances[min_i];
 }

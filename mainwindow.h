@@ -149,6 +149,15 @@ private slots:
 
    void on_pushButton_2_clicked();
 
+   void on_adminPg_goto_modSouvenirPg_2_clicked();
+
+   void on_pushButton_3_clicked();
+
+   void on_editLoc_clicked();
+
+   void on_editEdge_clicked();
+
+   void on_submit_2_clicked();
 private:
    Ui::MainWindow *ui;     // ATT - main ui window
 
@@ -178,6 +187,7 @@ private:
    souvenirs purchases;
 
    List<stadium> newStadiumaAddedbyUser;
+   bool err = false;
 };
 /****************************************************************
 * MainWindow Class
@@ -831,5 +841,59 @@ private:
 *------------------------------------------------------------------
 *   Return: none
 *******************************************************************/
+
+/*******************************************************************
+ * void on_adminPg_goto_modSouvenirPg_2_clicked();
+ *
+ *   Accessor; This method will switch the page to the modify
+ *             location page.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_pushButton_3_clicked();
+ *
+ *   Accessor; This method will switch the page to the previous
+ *             page, admin console.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_editLoc_clicked();
+ *
+ *   Accessor; This method will allow the user to change the location
+ *             of a stadium.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_editEdge_clicked();
+ *
+ *   Accessor; This method will allow the user to add new edges
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
+
+/*******************************************************************
+ * void on_submit_2_clicked();
+ *
+ *   Accessor; This method will finalize any changes made by the
+ *             user to location or edges.
+ *------------------------------------------------------------------
+ *   Parameter: none
+ *------------------------------------------------------------------
+ *   Return: none
+ *******************************************************************/
 
 #endif // MAINWINDOW_H
