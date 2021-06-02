@@ -244,7 +244,8 @@ void MainWindow::loadMap(graph g, List<stadium>* custom){
             paint.drawLine(src.getXCoor(), src.getYCoor(), des.getXCoor(), des.getYCoor());
 
             paint.setPen(line);
-            paint.drawText(midX, midY, QString::fromStdString("(") + QString::number(ii) + QString::fromStdString(") " + std::to_string(distance)));
+            paint.drawText(midX, midY, QString::fromStdString(std::to_string(distance)));
+            //paint.drawText(midX, midY, QString::fromStdString("(") + QString::number(ii) + QString::fromStdString(") " + std::to_string(distance)));
         }
         ui->stadiumsVisited->addItem(QString::fromStdString(g.stadiums[total_path[ii-1]].getStadiumName()));
         QString visited = "Visited: ";

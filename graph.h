@@ -63,12 +63,12 @@ public:
 
     int getIndex(stadium& target); // get target index in master list
 
-    void dijkstras(int *path,           // IN/OUT - array to write to
-                   int& nodes_visited,  // OUT - how many nodes visited
-                   int& total_distance, // OUT - total distance
-                   int src,             // IN - starting index
-                   int *unused_targets,
-                   int &unused_targets_size); // IN - ending index
+    void dijkstras(int *path,                           // IN/OUT - array to write to
+                          int& path_used,               // OUT - how many nodes visited
+                          int& distance,                // OUT - total distance
+                          int src,                      // IN - starting index
+                          int *unused_targets,          // IN - index of unused targets
+                          int &unused_targets_size);    // IN - number of unused targets
 
     List<stadium> getAmericanLeagueStadiums();
 
@@ -213,11 +213,11 @@ private:
 
 /****************************************************************
  * void graph::dijkstras(int *path,
- *                      int& nodes_visited,
- *                      int& total_distance,
+ *                      int& path_used,
+ *                      int& distance,
  *                      int src,
  *                      int *unused_targets,
- *                      int &unused_targets_size);
+ *                      int unused_targets_size);
  *
  *   Accessor; This method will use dijkstra's algorithm to
  *             return the shortest path from the source node
@@ -225,13 +225,13 @@ private:
  * --------------------------------------------------------------
  *   Parameters: int *path               // IN/OUT - array to
  *                                                   write to
- *               int& nodes_visited      // OUT - how many nodes
+ *               int& path_used          // OUT - how many nodes
  *                                                visited
- *               int& dis                // OUT - total distance
+ *               int& distance           // OUT - total distance
  *               int src                 // IN - starting index
  *               int *unused_targets     // IN - index of unused
  *                                               targets
- *               int unused_targets_size // IN - number of unused
+ *               int &unused_targets_size // IN - number of unused
  *                                               targets
  * --------------------------------------------------------------
  *   Return: none - parameters are updated after function is
