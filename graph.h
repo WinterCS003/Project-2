@@ -45,7 +45,11 @@ public:
      ***************/
     stadium getStadiumInfo(stadium s) const; // IN -  stadium name
 
+<<<<<<< HEAD
     stadiumNode * getedge(stadium stadiumSrc,  // IN -  stadium source name
+=======
+    stadiumNode getedge(stadium stadiumSrc,  // IN -  stadium source name
+>>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
                         stadium stadiumDes); // IN -  stadium destination name
 
     List<stadiumNode> getedges(stadium stadiumSrc); // IN -  stadium source name
@@ -147,7 +151,11 @@ private:
  ***************************************************************/
 
 /****************************************************************
+<<<<<<< HEAD
  * stadiumNode * getedge(stadium stadiumSrc,
+=======
+ * stadiumNode getedge(stadium stadiumSrc,
+>>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
  *                     stadium stadiumDes);
  *
  *   Accessor; This method will return the edge that connects
@@ -156,8 +164,12 @@ private:
  *   Parameters: stadiumSrc (stadium) // IN - source stadium
  *               stadiumDes (stadium) // IN - destination stadium
  * --------------------------------------------------------------
+<<<<<<< HEAD
  *   Return: stadiumNode - returns pointer to edge,
  *     nullptr if not found
+=======
+ *   Return: stadiumNode - returns edge connecting given stadiums.
+>>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
  ***************************************************************/
 
 /****************************************************************

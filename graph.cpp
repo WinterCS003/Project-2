@@ -40,7 +40,11 @@ stadium graph::getStadiumInfo(stadium s) const{
 }
 
 /****************************************************************
+<<<<<<< HEAD
  * stadiumNode * getedge(stadium stadiumSrc,
+=======
+ * stadiumNode getedge(stadium stadiumSrc,
+>>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
  *                     stadium stadiumDes);
  *
  *   Accessor; This method will return the edge that connects
@@ -49,10 +53,16 @@ stadium graph::getStadiumInfo(stadium s) const{
  *   Parameters: stadiumSrc (stadium) // IN - source stadium
  *               stadiumDes (stadium) // IN - destination stadium
  * --------------------------------------------------------------
+<<<<<<< HEAD
  *   Return: stadiumNode - returns pointer to edge,
  *     nullptr if not found
  ***************************************************************/
 stadiumNode * graph::getedge(stadium stadiumSrc, stadium stadiumDes){
+=======
+ *   Return: stadiumNode - returns edge connecting given stadiums.
+ ***************************************************************/
+stadiumNode graph::getedge(stadium stadiumSrc, stadium stadiumDes){
+>>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
     int index = stadiums.find(stadiumSrc);
     for(int i = 0; i < adjList[index].size(); i++){
         if(adjList[index][i]._des == stadiumDes){
@@ -117,6 +127,7 @@ void graph::addEdge(stadium src, stadium des, int distance){
     int index = stadiums.find(src);
     stadiumNode temp(src, des, distance);
 
+<<<<<<< HEAD
     // Skip already exiting
     for(i = 0; i < adjList[index].size(); i++)
         if(adjList[index][i]._des == des)
@@ -133,6 +144,8 @@ void graph::addEdge(stadium src, stadium des, int distance){
         adjList[index].append(temp2);
 }
 
+=======
+>>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
 /****************************************************************
  * stadium* getStadiumByName(string name);
  *
@@ -430,6 +443,15 @@ void graph::dijkstras(int *path,               // IN/OUT - array to write to
     int i = -1;
     int j = -1;
     bool visited[max];
+
+    for(int i = 0; i < max; i++){
+        distances[i] = infinity;
+        prev[i] = -1;
+        visited[max] = false;
+        for(int j = 0; j < max; j++){
+            cost[i][j] = infinity;
+        }
+    }
 
     for(i=0;i<max;i++)
     {
