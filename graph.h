@@ -63,8 +63,8 @@ public:
 
     int getIndex(stadium& target); // get target index in master list
 
-    void dijkstras(int *total_path,
-                   int& total_path_used,
+    void dijkstras(int *path,           // IN/OUT - array to write to
+                   int& nodes_visited,  // OUT - how many nodes visited
                    int& total_distance, // OUT - total distance
                    int src,             // IN - starting index
                    int *unused_targets,
