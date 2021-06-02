@@ -581,7 +581,9 @@ void graph::dijkstras(int *path,                    // IN/OUT - array to write t
         std::copy(unused_targets+min_j+1, unused_targets+unused_targets_size, unused_targets+min_j);
     }
     unused_targets_size--;
-
+    if(min_i == -1){
+        return;
+    }
     total_distance += distances[min_i];
     for(i = 1; i < path_used[min_i]; i++)
     {
