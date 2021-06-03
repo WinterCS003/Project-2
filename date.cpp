@@ -126,7 +126,9 @@ Date::Date(const string &date) //string representation of date
  * set date information
  *
  *************************************************************/
-void Date::setDate(unsigned m, unsigned d, unsigned y)
+void Date::setDate(unsigned m, // IN - month
+                   unsigned d, // IN - date
+                   unsigned y) // IN - year
 {
     if(inRange(m, d))
     {
@@ -171,7 +173,7 @@ void Date::setDate(unsigned m, unsigned d, unsigned y)
  * share string and set variable
  *
  *************************************************************/
-void Date::setWhole(const string &info)
+void Date::setWhole(const string &info) // IN - date string
 {
     char dt[3];
     char mn[3];
@@ -265,7 +267,7 @@ void Date::setWhole(const string &info)
  * month variable
  *
  *************************************************************/
-void Date::setMonth(unsigned int m)
+void Date::setMonth(unsigned int m) // IN - month
 {
     month = m;
 }
@@ -279,7 +281,7 @@ void Date::setMonth(unsigned int m)
  * day variable
  *
  *************************************************************/
-void Date::setDay(unsigned int d)
+void Date::setDay(unsigned int d) // IN - date
 {
     day = d;
 }
@@ -293,7 +295,7 @@ void Date::setDay(unsigned int d)
  * year variable
  *
  *************************************************************/
-void Date::setYear(unsigned int y)
+void Date::setYear(unsigned int y) // IN - year
 {
     year = y;
 }
@@ -309,7 +311,7 @@ void Date::setYear(unsigned int y)
  * Return true if leap year otherwise return false
  *
  *************************************************************/
-bool Date::isLeap(unsigned int year) const
+bool Date::isLeap(unsigned int year) const // IN - year
 {
     if(((year%4)==0) and ((year%100)!=0))
     {
@@ -366,7 +368,7 @@ unsigned Date::daysPerMonth(unsigned m,         //month
         return 30;
     }
 
-    return 31;
+    return -1;
 }
 /**************************************************************
  * string Date::name(unsigned int m) const
@@ -380,7 +382,7 @@ unsigned Date::daysPerMonth(unsigned m,         //month
  * return month in string
  *
  *************************************************************/
-string Date::name(unsigned int m) const
+string Date::name(unsigned int m) const // IN - numerical month
 {
     if(m == 1)
     {
@@ -431,7 +433,7 @@ string Date::name(unsigned int m) const
         return "December";
     }
 
-    return "January";
+    return "INVALID";
 }
 
 
@@ -447,7 +449,7 @@ string Date::name(unsigned int m) const
  * return month in int
  *
  *************************************************************/
-unsigned Date::number(const string& mn) const
+unsigned Date::number(const string& mn) const // IN - gregorian month
 {
     if ((mn == "January") or (mn == "january"))
     {
@@ -497,7 +499,7 @@ unsigned Date::number(const string& mn) const
     {
         return 12;
     }
-    return 1;
+    return -1;
 }
 /**************************************************************
  * string Date::getDate() const
@@ -579,7 +581,8 @@ unsigned Date::getYear() const
  * Post Condition:
  * return true if in range otherwise return false
  *************************************************************/
-bool Date::inRange(unsigned int m, unsigned int d)
+bool Date::inRange(unsigned int m, // IN - month
+                   unsigned int d) // IN - date
 {
     if((m<=12 and m>=1) and (d<=31 and d>=1))
     {
@@ -589,14 +592,45 @@ bool Date::inRange(unsigned int m, unsigned int d)
     return false;
 }
 
-ostream& operator<<(ostream& outs, Date& target)
+/**********************************************************
+ *
+ * FUNCTION operator<<
+ *_________________________________________________________
+ * This function outputs the date to the given ostream.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     outs: ostream&
+ *     target: Date&
+ *
+ * POST-CONDITIONS
+ *   This function will output the date into the output
+ *   stream given.
+ ***********************************************************/
+ostream& operator<<(ostream& outs, // IN - output stream
+                    Date& target)  // IN - date to output
 {
     outs << target.month << "/" << target.day << "/" << target.year ;
 
     return outs;
 }
 
-bool Date::operator!=(const Date &other)
+/**********************************************************
+ *
+ * FUNCTION operator!=
+ *_________________________________________________________
+ * This function receives a date and returns true if they
+ * are not equal, false otherwise.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     other: Date&
+ *
+ * POST-CONDITIONS
+ *     This function will return a boolean value, true if
+ *     the two are not equal, and false otherwise
+ ***********************************************************/
+bool Date::operator!=(const Date &other) // IN - date to compare
 {
     if(year != other.year)
     {
@@ -616,7 +650,22 @@ bool Date::operator!=(const Date &other)
     }
 }
 
-bool Date::operator==(const Date &other)
+/**********************************************************
+ *
+ * FUNCTION operator==
+ *_________________________________________________________
+ * This function receives a date and returns true if they
+ * are equal, false otherwise.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     other: Date&
+ *
+ * POST-CONDITIONS
+ *     This function will return a boolean value, true if
+ *     the two are equal, and false otherwise
+ ***********************************************************/
+bool Date::operator==(const Date &other) // IN - date to compare
 {
     if((month==other.month)and (day==other.day)
             and (year==other.year))
@@ -629,7 +678,23 @@ bool Date::operator==(const Date &other)
     }
 }
 
-bool Date::operator>=(const Date &other)
+/**********************************************************
+ *
+ * FUNCTION operator>=
+ *_________________________________________________________
+ * This function receives a date and returns true if the
+ * calling date is greater than or equal, false otherwise.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     other: Date&
+ *
+ * POST-CONDITIONS
+ *     This function will return a boolean value, true if
+ *     the calling date is greater than or equal, and false
+ *     otherwise
+ ***********************************************************/
+bool Date::operator>=(const Date &other) // IN - date to compare
 {
     if(year > other.year)
     {
@@ -662,7 +727,23 @@ bool Date::operator>=(const Date &other)
     return false;
 }
 
-bool Date::operator<=(const Date &other)
+/**********************************************************
+ *
+ * FUNCTION operator<=
+ *_________________________________________________________
+ * This function receives a date and returns true if the
+ * calling date is less than or equal, false otherwise.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     other: Date&
+ *
+ * POST-CONDITIONS
+ *     This function will return a boolean value, true if
+ *     the calling date is less than or equal, and false
+ *     otherwise
+ ***********************************************************/
+bool Date::operator<=(const Date &other) // IN - date to compare
 {
     if(year < other.year)
     {
@@ -695,7 +776,23 @@ bool Date::operator<=(const Date &other)
     return false;
 }
 
-bool Date::operator>(const Date &other)
+/**********************************************************
+ *
+ * FUNCTION operator>
+ *_________________________________________________________
+ * This function receives a date and returns true if the
+ * calling date is greater, false otherwise.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     other: Date&
+ *
+ * POST-CONDITIONS
+ *     This function will return a boolean value, true if
+ *     the calling date is greater, and false
+ *     otherwise
+ ***********************************************************/
+bool Date::operator>(const Date &other) // IN - date to compare
 {
 
     if(year > other.year)
@@ -735,7 +832,24 @@ bool Date::operator>(const Date &other)
     }
     return false;
 }
-bool Date::operator<(const Date &other)
+
+/**********************************************************
+ *
+ * FUNCTION operator<
+ *_________________________________________________________
+ * This function receives a date and returns true if the
+ * calling date is less, false otherwise.
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     other: Date&
+ *
+ * POST-CONDITIONS
+ *     This function will return a boolean value, true if
+ *     the calling date is less, and false
+ *     otherwise
+ ***********************************************************/
+bool Date::operator<(const Date &other) // IN - date to compare
 {
     if(year < other.year)
     {
@@ -786,7 +900,9 @@ bool Date::operator<(const Date &other)
  * Post Condition:
  * return true if correct otherwise return false
  *************************************************************/
-bool Date::isCorrectDate(unsigned month, unsigned date, unsigned year)
+bool Date::isCorrectDate(unsigned month, // IN - month
+                         unsigned date,  // IN - date
+                         unsigned year)  // IN - year
 {
     if(month <1 && month >12)
     {
