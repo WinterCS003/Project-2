@@ -1494,7 +1494,7 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
  *             sorting the stadiums by team name, stadium name,
  *             surface type, founding date, and team type
  *------------------------------------------------------------------
- *   Parameter: none
+ *   Parameter: index (int) // IN - drop box index
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/

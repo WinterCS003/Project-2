@@ -449,7 +449,7 @@ string Date::name(unsigned int m) const // IN - numerical month
  * return month in int
  *
  *************************************************************/
-unsigned Date::number(const string& mn) const // IN - gregorian month
+unsigned Date::number(const string& mn) const // IN - string month
 {
     if ((mn == "January") or (mn == "january"))
     {
