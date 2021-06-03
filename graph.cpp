@@ -40,11 +40,7 @@ stadium graph::getStadiumInfo(stadium s) const{
 }
 
 /****************************************************************
-<<<<<<< HEAD
  * stadiumNode * getedge(stadium stadiumSrc,
-=======
- * stadiumNode getedge(stadium stadiumSrc,
->>>>>>> 5ad8f4e07e00f49803f02109ead3266982c3caeb
  *                     stadium stadiumDes);
  *
  *   Accessor; This method will return the edge that connects
@@ -337,7 +333,7 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     int unused_targets_size;
     int same_positions[targets.size()][2]; // Nodes that have same position on map
     int same_positions_used;
-    int i, j;
+    int i, j, k, l;
 
     if(targets.size() == 0)
         return;
@@ -387,6 +383,114 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
     // Dijkstras each target
     while(unused_targets_size > 0)
         dijkstras(total_path, total_path_used, total_distance, total_path[total_path_used-1], unused_targets, unused_targets_size);
+
+    // Split Dijkstras
+    // Count how many times src appears
+    for(i = 1, j = 1; i < total_path_used; i++)
+        if(total_path[0] == total_path[i])
+            j++;
+
+    int split_count = j;
+    int splits[split_count][total_path_used];
+    int splits_count[split_count];
+
+    splits[0][0] = total_path[0];
+    splits_count[0] = 1;
+    for(i = 1, j = 0; i < total_path_used; i++)
+    {
+        // Handle new split
+        if(total_path[i] == total_path[0])
+        {
+            j++;
+            splits_count[j] = 1;
+            splits[j][0] = total_path[0];
+            continue;
+        }
+
+        splits[j][splits_count[j]] = total_path[i];
+        splits_count[j]++;
+    }
+
+    // Remove tail, find last looping section of every split except last, remove all after
+    for(i = 0; i < split_count - 1; i++)
+    {
+        for(j = splits_count[i] - 2; j >= 0; j--)
+        {
+            k = j - 1;
+            l = j + 1;
+            if(splits[i][k] == splits[i][l])
+                break;
+        }
+
+        splits_count[i] -= splits_count[i] - l;
+    }
+
+    // Calculate distances
+    int split_distances[split_count];
+    for(i = 0; i < split_count; i++)
+    {
+        split_distances[i] = 0;
+        for(j = 1; j < splits_count[i]; j++)
+        {
+            split_distances[i] += getedge(stadiums[splits[i][j-1]], stadiums[splits[i][j]])->_distance;
+        }
+    }
+
+    // Calculate return cost and paths of nodes
+    int return_paths[split_count][stadiums.size()];
+    int return_paths_used[split_count];
+    int return_distances[split_count];
+    for(i = 0; i < split_count; i++)
+    {
+        unused_targets[0] = splits[i][0];
+        unused_targets_size = 1;
+        return_paths_used[i] = 0;
+        return_distances[i] = 0;
+        dijkstras(return_paths[i], return_paths_used[i], return_distances[i], splits[i][splits_count[i] - 1], unused_targets, unused_targets_size);
+    }
+
+    // Virtual map
+    int split_map[split_count];
+    for(i = 0; i < split_count; i++)
+        split_map[i] = i;
+    // Bubble sort map
+    for(i = 0; i < split_count - 1; i++)
+    {
+        for(j = 0; j < split_count - i - 1; j++)
+        {
+            if((split_distances[split_map[j]] + return_distances[split_map[j]]) > (split_distances[split_map[j+1]] + return_distances[split_map[j+1]]))
+            {
+                k = split_map[j];
+                split_map[j] = split_map[j+1];
+                split_map[j+1] = k;
+            }
+        }
+    }
+
+    total_path_used = 0;
+    total_distance = 0;
+    // Recreate path
+    for(i = 0; i < split_count - 1; i++)
+    {
+        // Go forward
+        for(j = 0; j < splits_count[split_map[i]]; j++)
+        {
+            total_path[total_path_used++] = splits[split_map[i]][j];
+        }
+        total_distance += split_distances[split_map[i]];
+        // Return to origin
+        for(j = 0; j < return_paths_used[split_map[i]]-1; j++)
+        {
+            total_path[total_path_used++] = return_paths[split_map[i]][j];
+        }
+        total_distance += return_distances[split_map[i]];
+    }
+    // Go forward on final
+    for(j = 0; j < splits_count[split_map[i]]; j++)
+    {
+        total_path[total_path_used++] = splits[split_map[i]][j];
+    }
+    total_distance += split_distances[split_map[i]];
 
     // Reinsert duplicate nodes, only once each
     for(i = 0; i < same_positions_used; i++)
