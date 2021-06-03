@@ -1446,16 +1446,16 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
         g.stadiums[i].setphone(item->text().toStdString());
     } else if(i == 4){ // edit date
         i = item->row();
-        if(err && !item->text().contains(',')){
+        std::string date = item->text().toStdString();
+        if(err && date.find(',') == std::string::npos){
             int res = QMessageBox::warning(this, "Warning", "format should be Month date, year", QMessageBox::Cancel | QMessageBox::Ok);
             if(res == QMessageBox::Cancel){
                 item->setText("");
                 return;
             }
         }
-        std::string date = item->text().toStdString();
         Date temp;
-        if(err && temp.number(date.substr(0, date.find(','))) == -1){
+        if(err && temp.number(date.substr(0, date.find(' '))) == -1){
             int res = QMessageBox::warning(this, "Warning", "format should be Month date, year", QMessageBox::Cancel | QMessageBox::Ok);
             if(res == QMessageBox::Cancel){
                 item->setText("");
