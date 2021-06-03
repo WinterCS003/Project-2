@@ -35,7 +35,8 @@ graph::~graph(){
  * --------------------------------------------------------------
  *   Return: age (int)
  ***************************************************************/
-stadium graph::getStadiumInfo(stadium s) const{
+stadium graph::getStadiumInfo(stadium s) const // IN - stadium to print
+{
     return stadiums.Search(s)->_data;
 }
 
@@ -53,7 +54,9 @@ stadium graph::getStadiumInfo(stadium s) const{
  *   Return: stadiumNode - returns pointer to edge,
  *     nullptr if not found
  ***************************************************************/
-stadiumNode * graph::getedge(stadium stadiumSrc, stadium stadiumDes){
+stadiumNode * graph::getedge(stadium stadiumSrc, // IN - source
+                             stadium stadiumDes) // IN - destination
+{
     int index = stadiums.find(stadiumSrc);
     for(int i = 0; i < adjList[index].size(); i++){
         if(adjList[index][i]._des == stadiumDes){
@@ -74,7 +77,8 @@ stadiumNode * graph::getedge(stadium stadiumSrc, stadium stadiumDes){
  *   Return: List<stadiumNode> - all edge connected to the given
  *                               stadium.
  ***************************************************************/
-List<stadiumNode> graph::getedges(stadium stadiumSrc){
+List<stadiumNode> graph::getedges(stadium stadiumSrc) // IN - source stadium
+{
     int index = stadiums.find(stadiumSrc);
     if(index == -1){
         throw "Does not exist";
@@ -92,7 +96,8 @@ List<stadiumNode> graph::getedges(stadium stadiumSrc){
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/
-void graph::addStadium(stadium s){
+void graph::addStadium(stadium s) // IN - stadium to add
+{
     List<stadiumNode> l;
     adjList.append(l);
     stadiums.append(s);
@@ -113,7 +118,10 @@ void graph::addStadium(stadium s){
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/
-void graph::addEdge(stadium src, stadium des, int distance){
+void graph::addEdge(stadium src,  // IN - source stadium
+                    stadium des,  // IN - destination stadium
+                    int distance) // IN - distance between stadiums
+{
     int i;
     int index = stadiums.find(src);
     stadiumNode temp(src, des, distance);
@@ -246,7 +254,9 @@ List<stadium> graph::getNationalLeagueStadiums(){
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/
-void graph::removeEdge(stadium src, stadium des){
+void graph::removeEdge(stadium src, // IN - source stadium
+                       stadium des) // IN - destination stadium
+{
     int index = stadiums.find(src);
     if(index == -1){
         throw "Source does not exist";
@@ -291,7 +301,8 @@ void graph::removeEdge(stadium src, stadium des){
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/
-void graph::removeStadium(stadium toRemove){
+void graph::removeStadium(stadium toRemove) // IN - stadium to remove
+{
     std::cout << "Removing" << std::endl;
     int index = stadiums.find(toRemove);
     if(index == -1){
@@ -327,7 +338,10 @@ void graph::removeStadium(stadium toRemove){
  * --------------------------------------------------------------
  *   Return: none - parameters are updated after running function
  ***************************************************************/
-void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stadium> targets, int& total_distance)
+void graph::getShortestTripPath(int *total_path,       // IN - stadiums visited
+                                int& total_path_used,  // IN - number of stadiums visited
+                                List<stadium> targets, // IN - stadiums to visit
+                                int& total_distance)   // IN - total distance
 {
     int unused_targets[targets.size() - 1]; // Unused targets
     int unused_targets_size;
@@ -519,7 +533,7 @@ void graph::getShortestTripPath(int *total_path, int& total_path_used, List<stad
  *   Return: int - index of stadium in list, -1 if it is not
  *                 found in list.
  ***************************************************************/
-int graph::getIndex(stadium& target)
+int graph::getIndex(stadium& target) // IN - target to search
 {
     int i;
 

@@ -844,17 +844,6 @@ void MainWindow::on_adminPg_goto_modSouvenirPg_clicked()
     loadSouvenirTable2();
     gotoPage("modSouvenirPg");
     err = true;
-    /*
-    int index;
-    QObjectList list;
-
-    list = ui->centralwidget->children();
-    for(index = 0; index < list.length(); index++)
-        if(list[index] == ui->modSouvenirPg)
-        {
-            gotoPage(index);
-            break;
-        }*/
 }
 
 /*******************************************************************
@@ -951,6 +940,21 @@ void MainWindow::on_restartDreamList_clicked()
     ui->plannedTripStadiumBrowser->clear();
 }
 
+/**********************************************************
+ *
+ * FUNCTION alreadyInDreamStadium
+ *_________________________________________________________
+ * This function receives an stadium name and checks if it
+ * is already in the list of dream stadiums
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     stadiumName: string
+ *
+ * POST-CONDITIONS
+ *     This function will return true if the given stadium
+ *     is in the list, and false otherwise.
+ ***********************************************************/
 bool MainWindow::alreadyInDreamList(string stadiumName)
 {
     for(int i = 0; i < dreamList.size(); i++){
@@ -962,7 +966,21 @@ bool MainWindow::alreadyInDreamList(string stadiumName)
     return false;
 }
 
-
+/**********************************************************
+ *
+ * FUNCTION deleteDreamStadium
+ *_________________________________________________________
+ * This function receives an stadium name and deletes it
+ * from the list of dream stadiums
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ *   The following need previously defined values:
+ *     stadiumName: string
+ *
+ * POST-CONDITIONS
+ *     This function will delete the given stadium name from
+ *     the list of dream stadiums
+ ***********************************************************/
 void MainWindow::deleteDreamStadium(string stadiumName)
 {
     for(int i = 0; i < dreamList.size(); i++)
@@ -1176,6 +1194,7 @@ void MainWindow::on_pathViewCombo_2_currentIndexChanged(int index)
  *******************************************************************/
 void MainWindow::on_modSouvenir_doneButton_clicked()
 {
+    err = false;
     size_t i;
     bool check;
     string message;
@@ -1197,7 +1216,6 @@ void MainWindow::on_modSouvenir_doneButton_clicked()
     }
 
     ui->modSouvenir_message->setText(QString::fromStdString(message));
-    err = false;
 }
 
 /*******************************************************************
@@ -1265,9 +1283,10 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
         i = item->row();
 
         item->text().toDouble(&check);
-        if(!check)
+        if(err && !check)
         {
-            ui->modSouvenir_message->setText(QString::fromStdString("Invalid price for row: ") + QString::number(i+1));
+            QMessageBox::warning(this, "Warning", "Invalid price");
+            item->setText("");
             return;
         }
 
@@ -1285,7 +1304,6 @@ void MainWindow::on_modSouvenir_table_itemChanged(QTableWidgetItem *item)
         s[i].setDescription(item->text().toStdString());
         ui->modSouvenir_message->setText(QString::fromStdString("Description updated."));
 
-//        ui->souvenirListForAdd->item(i, 2)->setText(QString::fromStdString(s[i].getDescription()));
         return;
     }
 
@@ -1348,6 +1366,12 @@ void MainWindow::on_allStadiums_itemDoubleClicked(QTableWidgetItem *item)
 void MainWindow::on_submit_clicked()
 {
     stadium s;
+    for(int i = 0; i < g.stadiums.size(); i++){
+        if(g.stadiums[i].getXCoor() == ui->Xcord->value() && g.stadiums[i].getYCoor() == ui->Ycord->value()){
+            QMessageBox::warning(this, "Warning", "Stadium already exists at given location");
+            return;
+        }
+    }
     s.setXCoor(ui->Xcord->value());
     s.setYCoor(ui->Ycord->value());
     g.addStadium(s);
@@ -1398,9 +1422,11 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
         i = item->row();
         for(int i = 0; i < g.stadiums.size(); i++){
             if(err && g.stadiums[i].getTeamName() == item->text().toStdString()){
-                QMessageBox::warning(this, "Warning", "Team already has a stadium");
-                item->setText("");
-                return;
+                int res = QMessageBox::warning(this, "Warning", "Team already has a stadium", QMessageBox::Cancel | QMessageBox::Ok);
+                if(res == QMessageBox::Cancel){
+                    item->setText("");
+                    return;
+                }
             }
         }
         g.stadiums[i].setTeamName(item->text().toStdString());
@@ -1409,18 +1435,53 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
         g.stadiums[i].setAddress(item->text().toStdString());
     } else if(i == 3){ // edit phone
         i = item->row();
+        if(err && item->text().size() != 14 && item->text().size() != 15){
+            int res = QMessageBox::warning(this, "Warning", "format should be (xxx) xxx-xxxx or +1 xxx-xxx-xxxx", QMessageBox::Cancel | QMessageBox::Ok);
+            if(res == QMessageBox::Cancel){
+                item->setText("");
+                return;
+            }
+        }
         g.stadiums[i].setphone(item->text().toStdString());
     } else if(i == 4){ // edit date
         i = item->row();
+        std::string date = item->text().toStdString();
+        if(err && date.find(',') == std::string::npos){
+            int res = QMessageBox::warning(this, "Warning", "format should be Month date, year", QMessageBox::Cancel | QMessageBox::Ok);
+            if(res == QMessageBox::Cancel){
+                item->setText("");
+                return;
+            }
+        }
+        Date temp;
+        if(err && temp.number(date.substr(0, date.find(' '))) == -1){
+            int res = QMessageBox::warning(this, "Warning", "format should be Month date, year", QMessageBox::Cancel | QMessageBox::Ok);
+            if(res == QMessageBox::Cancel){
+                item->setText("");
+                return;
+            }
+        }
         g.stadiums[i].setOpenDate(item->text().toStdString());
     } else if(i == 5){ // edit capacity
         i = item->row();
         g.stadiums[i].setCapacity(item->text().toStdString());
     } else if(i == 6){ // edit surface type
         i = item->row();
+        if(err && (item->text() != "Grass" && item->text() != "Turf")){
+            int res = QMessageBox::warning(this, "Warning", "not a valid surface type", QMessageBox::Cancel | QMessageBox::Ok);
+            if(res == QMessageBox::Cancel){
+                item->setText("");
+                return;
+            }
+        }
         g.stadiums[i].setFieldSurface(item->text().toStdString());
     } else{
         i = item->row();
+        if(err && (item->text() != "National League" && item->text() != "American League")){
+            QMessageBox::warning(this, "Warning", "Not a valid stadium type");
+            item->setText("");
+            return;
+        }
         g.stadiums[i].setType(item->text().toStdString());
     }
 }
@@ -1432,7 +1493,7 @@ void MainWindow::on_modificationTable_itemChanged(QTableWidgetItem *item)
  *             sorting the stadiums by team name, stadium name,
  *             surface type, founding date, and team type
  *------------------------------------------------------------------
- *   Parameter: none
+ *   Parameter: index (int) // IN - drop box index
  *------------------------------------------------------------------
  *   Return: none
  *******************************************************************/

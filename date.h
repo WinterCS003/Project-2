@@ -15,10 +15,6 @@ private:
     unsigned year;
     string monthName;
 
-    unsigned daysPerMonth(unsigned m, unsigned y) const; //returns number of days for that month
-    unsigned number(const string &mn) const;             //returns that month
-    bool inRange(unsigned m, unsigned d);                //checks if in range
-
 public:
     Date();
     Date(unsigned m, unsigned d, unsigned y);
@@ -51,6 +47,11 @@ public:
         os << d.getDate();
         return os;
     }
+
+    unsigned daysPerMonth(unsigned m, unsigned y) const; //returns number of days for that month
+    unsigned number(const string &mn) const;             //returns that month
+    bool inRange(unsigned m, unsigned d);                //checks if in range
+
 };
 
 /****************************************************************

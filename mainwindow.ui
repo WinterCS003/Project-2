@@ -27,7 +27,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>10</number>
     </property>
     <widget class="QWidget" name="mainMenu">
      <widget class="QPushButton" name="customerPushButtonMenu">
@@ -1322,10 +1322,18 @@ p, li { white-space: pre-wrap; }
     </property>
     <layout class="QFormLayout" name="coordinate">
      <item row="1" column="1">
-      <widget class="QSpinBox" name="Ycord"/>
+      <widget class="QSpinBox" name="Ycord">
+       <property name="maximum">
+        <number>416</number>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QSpinBox" name="Xcord"/>
+      <widget class="QSpinBox" name="Xcord">
+       <property name="maximum">
+        <number>640</number>
+       </property>
+      </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="xLabel">
